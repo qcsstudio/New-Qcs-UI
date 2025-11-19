@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 
 
 import Image from "next/image";
-import logo from "@/assets/img/logo.svg";
+import logo from "@/assets/img/Images/Nav-logo.png";
 import Logo_white from "@/assets/img/Logo_white.png";
 
 interface DataType {
