@@ -1676,7 +1676,8 @@ label {
     position: relative;
     .cs_ceneter_text {
         width: 54px;
-        height: 23px;
+        // height: 23px;
+        text-align: center;
     }
     .rounded_text {
         width: 162px;

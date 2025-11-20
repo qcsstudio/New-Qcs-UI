@@ -13,13 +13,15 @@ import Testimonial from '@/components/testimonial/Testimonial';
 import VideoHomeOne from '@/components/video/VideoHomeOne';
 import Wrapper from '@/layouts/Wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
-import HeaderOne from '@/layouts/headers/HeaderOne'; 
+import HeaderOne from '@/layouts/headers/HeaderOne';
+import AboutHomeOne from '@/components/about/AboutHomeOne';
+import ServiceHomeFive from '@/components/service/ServiceHomeFive';
 
 // export const metadata = {
 //   title: "About Vixan - Digital  Creative Agency Next js Template",
 // };
 
-const index = () => { 
+const index = () => {
 
   return (
     <Wrapper>
@@ -28,19 +30,24 @@ const index = () => {
         <div id="smooth-content">
           <main>
             <BannerAbout />
-            <VideoHomeOne style_2={true}  />
-            <FunFactHomeOne style_3={true} />
+            <VideoHomeOne style_2={true} />
+            {/* <FunFactHomeOne style_3={true} /> */}
             <About />
+            <AboutHomeOne />
             <TeamHomeTwo style_2={true} style_3={true} />
+            <FunFactHomeOne style_3={true} />
+
             <AwardsHomeOne style_2={true} />
-            <Testimonial />
-            <Gellary style_2={true} />
             <BrandHomeOne />
+            <ServiceHomeFive />
+            {/* <Testimonial /> */}
+            <Gellary style_2={true} />
+
           </main>
           <FooterOne />
         </div>
       </div>
- 
+
     </Wrapper>
   );
 };

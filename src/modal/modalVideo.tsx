@@ -16,36 +16,40 @@ const ModalVideo = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <div onClick={onOpenModal}>{children}</div>
-      <Modal
-        open={open}
-        onClose={onCloseModal}
-        center
-        styles={{ modal: { padding: "0px", width: "800px", maxWidth: "90vw" } }}
-      >
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-            paddingBottom: "56.25%",
-            height: 0,
-          }}
-        >
-          <iframe
-            src="https://www.youtube.com/embed/Q5PG0rMXgvw"
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              border: "none",
-            }}
-          ></iframe>
-        </div>
-      </Modal>
+   <Modal
+  open={open}
+  onClose={onCloseModal}
+  center
+  styles={{ modal: { padding: "0px", width: "800px", maxWidth: "90vw" ,borderRadius:"20px"} }}
+>
+  <div
+    style={{
+      position: "relative",
+      width: "100%",
+      paddingBottom: "56.25%", // 16:9 aspect ratio
+      height: 0,
+      overflow: "hidden",
+    }}
+  >
+    <video
+      src="/assets/video/QCS.mp4"
+      autoPlay
+      loop
+      muted
+      playsInline
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        objectFit: "fill",
+      }}
+      controls
+    ></video>
+  </div>
+</Modal>
+
     </div>
   );
 };
