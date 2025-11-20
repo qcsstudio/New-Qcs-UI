@@ -7,13 +7,11 @@ import BlogHomeOne from "@/components/blog/BlogHomeOne";
 import BrandHomeOne from "@/components/brand/BrandHomeOne";
 import FeatureHomeTwo from "@/components/feature/FeatureHomeTwo";
 import HeroHomeOne from "@/components/hero/HeroHomeOne";
-import HeroHomeTwo from "@/components/hero/HeroHomeTwo";
 import InnovativeHomeTwo from "@/components/innovative/InnovativeHomeTwo";
 import PortfolioHomeOne from "@/components/portfolio/PortfolioHomeOne";
 import Service from "@/components/service/Service";
 import ServiceHomeTwo from "@/components/service/ServiceHomeTwo";
 import Testimonial from "@/components/testimonial/Testimonial";
-import VideoHomeTwo from "@/components/video/VideoHomeTwo";
 import FooterOne from "@/layouts/footers/FooterOne";
 import HeaderOne from "@/layouts/headers/HeaderOne";
 import Wrapper from "@/layouts/Wrapper";
@@ -25,7 +23,7 @@ import Wrapper from "@/layouts/Wrapper";
 // };
 
 
-const index = () => {
+const index = () => { 
 
   return (
     <Wrapper>
@@ -33,22 +31,21 @@ const index = () => {
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <main>
-            <HeroHomeTwo />
-            <VideoHomeTwo />
+            <HeroHomeOne />
             <InnovativeHomeTwo />
             <ServiceHomeTwo />
-            <Service />
-            <FeatureHomeTwo />
+            <Service/>
+            <FeatureHomeTwo/>
             <PortfolioHomeOne />
             <Testimonial />
             <BrandHomeOne style_2={false} />
             <AwardsHomeOne />
             <BlogHomeOne />
-            <AboutUs />
+            <AboutUs/>
           </main>
           <FooterOne />
         </div>
-      </div>
+      </div> 
     </Wrapper>
   );
 };
