@@ -21,8 +21,7 @@ interface DataType {
 		link: string;
 	}[]
 }
-
-
+ 
 const menu_data: DataType[] = [
 	{
 		id: 1,
