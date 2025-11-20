@@ -1,6 +1,4 @@
-
 import React from 'react';
-
 
 interface DataType {
   id: string;
@@ -10,25 +8,25 @@ interface DataType {
 const service_data: DataType[] = [
   {
     id: 'one',
-    title: "Understand",
-    description: `Welcome to our digital agency We specialize in helping your business most`,
+    title: "Map & Diagnose",
+    description: `We audit your operations, tools and customer journeys to uncover automation gaps and intelligence opportunities.`,
   },
   {
     id: 'Two',
-    title: "Design",
-    description: `Welcome to our digital agency We specialize in helping your business most`,
+    title: "Architect Your Agentic System",
+    description: `We design workflows, automations, AI agents and intelligence loops aligned with your business goals.`,
   },
   {
     id: 'Three',
-    title: "Development",
-    description: `Welcome to our digital agency We specialize in helping your business most`,
+    title: "Build, Integrate & Activate",
+    description: `We integrate your tools, deploy AI agents, automate processes and create unified intelligence layers.`,
   },
   {
     id: 'Four',
-    title: "Testing",
-    description: `Welcome to our digital agency We specialize in helping your business most`,
+    title: "Optimise, Expand & Scale",
+    description: `Your system learns, improves and scales — giving you continuous growth with lower operational load.`,
   },
-]
+];
 const Service = () => {
   return (
     <>
@@ -42,7 +40,7 @@ const Service = () => {
               <div className="cs_section_heading cs_style_1 cs_color_1">
                 <div className="cs_section_heading_text">
                   <h2 className="cs_section_title anim_heading_title">
-                    Our Working Process
+                    A Proven Framework for Fast, Intelligent Transformation
                   </h2>
                 </div>
               </div>

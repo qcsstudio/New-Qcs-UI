@@ -1,9 +1,7 @@
-
 import React from 'react';
 import Link from 'next/link';
 import bg_img from "@/assets/img/cp_services.jpg";
 import Image from 'next/image';
-
 
 interface DataType {
   sub_title: string;
@@ -15,33 +13,33 @@ interface DataType {
 }
 
 const service_content: DataType = {
-  sub_title: "Our Services",
-  title: "Comprehensive Digital Services & Transformation",
+  sub_title: "We design your end-to-end Agentic Growth Engine — from operations to sales, from customer experience to digital funnels.",
+  title: "Four Pillars of an Intelligent, Self-Improving Business",
   service_data: [
     {
       id: 1,
-      title: "UI/UX Design",
+      title: "Agentic AI Systems — AI agents that handle decisions, workflows, communication, follow-ups, analysis and optimisation across departments.",
     },
     {
       id: 2,
-      title: "Branding Design",
+      title: "Business Automation Infrastructure — End-to-end workflows that connect your CRM, ERP, website, WhatsApp, email, HRMS, support tools and analytics.",
     },
     {
       id: 3,
-      title: "Marketing Asset",
+      title: "Intelligent Digital Growth — SEO, AIO, AEO, GEO, SXO, content systems, ads and funnels powered by agentic optimisation loops.",
     },
     {
       id: 4,
-      title: "Development",
+      title: "Web & SaaS Engineering — Next.js websites, SaaS platforms and dashboards built conversion-first and ready for AI-native integration.",
     },
     {
       id: 5,
-      title: "Creative Art",
+      title: "Data, Analytics & Experience — Dashboards, experimentation and AI-enhanced experiences that improve customer journeys and internal efficiency.",
     },
-  ]
-}
+  ],
+};
 
-const { sub_title, title, service_data } = service_content
+const { sub_title, title, service_data } = service_content;
 
 const ServiceHomeTwo = () => {
   return (
