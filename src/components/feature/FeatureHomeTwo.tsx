@@ -38,12 +38,6 @@ const feature_data: DataType = {
       des_1: `Your tools, data and customer interactions flow seamlessly`,
       des_2: `across one intelligent network.`,
     },
-    {
-      id: 3,
-      title: `Predictive, Compounding Growth`,
-      des_1: `Every cycle improves your funnels, operations and outcomes`,
-      des_2: `on autopilot.`,
-    },
   ],
 
   // for home five
