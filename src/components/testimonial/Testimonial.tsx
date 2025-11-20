@@ -17,21 +17,21 @@ interface DataType {
 const testimonial_data: DataType[] = [
   {
     img: avatar_img,
-    name: `Delores Olivo`,
+    name: `CEO, IT Services Company`,
     location: `From UK`,
-    des: `“Welcome to our digital agency We specialize in helping business most like yours succeed online. From website design and development to digital marketing agency”`,
+    des: `“We reduced manual workload by over 60% in the first 45 days. Agentic AI didn’t just make us faster — it changed how we operate.”`,
   },
   {
     img: avatar_img,
-    name: `Delores Olivo`,
+    name: `Operations Head, SaaS Startup`,
     location: `From USA`,
-    des: `“Welcome to our digital agency We specialize in helping business most like yours succeed online. From website design and development to digital marketing agency”`,
+    des: `“Our sales team now focuses only on warm, qualified conversations. AI agents handle outreach, follow-ups and routing.”`,
   },
   {
     img: avatar_img,
-    name: `Delores Olivo`,
+    name: `Founder, D2C Brand`,
     location: `From Astrolia`,
-    des: `“Welcome to our digital agency We specialize in helping business most like yours succeed online. From website design and development to digital marketing agency”`,
+    des: `“This isn’t just automation. It feels like we installed a new brain for the business.”`,
   },
 ]
 
@@ -77,7 +77,7 @@ const Testimonial = ({ style_service }: any) => {
             <div className="col-lg-7 offset-lg-1">
               <div className={`cs_testimonial ${style_service ? 'cs_style_2' : 'cs_style_1 cs_color_1'}`}>
                 <h2 className="cs_testimonial_title">
-                  Some Of Our Respected Happy Clients Says
+                  Trusted by SMEs, Startups and High-Growth Teams
                 </h2>
                 <Swiper
                   loop={true}
