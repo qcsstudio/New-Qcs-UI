@@ -46,5 +46,4 @@ const BannerAbout = () => {
     </>
   );
 };
-
 export default BannerAbout;
