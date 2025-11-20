@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface DataType {
@@ -20,33 +19,33 @@ interface DataType {
 }
 
 const feature_data: DataType = {
-  subtitle: `Features`,
-  title: `Elevating Your Business to the Next Level Expertise in Startup Agency Services`,
-  des: `Welcome to our digital agency! We specialize in helping businesses like yours succeed online. From website design and development to digital marketing and advertising, we have the tools. From website design and development to digital marketing and advertising, we have the toolsis. From website design and development. Welcome to our digital agency.`,
-  boxtitle: `Unique Design`,
-  box_des_1: `Award Winning Quality`,
-  box_des_2: `Digital of the day Mobile app excellence`,
+  subtitle: `Why Businesses Choose QCS`,
+  title: `A System That Works Endlessly — Even When Your Team Is Offline`,
+  des: `Agentic systems handle operations, conversations, follow-ups, workflows and insights 24/7 so your team can focus on strategy, creativity and leadership.`,
+  boxtitle: `Predictive, Compounding Growth`,
+  box_des_1: `Every cycle improves your funnels, operations and outcomes`,
+  box_des_2: `on autopilot.`,
   features: [
     {
       id: 1,
-      title: `Clean Code`,
-      des_1: `Award Winning Quality`,
-      des_2: `Digital of the day Mobile app excellence`
+      title: `Autonomous Work Execution`,
+      des_1: `AI agents plan, take action and complete tasks end-to-end`,
+      des_2: `without constant human intervention.`,
     },
     {
       id: 2,
-      title: `User Testing`,
-      des_1: `Award Winning Quality`,
-      des_2: `Digital of the day Mobile app excellence`
+      title: `Unified Experiential Intelligence`,
+      des_1: `Your tools, data and customer interactions flow seamlessly`,
+      des_2: `across one intelligent network.`,
     },
   ],
 
-  // for home five 
+  // for home five
   subtitle_2: `Why Choose Us`,
   title_2: `Maximizing Your Online Presence Digital Marketing Mastery`,
 
 }
-const { subtitle, title, des, boxtitle, box_des_1, box_des_2, features, subtitle_2, title_2 } = feature_data
+const { subtitle, title, des, boxtitle, box_des_1, box_des_2, features, subtitle_2, title_2 } = feature_data;
 
 const FeatureHomeTwo = ({ style_2 }: any) => {
   return (
@@ -94,7 +93,7 @@ const FeatureHomeTwo = ({ style_2 }: any) => {
                   </p>
                   <div className="cs_service_back_btn">
                     <a href="#" className="cs_style_1 cs_color_1">
-                      <span className="cs_font_18">Learn More</span> 
+                      <span className="cs_font_18">Learn More</span>
                       {' '}
                       <svg width="19" height="13" viewBox="0 0 19 13" fill="none"
                         xmlns="http://www.w3.org/2000/svg">

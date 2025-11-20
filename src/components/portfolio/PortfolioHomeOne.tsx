@@ -18,32 +18,32 @@ interface DataType {
 const portfolio_slider: DataType[] = [
   {
     img: portfolio_img_1,
-    title: `Project Task Management`,
+    title: `Automated CRM and sales engine for a B2B services company`,
     category: `Digital Services / App Design`,
   },
   {
     img: portfolio_img_2,
-    title: `Project Task Management`,
+    title: `AI-powered growth system for a SaaS startup`,
     category: `Digital Services / Web Design`,
   },
   {
     img: portfolio_img_3,
-    title: `Project Task Management`,
+    title: `Operational automation for a fast-scaling eCommerce brand`,
     category: `Digital Services / Figma Design`,
   },
   {
     img: portfolio_img_1,
-    title: `Project Task Management`,
+    title: `Agentic support and retention engine for a D2C business`,
     category: `Digital Services / App Design`,
   },
   {
     img: portfolio_img_2,
-    title: `Project Task Management`,
+    title: `Automated CRM and sales engine for a B2B services company`,
     category: `Digital Services / Web Design`,
   },
   {
     img: portfolio_img_3,
-    title: `Project Task Management`,
+    title: `AI-powered growth system for a SaaS startup`,
     category: `Digital Services / Figma Design`,
   },
 ]
@@ -61,7 +61,7 @@ const PortfolioHomeOne = () => {
                 Portfolio
               </div>
               <h2 className="cs_section_title anim_heading_title">
-                Some Recent Project We Successfully Done
+                Real Transformations. Real Results.
               </h2>
             </div>
           </div>
@@ -70,7 +70,7 @@ const PortfolioHomeOne = () => {
         <Swiper
           loop={true}
           speed={1000}
-          slidesPerView="auto" 
+          slidesPerView="auto"
           pagination={{
             el: ".cs_pagination",
             clickable: true,
@@ -95,7 +95,7 @@ const PortfolioHomeOne = () => {
                 </Link>
               </div>
             </SwiperSlide>
-          )} 
+          )}
 
         </Swiper>
       </div>
