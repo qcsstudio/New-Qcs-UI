@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-// import logo from '@/assets/img/Images/favicon.png';
+import logo from '@/assets/img/Images/favicon.png';
 
 const BannerAbout = () => {
   return (
@@ -36,7 +36,7 @@ const BannerAbout = () => {
                 </div>
 
                 <div className="position-absolute cs_ceneter_text">
-                  {/* <Image src={logo} alt="" /> */}
+                  <Image src={logo} alt="" />
                 </div>
               </div>
             </div>
