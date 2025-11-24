@@ -23,8 +23,8 @@ const Gellary = ({style_2}: any) => {
   return (
     <>
     {style_2 ? null : <div className="cs_height_150 cs_height_lg_60"></div>}      
-      <section>
-        <div className="container">
+      <section className='mb-5'>
+        <div className="container ">
           <div className="cs_section_heading cs_style_1 cs_type_1">
             <div className="cs_section_heading_text">
               <div className="cs_section_subtitle anim_div_ShowZoom">Gallery</div>

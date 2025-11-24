@@ -6184,7 +6184,8 @@ label {
   position: absolute;
   color: #c1c1c1;
   width: 377px;
-  padding: 50px;
+  /* padding: 50px; */
+  padding: 22px !important;
   background-color: #000;
 }
 .cs_modern_needs.cs_style .cs_col_md_672 .cs_img_section .cs_img_card_text .cs_color_style {
