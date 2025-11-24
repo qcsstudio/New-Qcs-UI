@@ -36,7 +36,7 @@ const counter_data: DataType[] = [
 const FunFactHomeOne = ({style_2, style_3} :any) => {
   return (
     <>
-      <div className="container">
+      <div className="container mt-5">
         <div className="row align-items-center">
           {counter_data.map((item, i) =>
             <div key={i} className="col-lg-3">

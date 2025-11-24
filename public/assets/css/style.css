@@ -6829,7 +6829,8 @@ label {
     position: absolute;
     color: #c1c1c1;
     width: 377px;
-    padding: 50px;
+    /* padding: 50px; */
+    padding: 22px !important;
     background-color: #000;
 }
 
