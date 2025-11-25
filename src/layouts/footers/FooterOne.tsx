@@ -20,7 +20,7 @@ const footer_data: DataType = {
   email: `info@qcsstudio.com`,
   phone: `(406) 555-0120`,
   location: `46 JOHN ST TORONTO ON M5V 3W2`,
-  footer_info: `Welcome to our digital agency We specialize in helping business most like yours succeed online. From website design and development.`,
+  footer_info: ` We blend agentic AI, automation, and digital execution into one growth engine—designed to scale with governance, clear metrics, and measurable ROI.`,
   links: [
     { title: `HOME`, link: "/" },
     { title: `ABOUT`, link: "/about" },
