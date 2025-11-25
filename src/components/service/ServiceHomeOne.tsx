@@ -12,23 +12,28 @@ interface DataType {
 const service_data: DataType[] = [
   {
     id: 1,
-    title: `Application Development`,
-    des: `Welcome to our digital agency We specialize in helping business most like yours succeed online. From website design and development to digital marketing agency.`
+    title: `Agentic AI Development`,
+    des: `We design AI agents that plan, act, and learn—automating outreach, support, and ops while surfacing insights your team can use instantly.`
   },
   {
     id: 2,
-    title: `Web Development`,
-    des: `Welcome to our digital agency We specialize in helping business most like yours succeed online. From website design and development to digital marketing agency.`
+    title: `Web & App Engineering`,
+    des: `High-performance sites and apps with modern stacks, secure auth, analytics, and integrations—built to convert and scale globally.`
   },
   {
     id: 3,
-    title: `Digital Services`,
-    des: `Welcome to our digital agency We specialize in helping business most like yours succeed online. From website design and development to digital marketing agency.`
+    title: `AI Marketing & Lead Gen`,
+    des: `Answer-engine SEO, performance ads, and high-intent lead gen across LinkedIn & social. Adaptive content and funnels cut CAC, lift LTV, and keep growth compounding.`
   },
   {
     id: 4,
-    title: `Digital Product Design`,
-    des: `Welcome to our digital agency We specialize in helping business most like yours succeed online. From website design and development to digital marketing agency.`
+    title: ` Automation & Integrations`,
+    des: `Orchestrate CRM, payments, chat, and data pipelines. Policy-driven workflows cut manual steps and keep your funnel running 24/7.`
+  },
+  {
+    id: 5,
+    title: `Analytics & ROI Dashboards`,
+    des: ` Unified dashboards trace spend to revenue, reveal breakpoints, and guide weekly experiments for predictable, compounding growth.`
   },
 
 ]
@@ -46,7 +51,7 @@ const ServiceHomeOne = () => {
                 Our Services
               </div>
               <h2 className="cs_section_title anim_heading_title">
-                Comprehensive Digital Strategy Transformation
+                Comprehensive AI, Web & Marketing Transformation
               </h2>
             </div>
             <div className="cs_section_heading_right cs_btn_anim">

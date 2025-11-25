@@ -21,23 +21,23 @@ interface DataType {
 
 const feature_data: DataType = {
   subtitle: `Features`,
-  title: `Elevating Your Business to the Next Level Expertise in Startup Agency Services`,
-  des: `Welcome to our digital agency! We specialize in helping businesses like yours succeed online. From website design and development to digital marketing and advertising, we have the tools. From website design and development to digital marketing and advertising, we have the toolsis. From website design and development. Welcome to our digital agency.`,
-  boxtitle: `Unique Design`,
-  box_des_1: `Award Winning Quality`,
-  box_des_2: `Digital of the day Mobile app excellence`,
+  title: `Operational Intelligence That Scales With Governance and ROI`,
+  des: `QuantumCrafters unifies agentic AI, automation, and high-performance web/app delivery into one governed operating model. Agents execute across channels, workflows align to policy and KPIs, and data flows end-to-end for auditability. Leaders gain faster cycle times, reduced handoffs, and clear evidence of value creation—turning fragmented initiatives into a predictable growth engine.`,
+  boxtitle: `Governed Autonomy`,
+  box_des_1: `Governed Agent Execution`,
+  box_des_2: `AI agents execute within rules and roles—accelerating work while preserving oversight, compliance, and audit trails.`,
   features: [
     {
       id: 1,
-      title: `Clean Code`,
-      des_1: `Award Winning Quality`,
-      des_2: `Digital of the day Mobile app excellence`
+      title: `Unified Signal Layer`,
+      des_1: `Canonical Data Core`,
+      des_2: `CRM, product, and media data converge for one truth. Optimization propagates across channels without duplicate effort.`
     },
     {
       id: 2,
-      title: `User Testing`,
-      des_1: `Award Winning Quality`,
-      des_2: `Digital of the day Mobile app excellence`
+      title: `Finance-Grade Metrics`,
+      des_1: `Compounding ROI Evidence`,
+      des_2: ` Dashboards tie spend to revenue, expose friction, and guide weekly bets—driving measurable, compounding returns.`
     },
   ],
 
@@ -109,7 +109,7 @@ const FeatureHomeTwo = ({ style_2 }: any) => {
                   <h6>{boxtitle}</h6>
                   <div className="d-flex align-items-center">
                     <div className="cs_hr"></div>
-                    <p className="cs_font_16 cs_normal cs_mp0 text-nowrap">
+                    <p className="cs_font_16 cs_normal cs_mp0 text-nowrap ">
                       {box_des_1}
                     </p>
                   </div>

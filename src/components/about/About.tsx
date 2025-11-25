@@ -1,4 +1,4 @@
- 
+
 
 import React from 'react';
 import agency_story_1 from "@/assets/img/agency_story_1.jpg"
@@ -12,13 +12,17 @@ interface DataType {
   subtitle: string;
   title: string;
   des: string;
+  des2: string
 }
 const about_content: DataType = {
   subtitle: `Our Agency Story`,
-  title: `How Our Agency is Pushing the Boundaries of Online Marketing and Design`,
-  des: `Digital agency! We specialize in helping businesses like yours succeed online. From website design and development to digital marketing and advertising, we have the tools and expertise to elevate your online presence. Let us help you lione evolving world of digital to drive growth and reach your goals.`,
+  title: ` Engineering a Unified System
+ That Turns AI, Web & Marketing
+ Into Measurable Growth`,
+  des: `QuantumCrafters replaces ad-hoc tactics with an agentic operating model. We connect AI agents, high-performance apps, and AI-powered marketing into one governed workflow—so data, decisions, and delivery stay aligned to business goals.`,
+  des2: ` A unified signal layer powers optimization across channels, while finance-grade dashboards tie spend to revenue. The result: faster cycles, fewer handoffs, and predictable, compounding growth for modern businesses.`,
 }
-const { subtitle, title, des } = about_content
+const { subtitle, title, des, des2 } = about_content
 
 const About = () => {
   return (
@@ -57,7 +61,7 @@ const About = () => {
                       {des}
                     </p>
                     <p className="cs_ternary_color">
-                      {des}
+                      {des2}
                     </p>
                   </div>
                 </div>

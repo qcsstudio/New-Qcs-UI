@@ -31,7 +31,6 @@ const index = () => {
           <main>
             <BannerAbout />
             <VideoHomeOne style_2={true} />
-            {/* <FunFactHomeOne style_3={true} /> */}
             <About />
             <AboutHomeOne />
             <TeamHomeTwo style_2={true} style_3={true} />
