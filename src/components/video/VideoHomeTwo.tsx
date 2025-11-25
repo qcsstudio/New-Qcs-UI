@@ -17,7 +17,7 @@ const VideoHomeTwo = () => {
               src="/assets/video/QCS.mp4"
               autoPlay
               loop
-              // muted
+              muted
               playsInline
               // controls
               style={{
