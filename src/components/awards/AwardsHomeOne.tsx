@@ -24,29 +24,29 @@ const award_data: DataType[] = [
     id: 1,
     ward_img: award_img_1,
     img: award_thumb_1,
-    brand: `Dribbbble`,
-    title: `IOS App Design Award`,
-    des: `Welcome to our digital agency We specialize in helping business most like yours succeed online. From website design.`,
+    brand: `DPIIT Startup India`,
+    title: `Start Up India Recognised`,
+    des: `Government recognition by DPIIT for eligible startups—unlocking benefits, faster compliance, and added credibility for Indian and global buyers.`,
   },
   {
     id: 2,
     ward_img: award_img_2,
     img: award_thumb_2,
-    brand: `Envato`,
-    title: `Elite Author Award`,
-    des: `Welcome to our digital agency We specialize in helping business most like yours succeed online. From website design.`,
+    brand: ` Google Partner`,
+    title: `Google Partner (Ads)`,
+    des: `Meets Google’s badge thresholds for performance, spend, and certified experts—evidence of accountable, ROI-driven campaign management.`,
   },
   {
     id: 3,
     ward_img: award_img_3,
     img: award_thumb_3,
-    brand: `Awwward`,
-    title: `CSS Design Award`,
-    des: `Welcome to our digital agency We specialize in helping business most like yours succeed online. From website design.`,
+    brand: ` Meta Business Partner`,
+    title: ` Meta Business Partner`,
+    des: `Recognised capability across Facebook & Instagram. Strong signal for paid social + lead gen systems that scale with governance. `,
   },
 ]
 
-const AwardsHomeOne = ({style_2}: any) => {
+const AwardsHomeOne = ({ style_2 }: any) => {
 
   const [activeTab, setActiveTab] = useState(0);
   const handleMouseEnter = (index: any) => {
@@ -55,7 +55,7 @@ const AwardsHomeOne = ({style_2}: any) => {
 
   return (
     <>
-    {style_2 ? <div className="cs_height_145 cs_height_lg_60"></div> : null}
+      {style_2 ? <div className="cs_height_145 cs_height_lg_60"></div> : null}
       <section>
         <div className="container">
           <div className="cs_section_heading cs_style_1 cs_type_1 swiper-slide swiper-slide-active">
@@ -64,7 +64,7 @@ const AwardsHomeOne = ({style_2}: any) => {
                 Our Awards
               </div>
               <h2 className="cs_section_title anim_heading_title">
-                Recognizing Excellence Our Award Winning Work
+                Recognitions That Buyers Trust
               </h2>
             </div>
           </div>
