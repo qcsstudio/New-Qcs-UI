@@ -2,11 +2,13 @@
 'use client'
 
 
-import AboutHomeFour from '@/components/about/AboutHomeFour';
-import DetailsBanner from '@/components/details/DetailsBanner';
+import AboutUs from '@/components/about/AboutUs';
+import BrandHomeOne from '@/components/brand/BrandHomeOne';
 import ServiceDetailsFaq from '@/components/faq/ServiceDetailsFaq';
+import FeatureHomeTwo from '@/components/feature/FeatureHomeTwo';
 import HeroServiceDetails from '@/components/hero/HeroServiceDetails';
 import ServiceAreaDetails from '@/components/service/ServiceAreaDetails';
+import Testimonial from '@/components/testimonial/Testimonial';
 import Wrapper from '@/layouts/Wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
@@ -25,10 +27,12 @@ const index = () => {
         <div id="smooth-content">
           <main>
             <HeroServiceDetails />
-            <ServiceAreaDetails />
-            <DetailsBanner />
             <ServiceDetailsFaq />
-            <AboutHomeFour />
+            <Testimonial />
+            <ServiceAreaDetails />
+            <BrandHomeOne style_2={false} />
+              <FeatureHomeTwo />
+              <AboutUs />
           </main>
           <FooterOne />
         </div>
