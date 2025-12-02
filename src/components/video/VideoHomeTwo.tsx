@@ -1,8 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React  from "react";
 
 const VideoHomeTwo = () => {
-  const [playVideo, setPlayVideo] = useState(false);
 
   return (
     <>
