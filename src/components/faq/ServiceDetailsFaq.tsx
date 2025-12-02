@@ -19,23 +19,34 @@ const service_faq_content: DataType = {
   faq_data: [
     {
       id: 'One',
-      question: `What is the design process for branding?`,
-      answer: `Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying conse quences lalin karar or one avoids a pain that produces no resultant pleasure.`,
+      question: `Positioning Architecture (Differentiation That Sticks)`,
+      answer: `We rebuild your entire narrative so prospects immediately understand:`,
     },
     {
       id: 'Two',
-      question: `What services does your agency offer?`,
-      answer: `Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying conse quences lalin karar or one avoids a pain that produces no resultant pleasure.`,
+      question: `Prospect Intelligence (Precision Targeting)`,
+      answer: `You don’t need more leads.
+ You need the right decision-makers, identified with consulting-level rigor.`,
     },
     {
       id: 'Three',
-      question: `How do you approach a new project?`,
-      answer: `Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying conse quences lalin karar or one avoids a pain that produces no resultant pleasure.`,
+      question: `High-Impact Messaging (Response Psychology)`,
+      answer: `We design messaging frameworks that cut through noise and create movement.`,
     },
     {
       id: 'Four',
-      question: `How do you handle revisions or changes to a project?`,
-      answer: `Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying conse quences lalin karar or one avoids a pain that produces no resultant pleasure.`,
+      question: ` Manual Outbound Execution (White-Glove)`,
+      answer: `Every touchpoint is controlled, intentional, and conversion-driven.`,
+    },
+    {
+      id: 'Five',
+      question: ` Weekly Optimization (Performance Governance)`,
+      answer: `This is where elites separate from amateurs.`,
+    },
+    {
+      id: 'Six',
+      question: `Pipeline Visibility (Executive Reporting)`,
+      answer: `No vanity metrics`,
     },
   ],
   title: `Others Services List`,
@@ -94,8 +105,8 @@ const ServiceDetailsFaq = () => {
 
             </div>
           </div>
-          <div className="cs_service_details_text">
-            <div className="cs_specialization cs_section_heading cs_style_1">
+          <div className="cs_service_details_text justify-content-center d-flex flex-column">
+            <div className="cs_specialization cs_section_heading cs_style_1  ">
               <div className="cs_section_heading_text">
                 <h4 className="cs_section_title_4">{title}</h4>
               </div>

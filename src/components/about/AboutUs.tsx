@@ -14,12 +14,12 @@ const AboutUs = ({ style_2 }: any) => {
               <div className="cs_section_heading cs_style_1">
                 <div className="cs_section_heading_text">
                   <h3 className="cs_section_title_3 cs_color_2 anim_heading_title">
-                    We'd be interested in learning more about your project.
+                    Your Competitors Are Engineering Their Pipeline.
                   </h3>
                 </div>
                 <div className="cs_section_heading_right cs_btn_anim">
                   <Link href="/contact" className="cs_btn cs_style_1 cs_color_2">
-                    <span>Contact US</span>
+                    <span> Request a Private Strategy Consultation</span>
                     <svg width="19" height="13" viewBox="0 0 19 13" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path

@@ -1,8 +1,5 @@
 export const animationCreate = () => {
-	if (typeof window !== "undefined") {
-		import("wowjs").then((module) => {
-			const WOW = module.default;
-			new WOW.WOW({ live: false }).init();
-		});
-	}
+  if (typeof window !== "undefined" && window.WOW) {
+    new window.WOW({ live: false }).init();
+  }
 };
