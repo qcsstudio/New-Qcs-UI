@@ -12,11 +12,18 @@ const AboutUs = ({ style_2 }: any) => {
           <div className="container">
             <div className="cs_learning_project">
               <div className="cs_section_heading cs_style_1">
-                <div className="cs_section_heading_text">
+                <div className="cs_section_heading_text ">
                   <h3 className="cs_section_title_3 cs_color_2 anim_heading_title">
                     Your Competitors Are Engineering Their Pipeline.
                   </h3>
                 </div>
+                  <p className='pt-5 border-box text-white'>
+                    If your LinkedIn presence is not converting prospects into conversations 
+                    you have a revenue leak.
+                    We fix that.
+                    With discipline. Precision. And elite execution.
+
+                  </p>
                 <div className="cs_section_heading_right cs_btn_anim">
                   <Link href="/contact" className="cs_btn cs_style_1 cs_color_2">
                     <span> Request a Private Strategy Consultation</span>
