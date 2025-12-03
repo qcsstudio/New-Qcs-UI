@@ -2,8 +2,8 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import footer_logo from "@/assets/img/footer_logo.svg";
-// import { CopyRight, SocialLinks } from '@/components/common/SocialLinks';
+import footer_logo from "@/assets/img/Images/footerlogo.png";
+import { CopyRight, SocialLinks } from '@/components/common/SocialLinks';
 
 interface DataType {
   email: string;
@@ -20,7 +20,7 @@ const footer_data: DataType = {
   email: `info@qcsstudio.com`,
   phone: `(406) 555-0120`,
   location: `46 JOHN ST TORONTO ON M5V 3W2`,
-  footer_info: ` We blend agentic AI, automation, and digital execution into one growth engine—designed to scale with governance, clear metrics, and measurable ROI.`,
+  footer_info: `The next big thing starts here drop us a line and let's get creating!`,
   links: [
     { title: `HOME`, link: "/" },
     { title: `ABOUT`, link: "/about" },
@@ -49,7 +49,7 @@ const FooterOne = () => {
             </div>
             <div className="col-lg-6 offset-lg-1">
               <div className="cs_footer_social">
-                {/* <SocialLinks /> */}
+                <SocialLinks />
               </div>
               <div className="cs_height_60 cs_height_lg_30"></div>
               <ul className="cs_footer_contact_list cs_mp0">
@@ -99,15 +99,15 @@ const FooterOne = () => {
             </div>
           </div>
           <div className="cs_height_90 cs_height_lg_60"></div>
-          <ul className="cs_footer_nav">
+          {/* <ul className="cs_footer_nav">
             {links.map((item, index) => (
               <li key={index}><Link href={item.link}>{item.title}</Link></li>
             ))}
-          </ul>
+          </ul> */}
         </div>
-        {/* <div className="cs_copyright text-center">
+        <div className="cs_copyright text-center">
           <div className="container"> <CopyRight /> </div>
-        </div> */}
+        </div>
       </footer>
     </>
   );

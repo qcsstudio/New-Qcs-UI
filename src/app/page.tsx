@@ -16,6 +16,8 @@ import VideoHomeTwo from "@/components/video/VideoHomeTwo";
 import FooterOne from "@/layouts/footers/FooterOne";
 import HeaderOne from "@/layouts/headers/HeaderOne";
 import Wrapper from "@/layouts/Wrapper";
+import { featureData } from "@/data/featureData";
+
 
 
 
@@ -37,7 +39,7 @@ const index = () => {
             <InnovativeHomeTwo />
             <ServiceHomeOne/>
             <Service />
-            <FeatureHomeTwo />
+            <FeatureHomeTwo feature_data={featureData}/>
             <PortfolioHomeOne />
             <Testimonial />
             <BrandHomeOne style_2={false} />

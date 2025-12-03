@@ -6685,4 +6685,13 @@ label {
   .cs_icon {
     margin-top: 0px;
   }
-}/*# sourceMappingURL=style.css.map */
+}
+
+/*--------------------------------------------------------------
+32. services details pipeline 
+----------------------------------------------------------------*/
+.pipeline-box{
+  height:400px
+}
+
+/*# sourceMappingURL=style.css.map */
