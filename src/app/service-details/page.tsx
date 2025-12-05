@@ -16,6 +16,7 @@ import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 import React from 'react';
 import { featureDataservice } from "@/data/featureData";
+import AuditSection from '@/components/service/AuditSection';
 
 // export const metadata = {
 //   title: "Service Details Vixan - Digital  Creative Agency Next js Template",
@@ -30,6 +31,7 @@ const index = () => {
         <div id="smooth-content">
           <main>
             <HeroServiceDetails />
+            <AuditSection/>
             <InnovativeHomeTwo />
             <PipelineSection />
             <ServiceDetailsFaq />

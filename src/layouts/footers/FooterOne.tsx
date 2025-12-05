@@ -62,7 +62,7 @@ const FooterOne = () => {
                         fill="white" />
                     </svg>
                   </i>
-                  {location}
+                  {location}  
                 </li>
                 <li>
                   <i>
