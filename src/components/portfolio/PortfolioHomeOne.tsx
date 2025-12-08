@@ -18,34 +18,34 @@ interface DataType {
 const portfolio_slider: DataType[] = [
   {
     img: portfolio_img_1,
-    title: `Project Task Management`,
-    category: `Digital Services / App Design`,
+    title: ` AI Agent CRM for B2B SaaS`,
+    category: ` Mid-market SaaS with long sales cycles; SDR bandwidth tight.`,
   },
   {
     img: portfolio_img_2,
-    title: `Project Task Management`,
-    category: `Digital Services / Web Design`,
+    title: `Ecommerce Funnel Personalization`,
+    category: `D2C brand with high traffic, flat AOV, rising CAC.`,
   },
   {
     img: portfolio_img_3,
-    title: `Project Task Management`,
-    category: `Digital Services / Figma Design`,
+    title: `AI Helpdesk for Fintech Support`,
+    category: ` Regulated fintech with L1 ticket volume spikes.`,
   },
   {
     img: portfolio_img_1,
-    title: `Project Task Management`,
-    category: `Digital Services / App Design`,
+    title: ` Local SEO + LinkedIn Lead Engine`,
+    category: `B2B services firm expanding into new geos.`,
   },
   {
     img: portfolio_img_2,
-    title: `Project Task Management`,
-    category: `Digital Services / Web Design`,
+    title: `Headless Web/App for D2C Scale`,
+    category: ` Rapid product launches; site speed + ops bottlenecks`,
   },
-  {
-    img: portfolio_img_3,
-    title: `Project Task Management`,
-    category: `Digital Services / Figma Design`,
-  },
+  // {
+  //   img: portfolio_img_3,
+  //   title: `Project Task Management`,
+  //   category: `Digital Services / Figma Design`,
+  // },
 ]
 
 

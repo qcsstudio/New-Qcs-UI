@@ -7,7 +7,7 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import HeroHomeFive from '@/components/hero/HeroHomeFive';
 import VideoHomeFive from '@/components/video/VideoHomeFive';
 import FunFactHomeOne from '@/components/funfact/FunFactHomeOne';
-import FeatureHomeTwo from '@/components/feature/FeatureHomeTwo';
+// import FeatureHomeTwo from '@/components/feature/FeatureHomeTwo';
 import ServiceHomeFive from '@/components/service/ServiceHomeFive';
 import PortfolioHomeFive from '@/components/portfolio/PortfolioHomeFive';
 import AwardsHomeOne from '@/components/awards/AwardsHomeOne';
@@ -38,7 +38,7 @@ const index = () => {
             <HeroHomeFive />
             <VideoHomeFive/>
             <ServiceHomeFive />
-            <FeatureHomeTwo style_2={true} />
+            {/* <FeatureHomeTwo style_2={true} /> */}
             <PortfolioHomeFive />
             <FunFactHomeOne style_2={true} />
             <AwardsHomeOne />

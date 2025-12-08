@@ -1,10 +1,10 @@
 import React from "react";
 
 const hero_data = {
-	subtitle: `Welcome to our digital agency!`,
-	title_1: `Startup Sprint Accelerating`,
-	title_2: `Digital Growth`,
-	des: `Welcome to our digital agency! We specialize in helping businesses like yours succeed online. From website design and development to digital marketing and advertising, we have the tools.`,
+	subtitle: `AI-Powered Growth Studio`,
+	title_1: `Build Your 24/7 Intelligent`,
+	title_2: `Growth Engine`,
+	des: `Transform your business with a unified blend of agentic AI, intelligent automation, cutting-edge marketing, and high-performance development. We accelerate digital growth for every industry – driving efficiency, engagement, and revenue in one intelligent sweep`,
 };
 const { subtitle, title_1, title_2, des } = hero_data;
 

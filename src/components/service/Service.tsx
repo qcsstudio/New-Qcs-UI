@@ -10,23 +10,23 @@ interface DataType {
 const service_data: DataType[] = [
   {
     id: 'one',
-    title: "Understand",
-    description: `Welcome to our digital agency We specialize in helping your business most`,
+    title: "Discover & Diagnose",
+    description: `Audit goals, data, and stack; map quick wins, risks, and gaps`,
   },
   {
     id: 'Two',
-    title: "Design",
-    description: `Welcome to our digital agency We specialize in helping your business most`,
+    title: " Design the Architecture",
+    description: `Blueprint agents, automations, UX, and KPIs for impact.`,
   },
   {
     id: 'Three',
-    title: "Development",
-    description: `Welcome to our digital agency We specialize in helping your business most`,
+    title: "Build & Integrate",
+    description: `Ship apps, workflows, and agents; connect CRM, content, ads.`,
   },
   {
     id: 'Four',
-    title: "Testing",
-    description: `Welcome to our digital agency We specialize in helping your business most`,
+    title: "Optimize & Scale",
+    description: `Measure, A/B test, and iterate; expand channels with confidence.`,
   },
 ]
 const Service = () => {
