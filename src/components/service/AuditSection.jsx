@@ -2,10 +2,15 @@
 import React, { useEffect, useState } from "react";
 
 export default function AuditSection() {
+  //state for handle url and role 
   const [url, setUrl] = useState("");
   const [role, setRole] = useState("job_seeker");
+  
+//state for loading and get result from background
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+
+  //state for show modal
   const [showModal, setShowModal] = useState(false);
 
 useEffect(() => {
