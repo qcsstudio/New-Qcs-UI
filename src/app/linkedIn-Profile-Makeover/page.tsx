@@ -2,15 +2,20 @@
 'use client'
 
 
-import AboutHomeFour from '@/components/about/AboutHomeFour';
-import DetailsBanner from '@/components/details/DetailsBanner';
+import AboutUs from '@/components/about/AboutUs';
+import BrandHomeOne from '@/components/brand/BrandHomeOne';
 import ServiceDetailsFaq from '@/components/faq/ServiceDetailsFaq';
+import FeatureHomeTwo from '@/components/feature/FeatureHomeTwo';
 import HeroServiceDetails from '@/components/hero/HeroServiceDetails';
+import InnovativeHomeTwo from '@/components/innovative/InnovativeHomeTwo';
+import PipelineSection from '@/components/service/PipelineSection';
 import ServiceAreaDetails from '@/components/service/ServiceAreaDetails';
+import Testimonial from '@/components/testimonial/Testimonial';
 import Wrapper from '@/layouts/Wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
-import React from 'react';
+import { featureDataservice } from "@/data/featureData";
+import AuditSection from '@/components/service/AuditSection';
 
 // export const metadata = {
 //   title: "Service Details Vixan - Digital  Creative Agency Next js Template",
@@ -25,10 +30,15 @@ const index = () => {
         <div id="smooth-content">
           <main>
             <HeroServiceDetails />
-            <ServiceAreaDetails />
-            <DetailsBanner />
+            <AuditSection/>
+            <InnovativeHomeTwo />
+            <PipelineSection />
             <ServiceDetailsFaq />
-            <AboutHomeFour />
+            <Testimonial />
+            <ServiceAreaDetails />
+            <BrandHomeOne style_2={false} />
+            <FeatureHomeTwo feature_data={featureDataservice} />
+            <AboutUs />
           </main>
           <FooterOne />
         </div>

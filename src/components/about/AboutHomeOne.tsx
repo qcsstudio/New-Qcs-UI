@@ -13,21 +13,21 @@ interface DataType {
 const about_slider: DataType[] = [
   {
     img: "/assets/img/about_img.jpg",
-    sub_title: "Our Mission",
-    title: `Unleashing Creativity to Transform Your Business`,
-    des: `Welcome to our digital agency! We specialize in helping businesses like yours succeed online. From website design and development to digital marketing and advertising, we have the tools and expertise to elevate your online presence. Let us help you lione evolving world of digital.`,
+    sub_title: "Our Vision",
+    title: `Engineer Clarity <br> Unify Workflows <br> Compound Growth`,
+    des: `We imagine growth as everyday reality, not a campaign spike. By unifying tools, data, and teams into one system, work moves faster and cleaner. Agents handle the busywork, people handle decisions—and every week’s learning compounds.`,
   },
   {
     img: "/assets/img/about_img.jpg",
     sub_title: "Our Mission",
-    title: `Unleashing Creativity to Transform Your Business`,
-    des: `Welcome to our digital agency! We specialize in helping businesses like yours succeed online. From website design and development to digital marketing and advertising, we have the tools and expertise to elevate your online presence. Let us help you lione evolving world of digital.`,
+    title: `Design Once <br> Run Everywhere <br> Measure What Matters`,
+    des: ` We turn scattered tools into a governed operating model. Agents execute, apps scale, and marketing self-optimizes while dashboards tie effort to revenue. Teams get fewer handoffs, clearer accountability, and confident, repeatable ROI.`,
   },
   {
     img: "/assets/img/about_img.jpg",
-    sub_title: "Our Mission",
-    title: `Unleashing Creativity to Transform Your Business`,
-    des: `Welcome to our digital agency! We specialize in helping businesses like yours succeed online. From website design and development to digital marketing and advertising, we have the tools and expertise to elevate your online presence. Let us help you lione evolving world of digital.`,
+    sub_title: "Our Principle",
+    title: `Build Once <br> Make It Smarter <br> Every Week`,
+    des: ` We replace fragile, one-off tactics with systems that learn. We design agentic AI, craft high-performance apps, and run AI-powered marketing as one operating model—so your best week becomes the baseline.`,
   },
 ]
 
@@ -65,9 +65,15 @@ const AboutHomeOne = () => {
                   <div className="cs_section_heading cs_style_1">
                     <div className="cs_section_heading_text">
                       <div className="cs_section_subtitle">{item.sub_title}</div>
-                      <h2 className="cs_section_title">
+                      {/* <h2 className="cs_section_title">
                         {item.title}
-                      </h2>
+                      </h2> */}
+
+                      {/* <h2
+                        className="cs_section_title"
+                        dangerouslySetInnerHTML={{ __html: item.title }}
+                      /> */}
+                      <h2 className="cs_section_title" dangerouslySetInnerHTML={{ __html: item.title }} />
                     </div>
                   </div>
                   <div className="cs_height_40 cs_height_lg_30"></div>

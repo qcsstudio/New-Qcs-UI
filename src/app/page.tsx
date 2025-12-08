@@ -6,17 +6,18 @@ import AwardsHomeOne from "@/components/awards/AwardsHomeOne";
 import BlogHomeOne from "@/components/blog/BlogHomeOne";
 import BrandHomeOne from "@/components/brand/BrandHomeOne";
 import FeatureHomeTwo from "@/components/feature/FeatureHomeTwo";
-import HeroHomeOne from "@/components/hero/HeroHomeOne";
 import HeroHomeTwo from "@/components/hero/HeroHomeTwo";
 import InnovativeHomeTwo from "@/components/innovative/InnovativeHomeTwo";
 import PortfolioHomeOne from "@/components/portfolio/PortfolioHomeOne";
 import Service from "@/components/service/Service";
-import ServiceHomeTwo from "@/components/service/ServiceHomeTwo";
+import ServiceHomeOne from "@/components/service/ServiceHomeOne";
 import Testimonial from "@/components/testimonial/Testimonial";
 import VideoHomeTwo from "@/components/video/VideoHomeTwo";
 import FooterOne from "@/layouts/footers/FooterOne";
 import HeaderOne from "@/layouts/headers/HeaderOne";
 import Wrapper from "@/layouts/Wrapper";
+import { featureData } from "@/data/featureData";
+
 
 
 
@@ -36,9 +37,9 @@ const index = () => {
             <HeroHomeTwo />
             <VideoHomeTwo />
             <InnovativeHomeTwo />
-            <ServiceHomeTwo />
+            <ServiceHomeOne/>
             <Service />
-            <FeatureHomeTwo />
+            <FeatureHomeTwo feature_data={featureData}/>
             <PortfolioHomeOne />
             <Testimonial />
             <BrandHomeOne style_2={false} />

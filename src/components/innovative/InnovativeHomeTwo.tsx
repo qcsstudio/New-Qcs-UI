@@ -16,25 +16,25 @@ interface DataType {
 }
 
 const innovative_data: DataType = {
-	title_1: `Innovative Solutions for Modern Digital Needs`,
-	des_1: `Welcome to our digital agency! We specialize in helping businesses like yours succeed online. From website design and development to digital marketing and advertising,`,
-	title_2: `Creating a Strong Brand Identity`,
-	des_2: `Welcome to our digital agency! We spec ialize in helping businesses like yours succeed Well come to our digital agency`,
+	title_1: `Unified Intelligence for Predictable Growth`,
+	des_1: `Replace fragmented stacks with one operating model. QCS links AI agents, automation, and marketing so plans become execution—and execution learns—driving efficiency, visibility, and measurable compounding gains.`,
+	title_2: ` Your Agentic Growth Architecture`,
+	des_2: `A composable foundation of modular agents, reusable workflows, and AI-native UX. It personalizes journeys, enforces guardrails, and proves ROI with clear, auditable metrics your leadership can trust.`,
 	features: [
 		{
 			id: 1,
-			title: `Ideation`,
-			des: `Digital of the day Mobile app excellence`,
+			title: `Policy-Driven Flows`,
+			des: ` Automations aligned to rules and KPIs.`,
 		},
 		{
 			id: 2,
-			title: `Ideation`,
-			des: `Digital of the day Mobile app excellence`,
+			title: `Unified Data Layer`,
+			des: `Customer, content, and spend in one view.`,
 		},
 		{
 			id: 3,
-			title: `Ideation`,
-			des: `Digital of the day Mobile app excellence`,
+			title: `Auto-Tuning Engines`,
+			des: `Systems that improve every release.`,
 		},
 	],
 };

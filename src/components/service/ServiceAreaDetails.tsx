@@ -9,23 +9,23 @@ interface DataType {
 const service_data: DataType[] = [
   {
     id: 'one',
-    title: "Understand",
-    description: `Welcome to our digital agency We specialize in helping your business most`,
+    title: "Executive Strategy Session",
+    description: `We diagnose gaps. Present growth scenarios. Define your dominance angle.`,
   },
   {
     id: 'Two',
-    title: "Design",
-    description: `Welcome to our digital agency We specialize in helping your business most`,
+    title: "Engine Build (7–10 Days)",
+    description: `Positioning → Messaging → Targeting → System Setup`,
   },
   {
     id: 'Three',
-    title: "Development",
-    description: `Welcome to our digital agency We specialize in helping your business most`,
+    title: "Controlled Outbound",
+    description: `Daily manual outbound. Controlled volumes. High-quality conversations.`,
   },
   {
     id: 'Four',
-    title: "Testing",
-    description: `Welcome to our digital agency We specialize in helping your business most`,
+    title: "Optimization Cycles",
+    description: `Weekly refinement until predictable call flow is achieved.`,
   },
 ]
 

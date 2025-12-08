@@ -10,13 +10,13 @@ interface DataType {
   features: string[];
 }
 const hero_contact: DataType = {
-  title: "Digital Product Design",
-  description: `Welcome to our digital agency! We specialize in helping businesses like yours succeed online. From website design and development to digital marketing and advertising, we have the tools and expertise to elevate your online presence. Let us help you lione evolving world of digita`,
+  title: `If You’re on LinkedIn for Attention, We’re Not for You.
+ If You’re Here for Revenue — Welcome.`,
+  description: `QCS partners with high-ticket B2B founders to build a LinkedIn Sales Engine that delivers qualified sales conversations month after month — with the precision, consistency, and rigor of an elite consulting firm.`,
   features: [
-    `Design Welcome to our digital agency!`,
-    `Dev online. From website design`,
-    `Implementation evolving world of digital to driv`,
-    `Launch growth and reach your goals.`,
+    `We don’t run campaigns.`,
+    `We engineer outcomes`,
+    ` For a very limited number of clients.`,
   ]
 }
 const { title, description, features } = hero_contact
@@ -41,8 +41,8 @@ const HeroServiceDetails = () => {
                 <Image src={banner_img} alt="service_details_banner" />
               </div>
             </div>
-            <div className="cs_service_details_text">
-              <div className="cs_service_details_p">
+            <div className="cs_service_details_text ">
+              <div className="cs_service_details_p ">
                 <p className="anim_text">{description}</p>
                 <ul className="anim_div_ShowDowns">
                   {features.map((item, i) => (
@@ -50,6 +50,7 @@ const HeroServiceDetails = () => {
                   ))} 
                 </ul>
               </div>
+              <button className='rounded-3 p-2 border-none outline-none'> Request a Private Strategy Consultation</button>
             </div>
           </div>
         </div>
