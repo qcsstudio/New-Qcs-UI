@@ -102,8 +102,8 @@ const menu_data: DataType[] = [
 	},
 	{
 		id: 4,
-		title: "Services Details",
-		link: "/service-details",
+		title: "services",
+		link: "/linkedIn-Profile-Makeover",
 		has_dropdown: true,
 		sub_menu: [
 			{
@@ -113,8 +113,8 @@ const menu_data: DataType[] = [
 			},
 			{
 				id: 2,
-				title: "Services Details",
-				link: "/service-details",
+				title: "linkedIn-Profile-Makeover",
+				link: "/linkedIn-Profile-Makeover",
 			}
 		]
 	},

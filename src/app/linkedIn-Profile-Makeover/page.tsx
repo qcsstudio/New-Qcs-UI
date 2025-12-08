@@ -14,7 +14,6 @@ import Testimonial from '@/components/testimonial/Testimonial';
 import Wrapper from '@/layouts/Wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
-import React from 'react';
 import { featureDataservice } from "@/data/featureData";
 import AuditSection from '@/components/service/AuditSection';
 
