@@ -1,43 +1,53 @@
 "use client";
+import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function AuditSection() {
   //state for handle url and role 
   const [url, setUrl] = useState("");
   const [role, setRole] = useState("job_seeker");
-  
-//state for loading and get result from background
+
+  //state for loading and get result from background
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
 
   //state for show modal
   const [showModal, setShowModal] = useState(false);
+  console.log("result", result);
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.data === "EXTENSION_RUNNING") {
+        console.log("✅ EXTENSION_RUNNING");
+      }
+    };
 
-useEffect(() => {
-  const handler = (e) => {
-    if (e.data === "EXTENSION_RUNNING") {
-      console.log("✅ EXTENSION_RUNNING");
-    }
-  };
+    window.addEventListener("message", handler);
 
-  window.addEventListener("message", handler);
+    // Check extension
+    window.postMessage("PING_EXTENSION", "*");
 
-  // Check extension
-  window.postMessage("PING_EXTENSION", "*");
-
-  return () => window.removeEventListener("message", handler);
-}, []);
+    return () => window.removeEventListener("message", handler);
+  }, []);
 
   useEffect(() => {
     function onMsg(e) {
       if (!e.data) return;
       if (e.data.from !== "LINKEDIN_AUDIT_EXT") return;
-      if (e.data.type === "SCRAPE_RESULT") {
-        setResult(e.data.payload);
-        setLoading(false);
-        setShowModal(true);
+
+      // 🔥 DEBUG DATA
+      if (e.data.type === "DEBUG_DATA") {
+        console.log("🔥 DATA SENT TO BACKEND:", e.data.payload);
       }
+
+      if (e.data.type === "SCRAPE_RESULT") {
+        setLoading(false);
+        setResult(e.data.payload);
+        setShowModal(true); // 🔥 IMPORTANT
+      }
+
     }
+
     window.addEventListener("message", onMsg);
     return () => window.removeEventListener("message", onMsg);
   }, []);
@@ -56,73 +66,98 @@ useEffect(() => {
     }, 8000);
   };
 
-  return (
-    <div className="container py-5">
-      <div className="row justify-content-center">
-        <div className="col-lg-8">
-          <div className="card p-4 text-center">
-            <h1 className="mb-3">Audit Your LinkedIn <span className="text-warning">{role === "job_seeker" ? "(Profile)" : "(Company)"}</span></h1>
-            <p className="mb-4">Enter profile URL and select profile type</p>
+   return (
+    <div className="audit-hero">
+      <div className="audit-inner">
 
-            <div className="mb-3 text-start">
-              <label className="form-label">LinkedIn Profile</label>
-              <input className="form-control" placeholder="https://www.linkedin.com/in/username" value={url} onChange={e => setUrl(e.target.value)} />
-            </div>
-
-            <div className="mb-3 text-start">
-              <label className="form-label">Profile Type</label>
-              <select className="form-select" value={role} onChange={e => setRole(e.target.value)}>
-                <option value="job_seeker">Job Seeker</option>
-                <option value="recruiter">Recruiter</option>
-                <option value="company">Company</option>
-              </select>
-            </div>
-
-            <button className="btn btn-warning btn-lg" onClick={startAudit} disabled={loading}>
-              {loading ? "Starting..." : "Audit My Profile →"}
-            </button>
-
-            {showModal && result && (
-              <div className="modal show d-block" tabIndex="-1">
-                <div className="modal-dialog modal-md modal-dialog-centered">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title">Your LinkedIn Audit Is Ready</h5>
-                      <button type="button" className="btn-close" onClick={() => setShowModal(false)} aria-label="Close"></button>
-                    </div>
-                    <div className="modal-body text-center">
-                      <div style={{fontSize:48, fontWeight:700}}>{result.score}%</div>
-                      <p className="mt-2">{result.summary || "Detailed breakdown below"}</p>
-
-                      <div className="text-start mt-3">
-                        <h6>Basic</h6>
-                        <p><strong>Username:</strong> {result.data?.username || "-"}</p>
-                        <p><strong>Headline:</strong> {result.data?.headline || "-"}</p>
-                        <p><strong>Location:</strong> {result.data?.location || "-"}</p>
-
-                        <h6>Experience ({result.data?.experience?.length || 0})</h6>
-                        {result.data?.experience?.map((e, i) => (
-                          <div key={i} className="mb-2">
-                            <strong>{e.title || "-"}</strong> — {e.company || "-"}
-                            <div className="small text-muted">{e.duration || ""} • {e.location || ""}</div>
-                          </div>
-                        ))}
-
-                        <h6>Skills</h6>
-                        <div>{(result.data?.skills || []).length ? (result.data.skills.slice(0,20).join(", ")) : "-"}</div>
-                      </div>
-
-                    </div>
-                    <div className="modal-footer">
-                      <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
+        {/* Trust */}
+        <div className="audit-trust">
+          <Image src="/assets/img/Images/auditimage.png" alt="users" width={124} height={40} />
+          <div className="text-start">
+            <span className="text-warning">★★★★★</span><br />
+            <p>Trusted by 200+ Professionals</p>
           </div>
         </div>
+
+        {/* Heading */}
+        <h1 className="audit-heading">
+          Audit Your LinkedIn <span>{`{Profile}`}</span><br />
+          <strong>Your Full Potential</strong>
+        </h1>
+
+        <p className="audit-desc">
+          See how decision-makers truly perceive your profile and unlock actions
+          that turn visibility into business.
+        </p>
+
+        {/* Inputs */}
+        <div className="audit-input-row">
+          <input
+            placeholder="LINKEDIN PROFILE"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+          />
+
+          <select value={role} onChange={(e) => setRole(e.target.value)}>
+            <option value="job_seeker">PROFILE TYPE</option>
+            <option value="recruiter">Recruiter</option>
+            <option value="company">Company</option>
+          </select>
+        </div>
+
+        {/* Button */}
+        <button className="audit-main-btn" onClick={startAudit} disabled={loading}>
+          {loading ? "Auditing..." : "Audit My Profile →"}
+        </button>
+
+        <p className="audit-note">
+          We only analyze what’s already publicly visible on your profile.
+        </p>
+
+        <p className="audit-secure">
+          No passwords · No contacts · No messages · Ever
+        </p>
+
+        {/* 🔥 POPUP */}
+        {showModal && result && (
+          <div className="audit-overlay">
+            <div className="audit-popup">
+
+              <h2 className="audit-title">
+                Your LinkedIn <span>Audit</span> Is Ready
+              </h2>
+
+              <div className="progress-ring">
+                <svg width="140" height="140">
+                  <circle cx="70" cy="70" r="60" stroke="#eee" strokeWidth="10" fill="none" />
+                  <circle
+                    cx="70"
+                    cy="70"
+                    r="60"
+                    stroke="#ff4d2d"
+                    strokeWidth="10"
+                    fill="none"
+                    strokeDasharray={2 * Math.PI * 60}
+                    strokeDashoffset={2 * Math.PI * 60 * (1 - result.score / 100)}
+                    transform="rotate(-90 70 70)"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <div className="progress-text">{result.score}</div>
+              </div>
+
+              <Link  href='/signup' className="audit-btn" >Access Full Audit →</Link>
+
+              <button
+                className="audit-close"
+                onClick={() => setShowModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );
