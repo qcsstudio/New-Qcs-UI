@@ -91,7 +91,9 @@ body {
     font-weight: 400;
     line-height: 1.6em;
     overflow-x: hidden;
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; */
+      height: 100%;
+  min-height: 100%;
 }
 
 h1,

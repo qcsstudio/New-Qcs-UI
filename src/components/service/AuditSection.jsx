@@ -99,7 +99,7 @@ export default function AuditSection() {
           />
 
           <select value={role} onChange={(e) => setRole(e.target.value)}>
-            <option value="job_seeker">PROFILE TYPE</option>
+            <option value="job_seeker">Job seeker</option>
             <option value="recruiter">Recruiter</option>
             <option value="company">Company</option>
           </select>
@@ -109,6 +109,7 @@ export default function AuditSection() {
         <button className="audit-main-btn" onClick={startAudit} disabled={loading}>
           {loading ? "Auditing..." : "Audit My Profile →"}
         </button>
+          {/* <Link href='/signup' className="" >Access Full Audit →</Link> */}
 
         <p className="audit-note">
           We only analyze what’s already publicly visible on your profile.
@@ -118,7 +119,7 @@ export default function AuditSection() {
           No passwords · No contacts · No messages · Ever
         </p>
 
-        {/* 🔥 POPUP */}
+        {/* ============= POPUP ================*/}
         {showModal && result && (
           <div className="audit-overlay">
             <div className="audit-popup">
@@ -128,25 +129,11 @@ export default function AuditSection() {
               </h2>
 
               <div className="progress-ring">
-                <svg width="140" height="140">
-                  <circle cx="70" cy="70" r="60" stroke="#eee" strokeWidth="10" fill="none" />
-                  <circle
-                    cx="70"
-                    cy="70"
-                    r="60"
-                    stroke="#ff4d2d"
-                    strokeWidth="10"
-                    fill="none"
-                    strokeDasharray={2 * Math.PI * 60}
-                    strokeDashoffset={2 * Math.PI * 60 * (1 - result.score / 100)}
-                    transform="rotate(-90 70 70)"
-                    strokeLinecap="round"
-                  />
-                </svg>
+               
                 <div className="progress-text">{result.score}</div>
               </div>
 
-              <Link  href='/signup' className="audit-btn" >Access Full Audit →</Link>
+              <Link  href='/login' className="" >Access Full Audit →</Link>
 
               <button
                 className="audit-close"

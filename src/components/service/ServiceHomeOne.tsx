@@ -7,33 +7,39 @@ interface DataType {
   id: number;
   title: string;
   des: string;
+  link?:string;
 }[]
 
 const service_data: DataType[] = [
   {
     id: 1,
     title: `Agentic AI Development`,
-    des: `We design AI agents that plan, act, and learn—automating outreach, support, and ops while surfacing insights your team can use instantly.`
+    des: `We design AI agents that plan, act, and learn—automating outreach, support, and ops while surfacing insights your team can use instantly.`,
+    link:`#`
   },
   {
     id: 2,
     title: `Web & App Engineering`,
-    des: `High-performance sites and apps with modern stacks, secure auth, analytics, and integrations—built to convert and scale globally.`
+    des: `High-performance sites and apps with modern stacks, secure auth, analytics, and integrations—built to convert and scale globally.`,
+    link:`/web-app-engineering`
   },
   {
     id: 3,
     title: `AI Marketing & Lead Gen`,
-    des: `Answer-engine SEO, performance ads, and high-intent lead gen across LinkedIn & social. Adaptive content and funnels cut CAC, lift LTV, and keep growth compounding.`
+    des: `Answer-engine SEO, performance ads, and high-intent lead gen across LinkedIn & social. Adaptive content and funnels cut CAC, lift LTV, and keep growth compounding.`,
+     link:`#`
   },
   {
     id: 4,
     title: ` Automation & Integrations`,
-    des: `Orchestrate CRM, payments, chat, and data pipelines. Policy-driven workflows cut manual steps and keep your funnel running 24/7.`
+    des: `Orchestrate CRM, payments, chat, and data pipelines. Policy-driven workflows cut manual steps and keep your funnel running 24/7.`,
+     link:`#`
   },
   {
     id: 5,
     title: `Analytics & ROI Dashboards`,
-    des: ` Unified dashboards trace spend to revenue, reveal breakpoints, and guide weekly experiments for predictable, compounding growth.`
+    des: ` Unified dashboards trace spend to revenue, reveal breakpoints, and guide weekly experiments for predictable, compounding growth.`,
+     link:`#`
   },
 
 ]
@@ -78,14 +84,14 @@ const ServiceHomeOne = () => {
                 <div className="cs_card_right">
                   <div className="cs_card_right_in">
                     <h2 className="cs_card_title">
-                      <Link href="/service-details">{item.title}</Link>
+                      <Link href={item?.link}>{item.title}</Link>
                     </h2>
                     <div className="cs_card_subtitle">
                       {item.des}
                     </div>
                   </div>
                 </div>
-                <div className="cs_card_link_wrap">
+                <div className="cs_card_link_wrap border">
                   <Link href="/service-details" className="cs_card_link">
                     <span>
                       <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
