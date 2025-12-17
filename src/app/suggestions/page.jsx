@@ -1,7 +1,3 @@
-import React from 'react'
-
-export const page = () => {
-  return (
-    <div>suggestion</div>
-  )
+export default function Suggestions() {
+  return <div>Suggestions</div>
 }
