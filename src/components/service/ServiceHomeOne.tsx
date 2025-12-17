@@ -84,7 +84,10 @@ const ServiceHomeOne = () => {
                 <div className="cs_card_right">
                   <div className="cs_card_right_in">
                     <h2 className="cs_card_title">
-                      <Link href={item?.link}>{item.title}</Link>
+                      {
+                        item.link &&
+                      <Link href={item?.link}>{item.title}</Link>     
+                      }
                     </h2>
                     <div className="cs_card_subtitle">
                       {item.des}

@@ -76,9 +76,10 @@ const ServiceHomeTwo = () => {
                       <div className="cs_card_right">
                         <div className="cs_card_right_in">
                           <h2 className="cs_card_title">
-                            <Link href={item.link} className="cs_white_color">
+                            {item.link && <Link href={item.link} className="cs_white_color">
                               <span>0{item.id} / </span>{item.title}
-                            </Link>
+                            </Link> }
+                            
                           </h2>
                         </div>
                       </div>
