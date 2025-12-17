@@ -1,4 +1,5 @@
  
+import Script from "next/script";
 import "../styles/index.scss";
 
 
@@ -18,7 +19,12 @@ export default function RootLayout({
         <title>QuantaumCrafter Studio</title>
       </head>
 
-      <body suppressHydrationWarning={true}>{children}</body>
+      <body suppressHydrationWarning={true}>
+         <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="afterInteractive"
+        />
+        {children}</body>
     </html>
   );
 }
