@@ -52,19 +52,65 @@ export default function AuditSection() {
     return () => window.removeEventListener("message", onMsg);
   }, []);
 
-  const startAudit = () => {
-    if (!url) return alert("Enter LinkedIn profile URL");
-    setLoading(true);
-    // send message to extension (content_script picks it and forwards)
-    window.postMessage({ type: "START_SCRAPE", url, role }, "*");
+  const normalizeLinkedInUrl = (rawUrl) => {
+  let url = rawUrl.trim();
 
-    setTimeout(() => {
-      if (loading) {
-        setLoading(false);
-        alert("Extension did not respond. Make sure extension is installed.");
-      }
-    }, 8000);
-  };
+  // agar user ne http / https nahi dala
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    url = "https://" + url;
+  }
+
+  return url;
+};
+
+
+const startAudit = () => {
+  if (!url) return alert("Enter LinkedIn profile URL");
+
+  const finalUrl = normalizeLinkedInUrl(url);
+
+  // basic linkedin validation (optional but recommended)
+  if (!finalUrl.includes("linkedin.com/")) {
+    return alert("Please enter a valid LinkedIn profile URL");
+  }
+
+  setLoading(true);
+
+  window.postMessage(
+    {
+      type: "START_SCRAPE",
+      url: finalUrl,
+      role
+    },
+    "*"
+  );
+
+  // setTimeout(() => {
+  //   setLoading(false);
+  //   alert("Extension did not respond. Make sure extension is installed.");
+  // }, 800000);
+};
+
+
+  // const startAudit = () => {
+  //   if (!url) return alert("Enter LinkedIn profile URL");
+
+  //   let newurl = ""
+  //   if(!url.includes("https://")){
+  //       newurl = "https://" + url;
+  //   }
+
+  //   setLoading(true);
+  //   // send message to extension (content_script picks it and forwards)
+  //   window.postMessage({ type: "START_SCRAPE", url, role }, "*");
+
+  //   setTimeout(() => {
+  //     if (loading) {
+  //       setLoading(false);
+  //       alert("Extension did not respond. Make sure extension is installed.");
+  //     }
+  //   }, 8000);
+  // };
 
    return (
     <div className="audit-hero">
@@ -81,7 +127,7 @@ export default function AuditSection() {
 
         {/* Heading */}
         <h1 className="audit-heading">
-          Audit Your LinkedIn <span>{`{Profile}`}</span><br />
+          Audit Your LinkedIn <span>{`{Profile}`}</span> to Unlock<br />
           <strong>Your Full Potential</strong>
         </h1>
 
@@ -99,9 +145,11 @@ export default function AuditSection() {
           />
 
           <select value={role} onChange={(e) => setRole(e.target.value)}>
-            <option value="job_seeker">Job seeker</option>
-            <option value="recruiter">Recruiter</option>
-            <option value="company">Company</option>
+            <option value="job_seeker">Job Seeker</option>
+            <option value="founder_Ceo">Founder / CEO</option>
+            <option value="sales_sdr_ae">Sales/SDR/AE</option>
+            <option value="consultant_coach">Consultant/Coach</option>
+            <option value="recruiter_talent">Recruiter/Talent</option>
           </select>
         </div>
 
