@@ -109,7 +109,7 @@ const FooterOne = () => {
             <CopyRight />
             <p>
               <Link href='/privacy-policy'>Privacy Policy</Link>/
-              <Link href='/terms-of-service'>Terms of Service</Link>
+              <Link href='/terms-condition'>Terms of Service</Link>
             </p>
           </div>
         </div>
