@@ -133,6 +133,17 @@ export default function Signup() {
                 required
               />
             </div>
+            <div className="mb-3">
+              <label className="form-label small">Confirm Password</label>
+              <input
+                type="password"
+                className="form-control"
+                name="confirm"
+                value={form.confirm}
+                onChange={onChange}
+                required
+              />
+            </div>
 
             <div className="form-check mb-3">
               <input
@@ -163,7 +174,7 @@ export default function Signup() {
 
             <button type="button" className="btn btn-google w-100">
               <Image
-                src="/assets/img/Images/Google.png"
+                src="/assets/img/Images/Google-signup.png"
                 alt="google-logo"
                 width={34}
                 height={34}

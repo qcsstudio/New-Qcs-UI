@@ -4,9 +4,9 @@ import award_img_1 from "@/assets/img/award_1.svg";
 import award_img_2 from "@/assets/img/award_2.svg";
 import award_img_3 from "@/assets/img/award_3.svg";
 
-import award_thumb_1 from "@/assets/img/award_thumb_1.jpg";
-import award_thumb_2 from "@/assets/img/award_thumb_2.jpg";
-import award_thumb_3 from "@/assets/img/award_thumb_3.jpg";
+import award_thumb_1 from "@/assets/img/Images/DPIIT.png";
+import award_thumb_2 from "@/assets/img/Images/Google.png";
+import award_thumb_3 from "@/assets/img/Images/MBP.png";
 import Image, { StaticImageData } from 'next/image';
 
 

@@ -1,5 +1,4 @@
 
-import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import footer_logo from "@/assets/img/Images/footerlogo.png";
@@ -18,8 +17,8 @@ interface DataType {
 
 const footer_data: DataType = {
   email: `info@qcsstudio.com`,
-  phone: `(406) 555-0120`,
-  location: `46 JOHN ST TORONTO ON M5V 3W2`,
+  phone: `+91 8264017346`,
+  location: `D266 (C) 203, Second Floor Ram Hari Tower, Phase 8B, Industrial Area, Sector 74 Mohali - 160055`,
   footer_info: `The next big thing starts here drop us a line and let's get creating!`,
   links: [
     { title: `HOME`, link: "/" },
@@ -45,7 +44,7 @@ const FooterOne = () => {
                 <p>{footer_info}</p>
                 <a href={`mailto:${email}`}
                   className="cs_primary_font anim_text_upanddowns"><span>{email}</span></a>
-              </div>
+              </div> 
             </div>
             <div className="col-lg-6 offset-lg-1">
               <div className="cs_footer_social">
@@ -62,7 +61,7 @@ const FooterOne = () => {
                         fill="white" />
                     </svg>
                   </i>
-                  {location}  
+                  {location}
                 </li>
                 <li>
                   <i>
@@ -99,14 +98,20 @@ const FooterOne = () => {
             </div>
           </div>
           <div className="cs_height_90 cs_height_lg_60"></div>
-          {/* <ul className="cs_footer_nav">
+          <ul className="cs_footer_nav">
             {links.map((item, index) => (
               <li key={index}><Link href={item.link}>{item.title}</Link></li>
             ))}
-          </ul> */}
+          </ul>
         </div>
-        <div className="cs_copyright text-center">
-          <div className="container"> <CopyRight /> </div>
+        <div className="cs_copyright text-center ">
+          <div className="container-fluid d-flex justify-content-between  px-5">
+            <CopyRight />
+            <p>
+              <Link href='/privacy-policy'>Privacy Policy</Link>/
+              <Link href='/terms-of-service'>Terms of Service</Link>
+            </p>
+          </div>
         </div>
       </footer>
     </>

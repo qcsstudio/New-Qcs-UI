@@ -180,6 +180,34 @@
   color: #ff7a00;
 }
 
+
+.terms {
+  display: flex;
+  align-items: flex-center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #444;
+ width: 100%;
+  text-align: center;
+  margin: 10px;
+}
+
+.terms input {
+  margin-top: 3px;
+  // accent-color: #ff6a00;
+}
+
+.terms a {
+  color: #ff6a00;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.terms a:hover {
+  text-decoration: underline;
+}
+
 /* ======================
    Popup
 ====================== */

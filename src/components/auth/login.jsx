@@ -115,7 +115,7 @@ export default function Login() {
 
             <button type="button" className="btn btn-google w-100">
               <Image
-                src="/assets/img/Images/Google.png"
+                src="/assets/img/Images/Google-signup.png"
                 alt="google-logo"
                 width={34}
                 height={34}
