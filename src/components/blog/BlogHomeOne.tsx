@@ -4,9 +4,9 @@ import React from 'react';
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import blog_img_1 from "@/assets/img/post_1.jpg";
-import blog_img_2 from "@/assets/img/post_2.jpg";
-import blog_img_3 from "@/assets/img/post_3.jpg";
+import blog_img_1 from "@/assets/img/Images/blog1.png";
+import blog_img_2 from "@/assets/img/Images/blog2.png";
+import blog_img_3 from "@/assets/img/Images/blog3.png";
 import Image, { StaticImageData } from 'next/image';
 
 
@@ -20,8 +20,8 @@ const blog_data: DataType[] = [
   {
     id: 1,
     img: blog_img_1,
-    title: `Reasons Business Needs a Agency`,
-    des: `The art of creative thinking could be a blog that explores the various ways in which people.`,
+    title: `AI is reshaping how marketing teams ...`,
+    des: `Agentic AI is transforming marketing workflows, and 2026 is set to be the  breakthrough year for...`,
   },
   {
     id: 2,
@@ -32,8 +32,8 @@ const blog_data: DataType[] = [
   {
     id: 3,
     img: blog_img_3,
-    title: `Maximizing Your Marketing Budget`,
-    des: `The art of creative thinking could be a blog that explores the various ways in which people.`,
+    title: `Free Website Audits and Automation ...`,
+    des: `A free Website and Automation Audit helps you identify hidden issues affecting your ...`,
   },
   {
     id: 4,

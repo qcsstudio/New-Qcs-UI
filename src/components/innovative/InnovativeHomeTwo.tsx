@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import image from "@/assets/img/modern_digital_need.jpg";
+import image from "@/assets/img/Images/growth.png";
 
 
 interface DataType {

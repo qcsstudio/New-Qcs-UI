@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 
 import avatar_img from "@/assets/img/avatar_1.jpg";
-import testimonial_thumb from "@/assets/img/testimonial_thumb_1.jpg";
+import testimonial_thumb from "@/assets/img/Images/testimonial.png";
 import Image, { StaticImageData } from 'next/image';
 
 

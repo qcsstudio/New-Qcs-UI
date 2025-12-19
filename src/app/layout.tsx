@@ -1,6 +1,7 @@
- 
+
 import Script from "next/script";
 import "../styles/index.scss";
+import { PolicyProvider } from "@/context/policyContext";
 
 
 export default function RootLayout({
@@ -10,7 +11,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
-        <head>
+      <head>
         <link rel="icon" href="/assets/img/Images/favicon.png" />
         <link
           rel="stylesheet"
@@ -20,11 +21,15 @@ export default function RootLayout({
       </head>
 
       <body suppressHydrationWarning={true}>
-         <Script
+        <Script
           src="https://checkout.razorpay.com/v1/checkout.js"
           strategy="afterInteractive"
         />
-        {children}</body>
+        <PolicyProvider>
+
+          {children}
+        </PolicyProvider>
+      </body>
     </html>
   );
 }
