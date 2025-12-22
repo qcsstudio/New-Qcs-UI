@@ -69,8 +69,8 @@ export default function AuditSection() {
     if (!url) return alert("Enter LinkedIn profile URL");
 
     if (!accepted) {
-    return alert("Please accept Terms & Privacy Policy");
-  }
+      return alert("Please accept Terms & Privacy Policy");
+    }
 
 
     const finalUrl = normalizeLinkedInUrl(url);
@@ -79,6 +79,10 @@ export default function AuditSection() {
     if (!finalUrl.includes("linkedin.com/")) {
       return alert("Please enter a valid LinkedIn profile URL");
     }
+
+    localStorage.setItem("linkedin_audit_url", finalUrl);
+    localStorage.setItem("linkedin_audit_role", role);
+
 
     setLoading(true);
 
@@ -140,7 +144,7 @@ export default function AuditSection() {
         {/* Button */}
         <button className="audit-main-btn" onClick={startAudit} disabled={loading || !accepted}>
           {loading ? "Auditing..." : "Audit My Profile →"}
-        </button><br/>
+        </button><br />
         <label className="terms">
           <input
             type="checkbox"

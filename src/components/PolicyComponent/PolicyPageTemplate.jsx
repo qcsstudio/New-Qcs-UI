@@ -4,9 +4,10 @@ import { PolicyContext } from '@/context/policyContext';
 import Wrapper from "@/layouts/Wrapper";
 import HeaderOne from "@/layouts/headers/HeaderOne";
 import FooterOne from "@/layouts/footers/FooterOne";
+import PolicyNav from './PolicyNav';
 
 
-export default function PolicyPageTemplate({ type, title }) {
+export default function PolicyPageTemplate({ type, title,activeKey }) {
   const { fetchPolicies, policyData, loading } = useContext(PolicyContext);
 
   useEffect(() => {
@@ -41,6 +42,7 @@ export default function PolicyPageTemplate({ type, title }) {
                 )}
 
 
+              <PolicyNav active={activeKey} />
               </div>
             </main>
             <FooterOne />

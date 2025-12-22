@@ -14,13 +14,13 @@ const policyTypes = [
 export default function PolicyNav({ active }) {
   return (
     
-    <div className="flex gap-4 mb-8 flex-wrap">
+    <div className="d-flex gap-4 mb-5 flex-wrap">
       {policyTypes.map(({ key, label }) => (
         <Link
           key={key}
           href={`/${key}`}
           className={`px-4 py-2 rounded ${
-            active === key ? 'bg-[#ec6b1a] text-white' : 'bg-[#F1813B] text-white'
+            active === key ? 'bg-primary text-black' : 'bg-[#F1813B] text-black'
           }`}
         >
           {label}

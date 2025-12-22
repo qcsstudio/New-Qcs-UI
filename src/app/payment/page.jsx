@@ -24,10 +24,11 @@ export default function PaymentPage() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({ amount: 1 })
+      body: JSON.stringify({ amount: 49 })
     });
 
     const data = await res.json();
+    console.log("Order data:", data);
 
     openRazorpay(data.order, token);
   }

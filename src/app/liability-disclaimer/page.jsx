@@ -3,9 +3,8 @@ import PolicyPageTemplate from "../../components/PolicyComponent/PolicyPageTempl
 export default function Page() {
   return (
     <>
-      <PolicyPageTemplate type="privacy_policy" title="Privacy Policy" activeKey="privacy-policy"/>;
+      <PolicyPageTemplate type="liability_Disclaimer"
+        title="Liability & Disclaimer Policy" activeKey="liability-disclaimer" />;
     </>
-
-
-  )
+  );
 }
