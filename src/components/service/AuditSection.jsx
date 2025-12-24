@@ -2,11 +2,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { PulseLoader } from "react-spinners";
 
 export default function AuditSection() {
   //state for handle url and role 
   const [url, setUrl] = useState("");
-  const [role, setRole] = useState("job_seeker");
+  const [role, setRole] = useState("Job Seeker");
   const [accepted, setAccepted] = useState(false);
 
   //state for loading and get result from background
@@ -101,7 +102,7 @@ export default function AuditSection() {
 
 
   return (
-    <div className="audit-hero">
+    <div className="audit-hero" id="linkedinaudit">
       <div className="audit-inner">
 
         {/* Trust */}
@@ -133,17 +134,17 @@ export default function AuditSection() {
           />
 
           <select value={role} onChange={(e) => setRole(e.target.value)}>
-            <option value="job_seeker">Job Seeker</option>
-            <option value="founder_Ceo">Founder / CEO</option>
-            <option value="sales_sdr_ae">Sales/SDR/AE</option>
-            <option value="consultant_coach">Consultant/Coach</option>
-            <option value="recruiter_talent">Recruiter/Talent</option>
+            <option value="Job Seeker">Job Seeker</option>
+            <option value="Founder / CEO">Founder / CEO</option>
+            <option value="Sales / SDR / AE">Sales/SDR/AE</option>
+            <option value="Consultant / Coach">Consultant/Coach</option>
+            <option value="Recruiter / Talent">Recruiter/Talent</option>
           </select>
         </div>
 
         {/* Button */}
         <button className="audit-main-btn" onClick={startAudit} disabled={loading || !accepted}>
-          {loading ? "Auditing..." : "Audit My Profile →"}
+          {loading ? <PulseLoader color={"#ffffff"} size={10} />: "Audit My Profile →"}
         </button><br />
         <label className="terms">
           <input
@@ -180,7 +181,7 @@ export default function AuditSection() {
                 <div className="progress-text">{result.baseScore}</div>
               </div>
 
-              <Link href='/login' className="" >Access Full Audit →</Link>
+              <Link href='/signup' className="" >Access Full Audit →</Link>
 
               <button
                 className="audit-close"

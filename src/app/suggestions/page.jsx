@@ -1,19 +1,22 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import LinkedInProfileHeader from "../../components/suggestion/LinkedInProfileHeader/LinkedInProfileHeader";
+import ExperienceSection from "../../components/suggestion/ExperienceSection";
 
 export default function Suggestions() {
+  const [resData, setResData] = useState(null);
   useEffect(() => {
     const fetchSuggestions = async () => {
       try {
-        // 1️⃣ localStorage se token lo
+
         const token = localStorage.getItem("token");
 
         if (!token) {
-          console.log("❌ Token not found in localStorage");
+          console.log(" Token not found in localStorage");
           return;
         }
 
-        // 2️⃣ API call
+        // API call
         const response = await fetch(
           "http://13.127.109.214:5000/api/analyze/suggestions",
           {
@@ -25,17 +28,15 @@ export default function Suggestions() {
           }
         );
 
-        // 🔴 status check (VERY IMPORTANT)
         if (!response.ok) {
           const errorText = await response.text();
-          console.error("API Error:", response.status, errorText);
+          console.error("API Error===>:", response.status, errorText);
           return;
         }
 
-        // 3️⃣ response json me convert
         const data = await response.json();
+        setResData(data);
 
-        // 4️⃣ console me response dikhao
         console.log("✅ API Response:", data);
 
       } catch (error) {
@@ -46,5 +47,11 @@ export default function Suggestions() {
     fetchSuggestions();
   }, []);
 
-  return <div>Suggestions</div>;
+ return (
+  <>
+  <LinkedInProfileHeader data={resData}/>
+  {/* <ExperienceSection data={resData}/> */}
+  </>
+  );
+
 }

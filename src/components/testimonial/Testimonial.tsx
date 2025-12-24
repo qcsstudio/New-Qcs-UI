@@ -3,7 +3,11 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 
-import avatar_img from "@/assets/img/avatar_1.jpg";
+import avatar_img_account from "@/assets/img/clients/Accountsly.png";
+import avatar_img_Eaa from "@/assets/img/clients/EAA.png";
+import avatar_img_Etisha from "@/assets/img/clients/Etisha.png";
+import avatar_img_Pickelball from "@/assets/img/clients/Pickelball.png";
+import avatar_img_UdeyCrafts from "@/assets/img/clients/UdeyCrafts.png";
 import testimonial_thumb from "@/assets/img/Images/testimonial.png";
 import Image, { StaticImageData } from 'next/image';
 
@@ -16,22 +20,34 @@ interface DataType {
 }[]
 const testimonial_data: DataType[] = [
   {
-    img: avatar_img,
-    name: `Delores Olivo`,
+    img: avatar_img_account,
+    name: `Founder,Accountsly`,
     location: `From UK`,
-    des: `“Welcome to our digital agency We specialize in helping business most like yours succeed online. From website design and development to digital marketing agency”`,
+    des: `“We were burning too much on paid channels with low returns. QuantumCrafters' AI-driven bidding and content engine turned it around—our CAC fell 40% while revenue doubled in just half a year.”`,
   },
   {
-    img: avatar_img,
-    name: `Delores Olivo`,
+    img: avatar_img_Eaa,
+    name: `Founder, Embodied Awakening Academy`,
     location: `From USA`,
-    des: `“Welcome to our digital agency We specialize in helping business most like yours succeed online. From website design and development to digital marketing agency”`,
+    des: `“Our online presence went from zero to hero in no time. The team made the process so seamless and automated”`,
   },
   {
-    img: avatar_img,
-    name: `Delores Olivo`,
+    img: avatar_img_Etisha,
+    name: `FOUNDER, Etisha Collective`,
     location: `From Astrolia`,
-    des: `“Welcome to our digital agency We specialize in helping business most like yours succeed online. From website design and development to digital marketing agency”`,
+    des: `“Finally, an agency that speaks our language! They understood our vision better than we did and brought it to life in a way that exceeded expectations. 10/10 would recommend!”`,
+  },
+  {
+    img: avatar_img_Pickelball,
+    name: `Pickeball`,
+    location: `From Astrolia`,
+    des: `“They made us feel like their most important client. The attention to detail, quick responses, and innovative ideas were top-notch. We'll definitely be back for more!”`,
+  },
+  {
+    img: avatar_img_UdeyCrafts,
+    name: `Founder, UdhayCrafts`,
+    location: `From Astrolia`,
+    des: `“Our brand went from a whisper to a roar. The team's creativity and expertise made all the difference.”`,
   },
 ]
 
@@ -114,9 +130,9 @@ const Testimonial = ({ style_service }: any) => {
                             <h3 className="cs_testimonial_avatar_name">
                               {item.name}
                             </h3>
-                            <div className="cs_testimonial_avatar_designation">
+                            {/* <div className="cs_testimonial_avatar_designation">
                               {item.location}
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>

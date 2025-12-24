@@ -23,9 +23,9 @@ const footer_data: DataType = {
   links: [
     { title: `HOME`, link: "/" },
     { title: `ABOUT`, link: "/about" },
-    { title: `SERVICES`, link: "/service" },
-    { title: `PORTFOLIO`, link: "/portfolio" },
-    { title: `BLOG`, link: "/blog" },
+    { title: `SERVICES`, link: "/linkedIn-Profile-Makeover" },
+    // { title: `PORTFOLIO`, link: "/portfolio" },
+    // { title: `BLOG`, link: "/blog" },
     { title: `CONTACT US`, link: "/contact" },
   ]
 }
@@ -109,7 +109,7 @@ const FooterOne = () => {
             <CopyRight />
             <p>
               <Link href='/privacy-policy'>Privacy Policy</Link>/
-              <Link href='/terms-condition'>Terms of Service</Link>
+              <Link href='/terms-service'>Terms of Service</Link>
             </p>
           </div>
         </div>

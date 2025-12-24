@@ -33,8 +33,8 @@ const index = () => {
             <VideoHomeOne style_2={true} />
             <About />
             <AboutHomeOne />
-            <TeamHomeTwo style_2={true} style_3={true} />
-            <FunFactHomeOne style_3={true} />
+            {/* <TeamHomeTwo style_2={true} style_3={true} /> */}
+            {/* <FunFactHomeOne style_3={true} /> */}
 
             <AwardsHomeOne style_2={true} />
             <BrandHomeOne />

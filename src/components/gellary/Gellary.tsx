@@ -2,9 +2,13 @@
 'use client'
 
 import React from 'react';
-import gellary_img_1 from "@/assets/img/about_gallery_1.jpg";
-import gellary_img_2 from "@/assets/img/about_gallery_2.jpg";
-import gellary_img_3 from "@/assets/img/about_gallery_3.jpg";
+// import gellary_img_1 from "@/assets/img/about_gallery_1.jpg";
+import gellary_img_1 from "@/assets/img/Images/download1.png";
+import gellary_img_2 from "@/assets/img/Images/download2.png";
+import gellary_img_3 from "@/assets/img/Images/download3.png";
+import gellary_img_4 from "@/assets/img/Images/download4.png";
+import gellary_img_5 from "@/assets/img/Images/download5.png";
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Image from 'next/image';
 
@@ -13,9 +17,9 @@ const gellary_data = [
   gellary_img_1,
   gellary_img_2,
   gellary_img_3,
-  gellary_img_1,
-  gellary_img_2,
-  gellary_img_3,
+  gellary_img_4,
+  gellary_img_5,
+
 ]
 
 

@@ -35,7 +35,7 @@ const index = () => {
           <main>
             <HeroHomeTwo />
             <VideoHomeTwo />
-            <InnovativeHomeTwo />
+            {/* <InnovativeHomeTwo /> */}
             <MarqueeAreaHomeTwo />
             {/* <FeatureHomeTwo /> */}
             <ServiceHomeTwo />

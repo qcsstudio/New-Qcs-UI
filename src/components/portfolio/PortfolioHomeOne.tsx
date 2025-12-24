@@ -5,9 +5,11 @@ import Image, { StaticImageData } from 'next/image';
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import portfolio_img_1 from '@/assets/img/portfolio_1.jpg';
-import portfolio_img_2 from '@/assets/img/portfolio_2.jpg';
-import portfolio_img_3 from '@/assets/img/portfolio_3.jpg';
+import portfolio_img_1 from '@/assets/img/Images/download1.png';
+import portfolio_img_2 from '@/assets/img/Images/download2.png';
+import portfolio_img_3 from '@/assets/img/Images/download3.png';
+import portfolio_img_4 from '@/assets/img/Images/download4.png';
+import portfolio_img_5 from '@/assets/img/Images/download5.png';
 
 interface DataType {
   img: StaticImageData;
@@ -18,28 +20,28 @@ interface DataType {
 const portfolio_slider: DataType[] = [
   {
     img: portfolio_img_1,
-    title: ` AI Agent CRM for B2B SaaS`,
-    category: ` Mid-market SaaS with long sales cycles; SDR bandwidth tight.`,
+    title: ` ElevatrX `,
+    category: `AI social media planning, scheduling, analytics—turn posts into measurable growth.`,
   },
   {
     img: portfolio_img_2,
-    title: `Ecommerce Funnel Personalization`,
-    category: `D2C brand with high traffic, flat AOV, rising CAC.`,
+    title: `QCS HRMS`,
+    category: `All-in-one HR, payroll, attendance, hiring—run workforce operations seamlessly.`,
   },
   {
     img: portfolio_img_3,
-    title: `AI Helpdesk for Fintech Support`,
-    category: ` Regulated fintech with L1 ticket volume spikes.`,
+    title: `LinkedIn Profile Analyzer`,
+    category: ` Scores profiles, finds conversion gaps, generates fixes to boost leads.`,
   },
   {
-    img: portfolio_img_1,
-    title: ` Local SEO + LinkedIn Lead Engine`,
-    category: `B2B services firm expanding into new geos.`,
+    img: portfolio_img_4,
+    title: ` QCS Voice & Chat Bot`,
+    category: `24/7 voice+chat assistant for support, qualification, and smart handoffs.`,
   },
   {
-    img: portfolio_img_2,
-    title: `Headless Web/App for D2C Scale`,
-    category: ` Rapid product launches; site speed + ops bottlenecks`,
+    img: portfolio_img_5,
+    title: `Agentic AI Help Desk Automation`,
+    category: `Agents triage, resolve, escalate tickets end-to-end with governed automation.`,
   },
   // {
   //   img: portfolio_img_3,

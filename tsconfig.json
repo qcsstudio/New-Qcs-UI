@@ -61,7 +61,7 @@
     "src/layouts/Wrapper.jsx",
     "src/components/common/SocialLinks.jsx",
     ".next/dev/types/**/*.ts"
-  ],
+, "src/components/service/ServiceAreaDetails.jsx", "src/components/service/Service.jsx"  ],
   "exclude": [
     "node_modules"
   ]

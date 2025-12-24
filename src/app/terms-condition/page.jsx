@@ -3,7 +3,7 @@ import PolicyPageTemplate from "../../components/PolicyComponent/PolicyPageTempl
 export default function Page() {
   return (
     <>
-      <PolicyPageTemplate type="terms_condition" title="Terms and Condition" />;
+      <PolicyPageTemplate type="terms_condition" title="Terms and Condition" activeKey="terms-condition"/>;
     </>
 
 
