@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 interface DataType {
   img: string;
@@ -39,7 +39,11 @@ const AboutHomeOne = () => {
       <Swiper
         loop={true}
         speed={1000}
-        modules={[Navigation, Pagination]}
+        modules={[Navigation, Pagination, Autoplay]}
+         autoplay={{
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    }}
         navigation={{
           nextEl: ".cs_swiper_button_next",
           prevEl: ".cs_swiper_button_prev",

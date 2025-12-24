@@ -25,7 +25,7 @@ const FrontendDevelopment = () => {
               <BannerAbout />
               <VideoHomeOne style_2={true} />
               <FeatureHomeTwo feature_data={featureData} />
-              <Service />
+              {/* <Service /> */}
                   <BrandHomeOne style_2={false} />
                              <BlogHomeOne />
                             <Testimonial />

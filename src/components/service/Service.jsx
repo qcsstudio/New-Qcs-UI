@@ -2,34 +2,34 @@
 import React from 'react';
 
 
-interface DataType {
-  id: string;
-  title: string;
-  description: string;
-}
-const service_data: DataType[] = [
-  {
-    id: 'one',
-    title: "Discover & Diagnose",
-    description: `Audit goals, data, and stack; map quick wins, risks, and gaps`,
-  },
-  {
-    id: 'Two',
-    title: " Design the Architecture",
-    description: `Blueprint agents, automations, UX, and KPIs for impact.`,
-  },
-  {
-    id: 'Three',
-    title: "Build & Integrate",
-    description: `Ship apps, workflows, and agents; connect CRM, content, ads.`,
-  },
-  {
-    id: 'Four',
-    title: "Optimize & Scale",
-    description: `Measure, A/B test, and iterate; expand channels with confidence.`,
-  },
-]
-const Service = () => {
+// interface DataType {
+//   id: string;
+//   title: string;
+//   description: string;
+// }
+// const service_data: DataType[] = [
+//   {
+//     id: 'one',
+//     title: "Discover & Diagnose",
+//     description: `Audit goals, data, and stack; map quick wins, risks, and gaps`,
+//   },
+//   {
+//     id: 'Two',
+//     title: " Design the Architecture",
+//     description: `Blueprint agents, automations, UX, and KPIs for impact.`,
+//   },
+//   {
+//     id: 'Three',
+//     title: "Build & Integrate",
+//     description: `Ship apps, workflows, and agents; connect CRM, content, ads.`,
+//   },
+//   {
+//     id: 'Four',
+//     title: "Optimize & Scale",
+//     description: `Measure, A/B test, and iterate; expand channels with confidence.`,
+//   },
+// ]
+const Service = ({data}) => {
   return (
     <>
       <div className="cs_height_115 cs_height_lg_60"></div>
@@ -53,7 +53,7 @@ const Service = () => {
             <div className="anim_div_ShowLeftSide">
               <div className="cs_work cs_work_1">
                 <div className="cs_card_work cs_style_1 cs_color_1">
-                  {service_data.map((item, i) => (
+                  {data.map((item, i) => (
                     <div key={i} className="cs_card">
                       <div className="cs_card cs_style_1">
                         <div className="cs_posagation">

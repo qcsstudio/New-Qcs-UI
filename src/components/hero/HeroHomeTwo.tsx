@@ -13,7 +13,7 @@ const HeroHomeTwo = () => {
 		<>
 			<div className="cs_height_219 cs_height_lg_120"></div>
 			<section>
-				<div className="cs_hero cs_style4">
+				<div className="cs_hero cs_style4 mb-4">
 					<div className="cs_text_hero">
 						<div className="cs_short_title anim_text_upanddowns">
 							<h6>{subtitle}</h6>

@@ -17,6 +17,9 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import { featureDataservice } from "@/data/featureData";
 import AuditSection from '@/components/service/AuditSection';
 import HeroHomeThree from '@/components/hero/HeroHomeThree';
+import {  innovative_data_linkedin } from '@/data/innovation_homeTwo';
+import img from "@/assets/img/Images/linkedin_innovation.png";
+import { service_data, service_data_home } from '@/data/serviceArea_detail';
 
 // export const metadata = {
 //   title: "Service Details Vixan - Digital  Creative Agency Next js Template",
@@ -31,13 +34,13 @@ const index = () => {
         <div id="smooth-content">
           <main>
             <HeroHomeThree/>
-            <HeroServiceDetails />
+            {/* <HeroServiceDetails /> */}
             <AuditSection/>
-            <InnovativeHomeTwo />
+            <InnovativeHomeTwo  data={innovative_data_linkedin} image={img}/>
             <PipelineSection />
             <ServiceDetailsFaq />
             <Testimonial />
-            <ServiceAreaDetails />
+            <ServiceAreaDetails data={service_data} para={true} heading={null}/>
             <BrandHomeOne style_2={false} />
             <FeatureHomeTwo feature_data={featureDataservice} />
             <AboutUs />

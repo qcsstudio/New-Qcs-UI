@@ -69,9 +69,9 @@ export default function PaymentPage() {
         Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
-        orderId: response.razorpay_order_id,
-        paymentId: response.razorpay_payment_id,
-        signature: response.razorpay_signature
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature
       })
     });
 

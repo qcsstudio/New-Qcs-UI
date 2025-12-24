@@ -1,8 +1,12 @@
 'use client';
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Signup() {
+    const [role, setRole] = useState(null);
+  const [linkedinUrl, setLinkedinUrl] = useState(null);
+    const router = useRouter();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -10,7 +14,10 @@ export default function Signup() {
     confirm: "",
     agree: false,
   });
-
+  useEffect(() => {
+    setRole(localStorage.getItem("linkedin_audit_role"));
+    setLinkedinUrl(localStorage.getItem("linkedin_audit_url"));
+  }, []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -44,6 +51,8 @@ export default function Signup() {
           name: form.name,
           email: form.email,
           password: form.password,
+          url: linkedinUrl,
+          role: role,
         }),
       });
 
@@ -54,6 +63,7 @@ export default function Signup() {
       }
 
       alert("Signup Successful 🎉");
+         router.push("/login");
 
       // optional: form reset
       setForm({
@@ -63,6 +73,7 @@ export default function Signup() {
         confirm: "",
         agree: false,
       });
+      
 
     } catch (err) {
       setError(err.message);
@@ -133,17 +144,7 @@ export default function Signup() {
                 required
               />
             </div>
-            <div className="mb-3">
-              <label className="form-label small">Confirm Password</label>
-              <input
-                type="password"
-                className="form-control"
-                name="confirm"
-                value={form.confirm}
-                onChange={onChange}
-                required
-              />
-            </div>
+          
 
             <div className="form-check mb-3">
               <input

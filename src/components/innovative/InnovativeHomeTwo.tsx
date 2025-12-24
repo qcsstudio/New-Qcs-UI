@@ -15,33 +15,14 @@ interface DataType {
 	}[];
 }
 
-const innovative_data: DataType = {
-	title_1: `Unified Intelligence for Predictable Growth`,
-	des_1: `Replace fragmented stacks with one operating model. QCS links AI agents, automation, and marketing so plans become execution—and execution learns—driving efficiency, visibility, and measurable compounding gains.`,
-	title_2: ` Your Agentic Growth Architecture`,
-	des_2: `A composable foundation of modular agents, reusable workflows, and AI-native UX. It personalizes journeys, enforces guardrails, and proves ROI with clear, auditable metrics your leadership can trust.`,
-	features: [
-		{
-			id: 1,
-			title: `Policy-Driven Flows`,
-			des: ` Automations aligned to rules and KPIs.`,
-		},
-		{
-			id: 2,
-			title: `Unified Data Layer`,
-			des: `Customer, content, and spend in one view.`,
-		},
-		{
-			id: 3,
-			title: `Auto-Tuning Engines`,
-			des: `Systems that improve every release.`,
-		},
-	],
-};
 
-const { title_1, des_1, title_2, des_2, features } = innovative_data;
 
-const InnovativeHomeTwo = () => {
+interface Props {
+  data: DataType;   // 👈 koi bhi data aa sakta hai
+  image: any;
+}
+const InnovativeHomeTwo = ({ data, image }: Props) => {
+	 const { title_1, des_1, title_2, des_2, features } = data;
 	return (
 		<>
 			<div className="cs_height_150 cs_height_lg_60"></div>
@@ -52,9 +33,13 @@ const InnovativeHomeTwo = () => {
 							<div className="cs_text">
 								<div className="cs_section_heading cs_style_1">
 									<div className="cs_section_heading_text">
-										<h2 className="cs_section_title anim_heading_title">
+										{/* <h2 className="cs_section_title anim_heading_title">
 											{title_1}
-										</h2>
+										</h2> */}
+										<h2
+											className="cs_section_title anim_heading_title"
+											dangerouslySetInnerHTML={{ __html: title_1 }}
+										></h2>
 									</div>
 								</div>
 								<div className="cs_height_65"></div>

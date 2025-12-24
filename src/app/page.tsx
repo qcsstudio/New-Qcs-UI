@@ -17,6 +17,10 @@ import FooterOne from "@/layouts/footers/FooterOne";
 import HeaderOne from "@/layouts/headers/HeaderOne";
 import Wrapper from "@/layouts/Wrapper";
 import { featureData } from "@/data/featureData";
+import ServiceAreaDetails from "@/components/service/ServiceAreaDetails";
+import {  innovative_data_home } from "@/data/innovation_homeTwo";
+import img from "@/assets/img/Images/growth.png";
+import {service_data,service_data_home} from "@/data/serviceArea_detail";
 
 
 
@@ -36,9 +40,10 @@ const index = () => {
           <main>
             <HeroHomeTwo />
             <VideoHomeTwo />
-            <InnovativeHomeTwo />
+            <InnovativeHomeTwo data={innovative_data_home} image={img}/>
             <ServiceHomeOne/>
-            <Service />
+            <ServiceAreaDetails data={service_data_home} para={false} heading="Our Working Process"/>
+            {/* <Service data={service_data}/> */}
             <FeatureHomeTwo feature_data={featureData}/>
             <PortfolioHomeOne />
             <Testimonial />

@@ -4,28 +4,28 @@ import Link from "next/link";
 const hero_link_home_three = [
   {
     id: 1,
-    link: "https://www.facebook.com",
+    link: "https://www.facebook.com/qcsstudio",
     title: "Facebook",
   },
   {
     id: 2,
-    link: "https://www.linkedin.com",
+    link: "https://www.linkedin.com/company/qcsstudio",
     title: "Linkedin",
   },
   {
     id: 3,
-    link: "https://www.instagram.com",
+    link: "https://www.instagram.com/qcsstudio",
     title: "Instagram",
   },
   {
     id: 4,
-    link: "https://www.twitter.com",
-    title: "Twitter",
+    link: "https://in.pinterest.com/qcsstudio/",
+    title: "Pinterest",
   },
   {
     id: 5,
-    link: "https://www.dribbble.com",
-    title: "Dribbble",
+    link: "https://www.youtube.com/@qcsstudio",
+    title: "Youtube",
   },
 ];
 

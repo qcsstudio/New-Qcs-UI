@@ -12,13 +12,13 @@ type DataType = {
 }
 
 const hero_data: DataType = {
-  title_1: `Creative`,
-  title_2: `Design Studio`,
-  des: `Welcome to our digital agency! We specialize in helping businesses like yours succeed online. From website design and development to digital marketing and advertising, we have the tools.`,
+  title_1: `QCS`,
+  title_2: `LinkedIn Sales Engine`,
+  des: `Turn LinkedIn into your high-ticket deal pipeline. We help B2B founders build outbound that books premium sales calls. From profile and copy to follow-ups, every touchpoint is built to convert.`,
   links: [
     { title: 'Facebook'},
-    { title: 'Behance'},
-    { title: 'Dribbble'},
+    { title: 'LinkedIn'},
+    { title: 'Instagram'},
   ]
 }
 const { title_1, title_2, des, links } = hero_data
@@ -28,7 +28,8 @@ const HeroHomeThree = () => {
     <>
       <section>
         <div className="cs_hero cs_style2">
-          <div className="cs_hero_bg cs_bg cs_parallax_bg" style={{ backgroundImage: 'url(/assets/img/design_banner.jpg)' }}></div>
+          {/* <div className="cs_hero_bg cs_bg cs_parallax_bg" style={{ backgroundImage: 'url(/assets/img/design_banner.jpg)' }}></div> */}
+          <div className="cs_hero_bg cs_bg cs_parallax_bg" style={{ backgroundImage: 'url(/assets/img/Images/hero-linkedin.png)' }}></div>
           <div className="textupdowns">
             <div className="cs_left_text">
               <span className="cs_arrow">
@@ -48,7 +49,7 @@ const HeroHomeThree = () => {
                 <h1 className="cs_hero_title cs_hero_title_lg">{title_1}</h1>
               </div>
               <div className="anim_banner_text_right">
-                <h1 className="cs_hero_title cs_hero_title_lg">{title_2}</h1>
+                <h6 className="cs_hero_title cs_hero_title_lg">{title_2}</h6>
               </div>
               <div className="cs_height_50 cs_height_lg_50"></div>
               <div className="cs_hero_subtitle">
@@ -58,8 +59,8 @@ const HeroHomeThree = () => {
                   </p>
                 </div>
                 <div className="cs_section_heading_right cs_btn_anim">
-                  <Link href="/portfolio" className="cs_btn cs_style_1 cs_color_1">
-                    <span>View Project</span>
+                  <Link href="#linkedinaudit" className="cs_btn cs_style_1 cs_color_1">
+                    <span>Audit Your Profile</span>
                     <svg width="19" height="13" viewBox="0 0 19 13" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path
