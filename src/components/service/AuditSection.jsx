@@ -154,9 +154,9 @@ export default function AuditSection() {
           />
           <span>
             I accept the{" "}
-            <Link href="/terms" target="_blank">Terms & Conditions</Link>{" "}
+            <Link href="/terms-condition" target="_blank">Terms & Conditions</Link>{" "}
             and{" "}
-            <Link href="/privacy" target="_blank">Privacy Policy</Link>
+            <Link href="/privacy-policy" target="_blank">Privacy Policy</Link>
           </span>
         </label>
         <p className="audit-note">
