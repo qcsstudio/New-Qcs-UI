@@ -26,8 +26,8 @@ const connectMongo = async () => {
 
   // Configure connection options
   const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
     serverSelectionTimeoutMS: 5000,  // 5 seconds timeout for server selection
     socketTimeoutMS: 45000,         // 45 seconds timeout for operations
     maxPoolSize: 10,               // Maximum number of sockets in the connection pool
