@@ -5,54 +5,10 @@ import React from 'react';
 import Image from 'next/image';
 import BlogHomeOne from '../blog/BlogHomeOne';
 
-import blog_detaisl_img_1 from "@/assets/img/blog_detals_banner.jpg";
-
-import blog_details_1 from "@/assets/img/blog_details_1.jpg";
-import blog_details_2 from "@/assets/img/blog_details_2.jpg";
-import blog_details_3 from "@/assets/img/blog_details_3.jpg";
-import blog_details_4 from "@/assets/img/blog_details_4.jpg";
 
 
-interface DataType {
-  title: string;
-  info: {
-    title: string;
-    des: string;
-  }[];
-  title_2: string;
-  des_1: string;
-  features: string[];
-  des_2: string;
-  qute: string;
-  writer: string;
-  des_3: string;
-}
-
-const blog_details_content: DataType = {
-  title: `How a Creative Agency Can Help Your Business Development?`,
-  info: [
-    { title: `Posted By`, des: `Andrew Nikulas` },
-    { title: `Published Date`, des: `02 - Dec - 2023` },
-    { title: `Viewes`, des: `2 Min Read` },
-  ],
-  title_2: `How a Creative Agency Can Help?`,
-  des_1: `Welcome to our digital agency! We specialize in helping businesses like yours succeed online. From website design and development to digital marketing and adver tising, we have the tools and expertise to elevate your online presence. Welcome to our digital agency! We specialize in helping businesses like yours online. From website design and development to digital marketing and advertising, we have the tools and expertise to elevate your online presence. Welcome to our digital agency! We specialize in helping businesses like yours succeed online.`,
-  features: [
-    `Design Welcome to our digital agency!`,
-    `Dev online. From website design Implementation world of digital.`,
-    `Implementation evolving world of digital Design Welcome to our digital agency!`,
-    `Launch growth and reach your goals. Implementation evolving world of digital.`,
-  ],
-  des_2: `We specialize in helping businesses like yours succeed online. From website design and development to digital marketing and adver tising, we have the tools and expertise to elevate your online presence. Welcome to our digital agency! We specialize in helping businesses like yours online. From website design and development to digital marketing and advertising, we have the tools and expertise to elevate your online presence.`,
-  qute: `“Welcome to our digital agency! We specialize in helping businesses like yours succeed online. From website design and development to digital marketing and adver tising, we have the to ols and expertise to elevate your online presence. Welcome to our digital agency Welcome to our digital agency”`,
-  writer: `Andrew Jackson`,
-  des_3: `Welcome to our digital agency! We specialize in helping businesses like yours succeed online. From website design and development to digital marketing and adver tising, we have the tools and expertise to elevate your online presence.`,
-
-}
-
-const { title, info, title_2, des_1, features, des_2, qute, writer, des_3 } = blog_details_content
-
-const BlogDetails = () => {
+const BlogDetails = ({blog}) => {
+  console.log(blog,"blog:=======")
   return (
     <>
       <div className="cs_height_219 cs_height_lg_120"></div>
@@ -61,14 +17,14 @@ const BlogDetails = () => {
         <div className="cs_section_heading cs_style_1">
           <div className="cs_section_heading_text">
             <h2 className="cs_section_title anim_word_writting">
-              {title}
+              {blog?.heading}
             </h2>
           </div>
         </div>
       </div>
       <div className="cs_height_65 cs_height_lg_60"></div>
 
-      <section>
+      {/* <section>
         <div className="container">
           <div className="anim_div_ShowZoom">
             <div className="cs_portfolio_details">
@@ -87,7 +43,7 @@ const BlogDetails = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <div className="cs_height_65 cs_height_lg_60"></div>
 
@@ -96,18 +52,20 @@ const BlogDetails = () => {
         <div className="container">
           <div className="cs_portfolio_details">
             <div className="reveal">
-              <Image src={blog_detaisl_img_1} alt="blog_detals_banner" />
+              <Image src={blog?.thumbnail} alt="blog_detals_banner" width={400} height={400} className='w-100 h-100'/>
             </div>
             <div className="cs_height_100 cs_height_lg_60"></div>
             <div className="cs_img_show_text cs_text_style_1 anim_div_ShowDowns">
               <h4 className="cs_heading_text anim_heading_title">
-                {title_2}
+                {blog?.heading}
               </h4>
-              <p className="cs_text_style_body">
-                {des_1}
+              <p className="cs_text_style_body"   dangerouslySetInnerHTML={{
+                            __html:blog?.description,
+                          }}>
+              
               </p>
             </div>
-            <div className="cs_ul_ml anim_div_ShowDowns">
+            {/* <div className="cs_ul_ml anim_div_ShowDowns">
               <ul>
                 {features.map((item, i) => (
                   <li key={i}>
@@ -115,20 +73,20 @@ const BlogDetails = () => {
                   </li>
                 ))}
               </ul>
-            </div>
-            <div className="cs_height_25"></div>
+            </div> */}
+            {/* <div className="cs_height_25"></div>
             <div className="cs_blog_detail_text_2 anim_div_ShowDowns">
               <p className="cs_text_style_body">
                 {des_2}
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
 
 
 
-      <div className="container">
+      {/* <div className="container">
         <div className="anim_div_ShowDowns">
           <div className="cs_andrew_jackson">
             <div className="cs_hr_design"></div>
@@ -143,11 +101,11 @@ const BlogDetails = () => {
             <div className="cs_hr_design"></div>
           </div>
         </div>
-      </div>
+      </div> */}
 
 
 
-      <div className="container">
+      {/* <div className="container">
         <div className="cs_img_box cs_style_1">
           <div className="cs_img_show">
             <div className="cs_img_1 reveal">
@@ -171,7 +129,7 @@ const BlogDetails = () => {
         <p className="anim_div_ShowDowns">
           {des_3}
         </p>
-      </div>
+      </div> */}
 
       <div className="cs_height_100 cs_height_lg_50"></div>
 

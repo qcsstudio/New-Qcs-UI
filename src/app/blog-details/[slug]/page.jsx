@@ -1,5 +1,5 @@
 
-'use client'
+
 import AboutHomeFour from '@/components/about/AboutHomeFour';
 import BlogDetails from '@/components/details/BlogDetails';
 import Wrapper from '@/layouts/Wrapper';
@@ -9,19 +9,29 @@ import React from 'react';
 
 
 
-// export const metadata = {
-//   title: "Blog Details Vixan - Digital  Creative Agency Next js Template",
-// };
+export default async function Page({params}) {
+  const { slug } = params;
+  console.log(slug,"slug======")
+
+const url = `${process.env.NEXT_PUBLIC_Local_URL}/api/blog/${slug}`;
+
+let blog = null;
+
+  try {
+    const res = await fetch(url, { cache: "no-store" });
+    if (res.ok) blog = await res.json();
+  } catch (e) {
+    console.error("Page Fetch Error:", e);
+  }
 
 
-const index = () => {
   return (
     <Wrapper>
       <HeaderOne />
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <main>
-            <BlogDetails />
+            <BlogDetails blog={blog}  />
             <AboutHomeFour />
           </main>
           <FooterOne />
@@ -31,4 +41,3 @@ const index = () => {
   );
 };
 
-export default index;

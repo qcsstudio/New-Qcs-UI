@@ -57,7 +57,13 @@ const menu_data: DataType[] = [
 		title: "Contact",
 		link: "/contact",
 		has_dropdown: false,
-	}
+	},
+	{
+		id: 5,
+		title: "Blogs",
+		link: "/blog",
+		has_dropdown: false,
+	},
 
 
 ]
