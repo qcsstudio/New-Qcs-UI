@@ -21,58 +21,44 @@ import ReceiptList from '../feeReceptComponent/FeeReceptTableComponent';
 import { cardcontext } from '@/context/scrollcardcontext';
 import { removeToken } from '@/utils/cookies';
 
+// import '@/styles/sidebar.css';
+
 const Sidebar = () => {
   const { showTable, setShowTable } = useContext(cardcontext);
 
-  // Sidebar open/close state
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-  // Active menu item state (lowercase)
-  const [activeItem, setActiveItem] = useState('dashboard');
-
-  // Role state, initially null to detect loading
+  const [activeItem, setActiveItem] = useState('job posts');
   const [role, setRole] = useState(null);
 
-  // Load role from cookies
   useEffect(() => {
-    const storedRole = Cookies.get('role');
-    setRole(storedRole || ''); // fallback empty string if cookie missing
+    setRole(Cookies.get('role') || '');
   }, []);
 
-  // All possible menu items
-  const allMenuItems = [
+  const menuItems = [
     { id: 1, name: 'Job Posts', icon: HomeIcon },
     { id: 2, name: 'Blog Posts', icon: UserIcon },
     { id: 3, name: 'Applications', icon: ChartBarIcon },
     { id: 4, name: 'Receipts', icon: ReceiptRefundIcon },
   ];
 
-  // Filter menu items based on role
-  const filteredMenuItems = allMenuItems.filter((item) => {
-    if (!role) return true; // Show all while role is loading
+  const filteredMenuItems = menuItems.filter((item) => {
+    if (!role) return true;
     if (role === 'admin') return true;
     if (role === 'hr') return item.name !== 'Blog Posts';
     if (role === 'seo') return item.name === 'Blog Posts';
     return false;
   });
 
-  // Render main content based on activeItem
   const renderComponent = () => {
     switch (activeItem) {
-      case 'job posts':
-        return <JobPostForm />;
-      case 'blog posts':
-        return <BlogPostForm />;
-      case 'applications':
-        return <Application />;
-      case 'receipts':
-        return showTable ? <ReceiptList /> : <FeeReceptComponent />;
-      default:
-        return <div className="text-gray-500 text-sm">Select a section</div>;
+      case 'job posts': return <JobPostForm />;
+      case 'blog posts': return <BlogPostForm />;
+      case 'applications': return <Application />;
+      case 'receipts': return showTable ? <ReceiptList /> : <FeeReceptComponent />;
+      default: return null;
     }
   };
 
-  // Logout function
   const handleLogout = async () => {
     await removeToken();
     Cookies.remove('role');
@@ -80,125 +66,99 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex h-screen w-full bg-gradient-to-br from-orange-100 via-white to-orange-200">
-      
-      {/* Sidebar */}
+    <div className="d-flex vh-100 w-100 main-bg">
+
+      {/* SIDEBAR */}
       <motion.aside
         animate={{ width: isSidebarOpen ? 256 : 80 }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="fixed top-0 left-0 h-screen z-20 bg-white/30 backdrop-blur-lg border-r border-white/40 shadow-xl overflow-hidden"
+        transition={{ duration: 0.3 }}
+        className="position-fixed top-0 start-0 vh-100 glass-sidebar overflow-hidden"
       >
-        {/* Sidebar header */}
-        <div className="flex items-center justify-between p-4">
+        {/* HEADER */}
+        <div className="d-flex align-items-center justify-content-between p-3">
           <AnimatePresence>
             {isSidebarOpen && (
-              <motion.h2
+              <motion.h4
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
-                className="text-2xl font-extrabold text-orange-600"
+                className="fw-bold text-warning m-0"
               >
                 Dashboard
-              </motion.h2>
+              </motion.h4>
             )}
           </AnimatePresence>
 
-          {/* Collapse/Expand button */}
-          <motion.button
+          <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="text-orange-600 p-1 hover:bg-orange-100 rounded"
-            whileTap={{ scale: 0.9 }}
+            className="collapse-btn rounded p-1"
           >
-            <motion.div
-              animate={{ rotate: isSidebarOpen ? 0 : 180 }}
-              transition={{ duration: 0.3 }}
-              className="flex justify-center items-center"
-            >
-              <ChevronLeftIcon className="h-6 w-6 hover:cursor-pointer" />
-            </motion.div>
-          </motion.button>
+            <ChevronLeftIcon className="sidebar-icon" />
+          </button>
         </div>
 
-        {/* Sidebar menu items */}
-        <nav className="flex flex-col mt-2 space-y-1">
+        {/* MENU */}
+        <nav className="d-flex flex-column mt-2 gap-1">
           {filteredMenuItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeItem === item.name.toLowerCase();
 
             return (
-              <motion.button
+              <button
                 key={item.id}
                 onClick={() => {
                   setActiveItem(item.name.toLowerCase());
                   if (item.name.toLowerCase() === 'receipts') {
-                    setShowTable(false); // reset receipts table toggle
+                    setShowTable(false);
                   }
                 }}
-                whileHover={{ scale: 1.02 }}
-                className={`flex items-center px-4 py-3 text-sm font-medium transition-colors duration-150 hover:cursor-pointer
-                  ${isActive
-                    ? 'bg-orange-100 text-orange-600 border-l-4 border-orange-500'
-                    : 'text-gray-700 hover:bg-orange-50'
-                  }`}
+                className={`sidebar-item d-flex align-items-center gap-3 ${
+                  isActive ? 'active' : ''
+                }`}
               >
-                <Icon className={`h-5 w-5 ${isActive ? 'text-orange-500' : 'text-gray-400'}`} />
+                <Icon className="sidebar-icon" />
                 <AnimatePresence>
                   {isSidebarOpen && (
                     <motion.span
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -10 }}
-                      className="ml-3"
                     >
                       {item.name}
                     </motion.span>
                   )}
                 </AnimatePresence>
-              </motion.button>
+              </button>
             );
           })}
         </nav>
 
-        {/* Logout Button */}
-        <motion.button
+        {/* LOGOUT */}
+        <button
           onClick={handleLogout}
-          whileHover={{ scale: 1.02 }}
-          className={`flex items-center px-4 py-3 text-sm font-medium transition-colors duration-150 hover:cursor-pointer
-            text-gray-700 hover:bg-orange-50 mt-auto`}
+          className="sidebar-item logout-btn d-flex align-items-center gap-3 mt-auto"
         >
-          <ArrowRightOnRectangleIcon className="h-5 w-5 text-gray-400" />
-          <AnimatePresence>
-            {isSidebarOpen && (
-              <motion.span
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                className="ml-3"
-              >
-                Logout
-              </motion.span>
-            )}
-          </AnimatePresence>
-        </motion.button>
-
+          <ArrowRightOnRectangleIcon className="sidebar-icon" />
+          {isSidebarOpen && <span>Logout</span>}
+        </button>
       </motion.aside>
 
-      {/* Main content */}
+      {/* MAIN CONTENT */}
       <main
-        className={`flex-1 ml-0 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'md:ml-64' : 'md:ml-20'
-          } overflow-y-auto h-screen p-6`}
+        className={`flex-grow-1 overflow-auto p-4 ${
+          isSidebarOpen ? 'ms-5 ps-5' : 'ms-3'
+        }`}
       >
-        {/* Mobile toggle */}
-        <div className="md:hidden mb-4">
+        {/* MOBILE TOGGLE */}
+        <div className="d-md-none mb-3">
           <button
+            className="btn btn-warning"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-2 bg-orange-200 text-orange-700 rounded-lg shadow"
           >
             ☰
           </button>
         </div>
 
-        {/* Render selected component */}
         {renderComponent()}
       </main>
     </div>
