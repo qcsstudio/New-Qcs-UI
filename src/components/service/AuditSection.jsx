@@ -1,89 +1,141 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { PulseLoader } from "react-spinners";
 
 export default function AuditSection() {
-  //state for handle url and role 
+  // ================= STATES =================
   const [url, setUrl] = useState("");
   const [role, setRole] = useState("Job Seeker");
   const [accepted, setAccepted] = useState(false);
 
-  //state for loading and get result from background
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
 
-  //state for show modal
-  const [showModal, setShowModal] = useState(false);
-  console.log("result", result);
+  const [showResultModal, setShowResultModal] = useState(false);
+  const [showExtensionPopup, setShowExtensionPopup] = useState(false);
+
+  const [isExtensionReady, setIsExtensionReady] = useState(false);
+
+  const extensionDetectedRef = useRef(false);
+
+  // ================= EXTENSION CHECK =================
   useEffect(() => {
+    let detected = false;
+    let pingInterval;
+
     const handler = (e) => {
       if (e.data === "EXTENSION_RUNNING") {
-        console.log("✅ EXTENSION_RUNNING");
+        if (extensionDetectedRef.current) return; // ⛔ already detected
+
+        console.log("✅ Extension detected (once)");
+        extensionDetectedRef.current = true;
+        detected = true;
+
+        setIsExtensionReady(true);
+        setShowExtensionPopup(false);
+
+        // 🛑 stop pinging
+        clearInterval(pingInterval);
+
+        // cleanup reload flag
+        localStorage.removeItem("audit_auto_reloaded");
       }
     };
 
     window.addEventListener("message", handler);
 
-    // Check extension
-    window.postMessage("PING_EXTENSION", "*");
+    pingInterval = setInterval(() => {
+      if (!extensionDetectedRef.current) {
+        window.postMessage("PING_EXTENSION", "*");
+      }
+    }, 1000);
 
-    return () => window.removeEventListener("message", handler);
+    const reloadTimeout = setTimeout(() => {
+      const hasReloaded = localStorage.getItem("audit_auto_reloaded");
+
+      if (!detected && !hasReloaded) {
+        console.log("🔁 Auto reloading page once to inject extension");
+        localStorage.setItem("audit_auto_reloaded", "true");
+        window.location.reload();
+      }
+    }, 4000);
+
+    return () => {
+      clearInterval(pingInterval);
+      clearTimeout(reloadTimeout);
+      window.removeEventListener("message", handler);
+    };
   }, []);
 
+
+useEffect(() => {
+  const onFocus = () => {
+    const waiting = localStorage.getItem("audit_waiting_for_extension");
+
+    if (waiting && !extensionDetectedRef.current) {
+      console.log("🔁 User returned after extension install, reloading...");
+      localStorage.removeItem("audit_waiting_for_extension");
+      window.location.reload();
+    }
+  };
+
+  window.addEventListener("focus", onFocus);
+  return () => window.removeEventListener("focus", onFocus);
+}, []);
+
+
+
+  // ================= LISTEN SCRAPE RESULT =================
   useEffect(() => {
-    function onMsg(e) {
+    const onMsg = (e) => {
       if (!e.data) return;
       if (e.data.from !== "LINKEDIN_AUDIT_EXT") return;
 
-      // 🔥 DEBUG DATA
       if (e.data.type === "DEBUG_DATA") {
-        console.log("🔥 DATA SENT TO BACKEND:", e.data.payload);
+        console.log("🔥 DEBUG:", e.data.payload);
       }
 
       if (e.data.type === "SCRAPE_RESULT") {
         setLoading(false);
         setResult(e.data.payload);
-        setShowModal(true); // 🔥 IMPORTANT
+        setShowResultModal(true);
       }
-
-    }
+    };
 
     window.addEventListener("message", onMsg);
     return () => window.removeEventListener("message", onMsg);
   }, []);
 
+  // ================= HELPERS =================
   const normalizeLinkedInUrl = (rawUrl) => {
-    let url = rawUrl.trim();
-
-    // agar user ne http / https nahi dala
-    if (!url.startsWith("http://") && !url.startsWith("https://")) {
-      url = "https://" + url;
+    let finalUrl = rawUrl.trim();
+    if (!finalUrl.startsWith("http://") && !finalUrl.startsWith("https://")) {
+      finalUrl = "https://" + finalUrl;
     }
-
-    return url;
+    return finalUrl;
   };
 
-
+  // ================= START AUDIT =================
   const startAudit = () => {
     if (!url) return alert("Enter LinkedIn profile URL");
+    if (!accepted) return alert("Please accept Terms & Privacy Policy");
 
-    if (!accepted) {
-      return alert("Please accept Terms & Privacy Policy");
+    //  EXTENSION NOT INSTALLED
+    if (!isExtensionReady) {
+      setShowExtensionPopup(true);
+      return;
     }
-
 
     const finalUrl = normalizeLinkedInUrl(url);
 
-    // basic linkedin validation (optional but recommended)
     if (!finalUrl.includes("linkedin.com/")) {
       return alert("Please enter a valid LinkedIn profile URL");
     }
 
-    localStorage.setItem("linkedin_audit_url", finalUrl);
+    localStorage.setItem("linkedin_audit_url ", finalUrl);
     localStorage.setItem("linkedin_audit_role", role);
-
 
     setLoading(true);
 
@@ -96,27 +148,30 @@ export default function AuditSection() {
       },
       "*"
     );
-
   };
 
-
-
+  // ================= UI =================
   return (
     <div className="audit-hero" id="linkedinaudit">
       <div className="audit-inner">
 
-        {/* Trust */}
+        {/* TRUST */}
         <div className="audit-trust">
-          <Image src="/assets/img/Images/auditimage.png" alt="users" width={124} height={40} />
-          <div className="text-start">
-            <span className="text-warning">★★★★★</span><br />
+          <Image
+            src="/assets/img/Images/auditimage.png"
+            alt="users"
+            width={124}
+            height={40}
+          />
+          <div>
+            <span className="text-warning">★★★★★</span>
             <p>Trusted by 200+ Professionals</p>
           </div>
         </div>
 
-        {/* Heading */}
+        {/* HEADING */}
         <h1 className="audit-heading">
-          Audit Your LinkedIn <span>{`{Profile}`}</span> to Unlock<br />
+          Audit Your LinkedIn <span>{`{Profile}`}</span> to Unlock <br />
           <strong>Your Full Potential</strong>
         </h1>
 
@@ -125,7 +180,7 @@ export default function AuditSection() {
           that turn visibility into business.
         </p>
 
-        {/* Inputs */}
+        {/* INPUTS */}
         <div className="audit-input-row">
           <input
             placeholder="LINKEDIN PROFILE"
@@ -136,16 +191,22 @@ export default function AuditSection() {
           <select value={role} onChange={(e) => setRole(e.target.value)}>
             <option value="Job Seeker">Job Seeker</option>
             <option value="Founder / CEO">Founder / CEO</option>
-            <option value="Sales / SDR / AE">Sales/SDR/AE</option>
-            <option value="Consultant / Coach">Consultant/Coach</option>
-            <option value="Recruiter / Talent">Recruiter/Talent</option>
+            <option value="Sales / SDR / AE">Sales / SDR / AE</option>
+            <option value="Consultant / Coach">Consultant / Coach</option>
+            <option value="Recruiter / Talent">Recruiter / Talent</option>
           </select>
         </div>
 
-        {/* Button */}
-        <button className="audit-main-btn" onClick={startAudit} disabled={loading || !accepted}>
-          {loading ? <PulseLoader color={"#ffffff"} size={10} />: "Audit My Profile →"}
-        </button><br />
+        {/* BUTTON */}
+        <button
+          className="audit-main-btn"
+          onClick={startAudit}
+          disabled={loading}
+        >
+          {loading ? <PulseLoader size={10} color="#fff" /> : "Audit My Profile →"}
+        </button>
+
+        {/* TERMS */}
         <label className="terms">
           <input
             type="checkbox"
@@ -154,11 +215,11 @@ export default function AuditSection() {
           />
           <span>
             I accept the{" "}
-            <Link href="/terms-condition" target="_blank">Terms & Conditions</Link>{" "}
-            and{" "}
+            <Link href="/terms-condition" target="_blank">Terms</Link> &{" "}
             <Link href="/privacy-policy" target="_blank">Privacy Policy</Link>
           </span>
         </label>
+
         <p className="audit-note">
           We only analyze what’s already publicly visible on your profile.
         </p>
@@ -167,25 +228,64 @@ export default function AuditSection() {
           No passwords · No contacts · No messages · Ever
         </p>
 
-        {/* ============= POPUP ================*/}
-        {showModal && result && (
+        {/* ================= EXTENSION POPUP ================= */}
+        {showExtensionPopup && (
           <div className="audit-overlay">
             <div className="audit-popup">
+              <h2 className="audit-title">
+                Install Our <span>Chrome Extension</span>
+              </h2>
 
+              <p style={{ textAlign: "center", marginBottom: 20 }}>
+                To audit your LinkedIn profile, please install our secure Chrome
+                extension. It only reads public profile data.
+              </p>
+
+              <Link
+                href="https://chromewebstore.google.com/detail/fongccbjkdphnmdigpkbphnjaiodmlek?utm_source=item-share-cb"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="audit-main-btn"
+                onClick={() => {
+                  // 👇 mark that user went to install extension
+                  localStorage.setItem("audit_waiting_for_extension", "true");
+                }}
+              >
+                Add Extension →
+              </Link>
+
+
+              <button
+                className="audit-close"
+                onClick={() => setShowExtensionPopup(false)}
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ================= RESULT POPUP ================= */}
+        {showResultModal && result && (
+          <div className="audit-overlay">
+            <div className="audit-popup">
               <h2 className="audit-title">
                 Your LinkedIn <span>Audit</span> Is Ready
               </h2>
 
               <div className="progress-ring">
-
-                <div className="progress-text">{result.baseScore}</div>
+                <div className="progress-text">
+                  {result.baseScore}
+                </div>
               </div>
 
-              <Link href='/signup' className="" >Access Full Audit →</Link>
+              <Link href="/signup" className="audit-main-btn">
+                Access Full Audit →
+              </Link>
 
               <button
                 className="audit-close"
-                onClick={() => setShowModal(false)}
+                onClick={() => setShowResultModal(false)}
               >
                 ✕
               </button>
@@ -197,4 +297,3 @@ export default function AuditSection() {
     </div>
   );
 }
-
