@@ -40,7 +40,7 @@ const menu_data: DataType[] = [
   
       {
         id: 1,
-        title: "linkedIn-Profile-Makeover",
+        title: "LinkedIn Profile Makeover",
         link: "/linkedIn-Profile-Makeover",
       }
     ]

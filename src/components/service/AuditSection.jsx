@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { PulseLoader } from "react-spinners";
 
 export default function AuditSection() {
@@ -18,23 +18,74 @@ export default function AuditSection() {
 
   const [isExtensionReady, setIsExtensionReady] = useState(false);
 
+  const extensionDetectedRef = useRef(false);
+
   // ================= EXTENSION CHECK =================
   useEffect(() => {
+    let detected = false;
+    let pingInterval;
+
     const handler = (e) => {
       if (e.data === "EXTENSION_RUNNING") {
-        console.log("✅ Extension detected");
+        if (extensionDetectedRef.current) return; // ⛔ already detected
+
+        console.log("✅ Extension detected (once)");
+        extensionDetectedRef.current = true;
+        detected = true;
+
         setIsExtensionReady(true);
-        setShowExtensionPopup(false); // auto close if open
+        setShowExtensionPopup(false);
+
+        // 🛑 stop pinging
+        clearInterval(pingInterval);
+
+        // cleanup reload flag
+        localStorage.removeItem("audit_auto_reloaded");
       }
     };
 
     window.addEventListener("message", handler);
 
-    // ping extension
-    window.postMessage("PING_EXTENSION", "*");
+    pingInterval = setInterval(() => {
+      if (!extensionDetectedRef.current) {
+        window.postMessage("PING_EXTENSION", "*");
+      }
+    }, 1000);
 
-    return () => window.removeEventListener("message", handler);
+    const reloadTimeout = setTimeout(() => {
+      const hasReloaded = localStorage.getItem("audit_auto_reloaded");
+
+      if (!detected && !hasReloaded) {
+        console.log("🔁 Auto reloading page once to inject extension");
+        localStorage.setItem("audit_auto_reloaded", "true");
+        window.location.reload();
+      }
+    }, 4000);
+
+    return () => {
+      clearInterval(pingInterval);
+      clearTimeout(reloadTimeout);
+      window.removeEventListener("message", handler);
+    };
   }, []);
+
+
+useEffect(() => {
+  const onFocus = () => {
+    const waiting = localStorage.getItem("audit_waiting_for_extension");
+
+    if (waiting && !extensionDetectedRef.current) {
+      console.log("🔁 User returned after extension install, reloading...");
+      localStorage.removeItem("audit_waiting_for_extension");
+      window.location.reload();
+    }
+  };
+
+  window.addEventListener("focus", onFocus);
+  return () => window.removeEventListener("focus", onFocus);
+}, []);
+
+
 
   // ================= LISTEN SCRAPE RESULT =================
   useEffect(() => {
@@ -71,7 +122,7 @@ export default function AuditSection() {
     if (!url) return alert("Enter LinkedIn profile URL");
     if (!accepted) return alert("Please accept Terms & Privacy Policy");
 
-    // ❌ EXTENSION NOT INSTALLED
+    //  EXTENSION NOT INSTALLED
     if (!isExtensionReady) {
       setShowExtensionPopup(true);
       return;
@@ -83,7 +134,7 @@ export default function AuditSection() {
       return alert("Please enter a valid LinkedIn profile URL");
     }
 
-    localStorage.setItem("linkedin_audit_url", finalUrl);
+    localStorage.setItem("linkedin_audit_url ", finalUrl);
     localStorage.setItem("linkedin_audit_role", role);
 
     setLoading(true);
@@ -190,14 +241,19 @@ export default function AuditSection() {
                 extension. It only reads public profile data.
               </p>
 
-              <a
+              <Link
                 href="https://chromewebstore.google.com/detail/fongccbjkdphnmdigpkbphnjaiodmlek?utm_source=item-share-cb"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="audit-main-btn"
+                onClick={() => {
+                  // 👇 mark that user went to install extension
+                  localStorage.setItem("audit_waiting_for_extension", "true");
+                }}
               >
                 Add Extension →
-              </a>
+              </Link>
+
 
               <button
                 className="audit-close"
