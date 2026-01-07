@@ -1,7 +1,3 @@
-
-'use client'
-
-import React, { useState } from 'react';
 import About from '@/components/about/About';
 import AwardsHomeOne from '@/components/awards/AwardsHomeOne';
 import BannerAbout from '@/components/brand/BannerAbout';
@@ -17,9 +13,11 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import AboutHomeOne from '@/components/about/AboutHomeOne';
 import ServiceHomeFive from '@/components/service/ServiceHomeFive';
 
-// export const metadata = {
-//   title: "About Vixan - Digital  Creative Agency Next js Template",
-// };
+export const metadata = {
+  title: "Who We Are - AI Growth, Automation & Marketing | QCS Studio",
+  description: "Learn how QuantumCrafters Studio blends human creativity with AI-driven growth, automation and marketing to help brands scale faster and smarter."
+ 
+};
 
 const index = () => {
 

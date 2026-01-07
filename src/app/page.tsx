@@ -1,6 +1,4 @@
 
-'use client'
-
 import AboutUs from "@/components/about/AboutUs";
 import AwardsHomeOne from "@/components/awards/AwardsHomeOne";
 import BlogHomeOne from "@/components/blog/BlogHomeOne";
@@ -9,7 +7,6 @@ import FeatureHomeTwo from "@/components/feature/FeatureHomeTwo";
 import HeroHomeTwo from "@/components/hero/HeroHomeTwo";
 import InnovativeHomeTwo from "@/components/innovative/InnovativeHomeTwo";
 import PortfolioHomeOne from "@/components/portfolio/PortfolioHomeOne";
-import Service from "@/components/service/Service";
 import ServiceHomeOne from "@/components/service/ServiceHomeOne";
 import Testimonial from "@/components/testimonial/Testimonial";
 import VideoHomeTwo from "@/components/video/VideoHomeTwo";
@@ -20,15 +17,18 @@ import { featureData } from "@/data/featureData";
 import ServiceAreaDetails from "@/components/service/ServiceAreaDetails";
 import {  innovative_data_home } from "@/data/innovation_homeTwo";
 import img from "@/assets/img/Images/growth.png";
-import {service_data,service_data_home} from "@/data/serviceArea_detail";
+import {service_data_home} from "@/data/serviceArea_detail";
 
 
 
 
-// export const metadata = {
-//   title: "Vixan - Digital  Creative Agency Next js Template",
-// };
-
+export const metadata = {
+  title: "AI Growth & Marketing Automation Studio | QCS Studio",
+  description: "Transform growth with agentic AI, AI SEO, performance ads, chatbots & automation - intelligent marketing solutions to drive revenue and efficiency.",
+  verification: {
+    google: "MbqWeyYPvPzsogXFxsL8o_LZUqhL-lqb0C6-EeSNemM",
+  },
+};
 
 const index = () => {
 
