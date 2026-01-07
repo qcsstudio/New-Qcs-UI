@@ -18,6 +18,11 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;900&family=Kanit:wght@400;500;600;700&display=swap"
         />
         <title>QuantaumCrafter Studio</title>
+         <link
+          rel="canonical"
+          href="https://www.qcsstudio.com"
+          key="canonical"
+        />
         <Script
           id="microsoft-clarity"
           strategy="afterInteractive"

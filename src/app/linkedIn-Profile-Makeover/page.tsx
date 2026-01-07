@@ -1,7 +1,3 @@
-
-'use client'
-
-
 import AboutUs from '@/components/about/AboutUs';
 import BrandHomeOne from '@/components/brand/BrandHomeOne';
 import ServiceDetailsFaq from '@/components/faq/ServiceDetailsFaq';
@@ -19,11 +15,13 @@ import AuditSection from '@/components/service/AuditSection';
 import HeroHomeThree from '@/components/hero/HeroHomeThree';
 import {  innovative_data_linkedin } from '@/data/innovation_homeTwo';
 import img from "@/assets/img/Images/linkedin_innovation.png";
-import { service_data, service_data_home } from '@/data/serviceArea_detail';
+import { service_data } from '@/data/serviceArea_detail';
 
-// export const metadata = {
-//   title: "Service Details Vixan - Digital  Creative Agency Next js Template",
-// };
+export const metadata = {
+  title: "LinkedIn Profile Optimization for B2B Leads | QCS Studio ",
+  description: "Optimize your LinkedIn profile to attract qualified B2B leads with strategic positioning, keyword optimization, and conversion-focused messaging by QCS Studio."
+ 
+};
 
 
 const index = () => {
@@ -35,7 +33,7 @@ const index = () => {
           <main>
             <HeroHomeThree/>
             {/* <HeroServiceDetails /> */}
-            <AuditSection/>
+            {/* <AuditSection/> */}
             <InnovativeHomeTwo  data={innovative_data_linkedin} image={img}/>
             <PipelineSection />
             <ServiceDetailsFaq />

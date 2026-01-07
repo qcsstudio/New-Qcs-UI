@@ -27,7 +27,7 @@ export default function AuditSection() {
 
     const handler = (e) => {
       if (e.data === "EXTENSION_RUNNING") {
-        if (extensionDetectedRef.current) return; // ⛔ already detected
+        if (extensionDetectedRef.current) return; 
 
         console.log("✅ Extension detected (once)");
         extensionDetectedRef.current = true;
@@ -68,7 +68,7 @@ export default function AuditSection() {
       window.removeEventListener("message", handler);
     };
   }, []);
-
+console.log("result: ", result);
 
 useEffect(() => {
   const onFocus = () => {
@@ -150,6 +150,17 @@ useEffect(() => {
     );
   };
 
+  function handleextensionInstall() {
+     const scraper = localStorage.getItem("audit_waiting_for_extension");
+    
+    if (scraper) {
+      setShowExtensionPopup(false);
+    }
+    else{
+      setShowExtensionPopup(true);
+    }
+  }
+
   // ================= UI =================
   return (
     <div className="audit-hero" id="linkedinaudit">
@@ -186,6 +197,7 @@ useEffect(() => {
             placeholder="LINKEDIN PROFILE"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
+            onFocus={handleextensionInstall()}
           />
 
           <select value={role} onChange={(e) => setRole(e.target.value)}>
@@ -247,7 +259,6 @@ useEffect(() => {
                 rel="noopener noreferrer"
                 className="audit-main-btn"
                 onClick={() => {
-                  // 👇 mark that user went to install extension
                   localStorage.setItem("audit_waiting_for_extension", "true");
                 }}
               >
