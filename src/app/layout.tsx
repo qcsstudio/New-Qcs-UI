@@ -44,6 +44,42 @@ export default function RootLayout({
             gtag('config', 'G-TGNFYNFQQ2');
           `}
         </Script>
+         <Script
+          id="organization-schema"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "QuantumCrafters Studio Pvt. Ltd.",
+              "url": "https://www.qcsstudio.com/",
+              "logo": "https://www.qcsstudio.com/assets/img/Images/favicon.png",
+              "description":
+                "AI-powered growth studio offering AI development, web/app engineering, automation, analytics, and marketing solutions to help businesses scale.",
+              "telephone": "+91-8264017346",
+              "email": "info@qcsstudio.com",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress":
+                  "D266 (C) 203, Second Floor Ram Hari Tower, Phase 8B, Industrial Area, Sector 74",
+                "addressLocality": "Mohali",
+                "addressRegion": "Punjab",
+                "postalCode": "160055",
+                "addressCountry": "IN",
+              },
+              "sameAs": [
+                "https://www.linkedin.com/company/quantumcrafters-studio",
+                "https://www.facebook.com/quantumcraftersstudio",
+                "https://www.instagram.com/quantumcraftersstudio",
+              ],
+              "founder": {
+                "@type": "Person",
+                "name": "Ravi K. Sankhyan",
+              },
+            }),
+          }}
+        />
       </head>
 
       <body suppressHydrationWarning={true}>
