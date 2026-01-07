@@ -18,7 +18,7 @@ export default function PaymentPage() {
     }
 
     // 🟢 Step 1: Create Order
-    const res = await fetch("http://13.127.109.214:5000/api/payment/create-order", {
+    const res = await fetch("https://analyzer.qcsstudio.com/api/payment/create-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +62,7 @@ export default function PaymentPage() {
   }
 
   async function verifyPayment(response, token) {
-    const res = await fetch("http://13.127.109.214:5000/api/payment/verify", {
+    const res = await fetch("https://analyzer.qcsstudio.com/api/payment/verify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

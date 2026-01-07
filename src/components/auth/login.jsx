@@ -27,7 +27,7 @@ export default function Login() {
     try {
       setLoading(true);
 
-      const res = await fetch("http://13.127.109.214:5000/api/auth/login", {
+      const res = await fetch("https://analyzer.qcsstudio.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

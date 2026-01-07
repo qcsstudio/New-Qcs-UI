@@ -33,7 +33,7 @@ const index = () => {
           <main>
             <HeroHomeThree/>
             {/* <HeroServiceDetails /> */}
-            {/* <AuditSection/> */}
+            <AuditSection/>
             <InnovativeHomeTwo  data={innovative_data_linkedin} image={img}/>
             <PipelineSection />
             <ServiceDetailsFaq />
