@@ -18,7 +18,7 @@ export default function Suggestions() {
 
         // API call
         const response = await fetch(
-          "http://13.127.109.214:5000/api/analyze/suggestions",
+          "https://analyzer.qcsstudio.com/api/analyze/suggestions",
           {
             method: "POST", // API POST expect karti hai
             headers: {

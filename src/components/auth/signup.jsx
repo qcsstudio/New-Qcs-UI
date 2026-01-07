@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Signup() {
     const [role, setRole] = useState(null);
@@ -42,7 +43,7 @@ export default function Signup() {
     try {
       setLoading(true);
 
-      const res = await fetch("http://13.127.109.214:5000/api/auth/signup", {
+      const res = await fetch("https://analyzer.qcsstudio.com/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +64,7 @@ export default function Signup() {
       }
 
       alert("Signup Successful 🎉");
-         router.push("/login");
+         router.push("/linkedin-login");
 
       // optional: form reset
       setForm({
@@ -157,7 +158,7 @@ export default function Signup() {
                 required
               />
               <label htmlFor="agree" className="form-check-label small">
-                By signing up, you agree to QCS’s Terms & Privacy Policy
+                By signing up, you agree to QCS’s <Link href="/terms-condition" className="text-primary">Terms</Link> & <Link href="/privacy-policy" className="text-primary">Privacy Policy</Link>
               </label>
             </div>
 

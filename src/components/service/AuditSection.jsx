@@ -22,25 +22,19 @@ export default function AuditSection() {
 
   // ================= EXTENSION CHECK =================
   useEffect(() => {
-    let detected = false;
     let pingInterval;
 
     const handler = (e) => {
       if (e.data === "EXTENSION_RUNNING") {
-        if (extensionDetectedRef.current) return; 
+        if (extensionDetectedRef.current) return;
 
-        console.log("✅ Extension detected (once)");
+        console.log("✅ Extension detected");
         extensionDetectedRef.current = true;
-        detected = true;
 
         setIsExtensionReady(true);
         setShowExtensionPopup(false);
 
-        // 🛑 stop pinging
         clearInterval(pingInterval);
-
-        // cleanup reload flag
-        localStorage.removeItem("audit_auto_reloaded");
       }
     };
 
@@ -52,38 +46,28 @@ export default function AuditSection() {
       }
     }, 1000);
 
-    const reloadTimeout = setTimeout(() => {
-      const hasReloaded = localStorage.getItem("audit_auto_reloaded");
-
-      if (!detected && !hasReloaded) {
-        console.log("🔁 Auto reloading page once to inject extension");
-        localStorage.setItem("audit_auto_reloaded", "true");
-        window.location.reload();
-      }
-    }, 4000);
-
     return () => {
       clearInterval(pingInterval);
-      clearTimeout(reloadTimeout);
       window.removeEventListener("message", handler);
     };
   }, []);
-console.log("result: ", result);
 
-useEffect(() => {
-  const onFocus = () => {
-    const waiting = localStorage.getItem("audit_waiting_for_extension");
+  console.log("result: ", result);
 
-    if (waiting && !extensionDetectedRef.current) {
-      console.log("🔁 User returned after extension install, reloading...");
-      localStorage.removeItem("audit_waiting_for_extension");
-      window.location.reload();
-    }
-  };
+  useEffect(() => {
+    const onFocus = () => {
+      const waiting = localStorage.getItem("audit_waiting_for_extension");
 
-  window.addEventListener("focus", onFocus);
-  return () => window.removeEventListener("focus", onFocus);
-}, []);
+      if (waiting && !extensionDetectedRef.current) {
+        console.log("🔁 User returned after extension install, reloading...");
+        // localStorage.removeItem("audit_waiting_for_extension");
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, []);
 
 
 
@@ -151,15 +135,14 @@ useEffect(() => {
   };
 
   function handleextensionInstall() {
-     const scraper = localStorage.getItem("audit_waiting_for_extension");
-    
-    if (scraper) {
-      setShowExtensionPopup(false);
+
+    if (isExtensionReady || extensionDetectedRef.current) {
+      return;
     }
-    else{
-      setShowExtensionPopup(true);
-    }
+
+    setShowExtensionPopup(true);
   }
+
 
   // ================= UI =================
   return (
@@ -197,7 +180,7 @@ useEffect(() => {
             placeholder="LINKEDIN PROFILE"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            onFocus={handleextensionInstall()}
+            onFocus={handleextensionInstall}
           />
 
           <select value={role} onChange={(e) => setRole(e.target.value)}>
@@ -290,7 +273,8 @@ useEffect(() => {
                 </div>
               </div>
 
-              <Link href="/signup" className="audit-main-btn">
+              <Link href="/linkedin-login" className="audit-main-btn">
+
                 Access Full Audit →
               </Link>
 
