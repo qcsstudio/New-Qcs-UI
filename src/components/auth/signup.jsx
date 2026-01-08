@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function Signup() {
-    const [role, setRole] = useState(null);
-  const [linkedinUrl, setLinkedinUrl] = useState(null);
+  //   const [role, setRole] = useState(null);
+  // const [linkedinUrl, setLinkedinUrl] = useState(null);
     const router = useRouter();
   const [form, setForm] = useState({
     name: "",
@@ -15,10 +15,10 @@ export default function Signup() {
     confirm: "",
     agree: false,
   });
-  useEffect(() => {
-    setRole(localStorage.getItem("linkedin_audit_role"));
-    setLinkedinUrl(localStorage.getItem("linkedin_audit_url"));
-  }, []);
+  // useEffect(() => {
+  //   setRole(localStorage.getItem("linkedin_audit_role"));
+  //   setLinkedinUrl(localStorage.getItem("linkedin_audit_url"));
+  // }, []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -39,7 +39,8 @@ export default function Signup() {
       setError("Password and Confirm Password do not match");
       return;
     }
-
+    const url = localStorage.getItem("linkedin_audit_url");
+    const role = localStorage.getItem("linkedin_audit_role");
     try {
       setLoading(true);
 
@@ -52,7 +53,7 @@ export default function Signup() {
           name: form.name,
           email: form.email,
           password: form.password,
-          url: linkedinUrl,
+          url: url,
           role: role,
         }),
       });

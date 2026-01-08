@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import LinkedInProfileHeader from "../../components/suggestion/LinkedInProfileHeader/LinkedInProfileHeader";
 import ExperienceSection from "../../components/suggestion/ExperienceSection";
+import ProfileSection from "../../components/suggestion/ProfileSection";
 
 export default function Suggestions() {
   const [resData, setResData] = useState(null);
@@ -38,6 +39,8 @@ export default function Suggestions() {
         setResData(data);
 
         console.log("✅ API Response:", data);
+        localStorage.removeItem("linkedin_audit_url");
+        localStorage.removeItem("linkedin_audit_role");
 
       } catch (error) {
         console.error(" Network / JS Error:", error);
@@ -49,8 +52,8 @@ export default function Suggestions() {
 
  return (
   <>
-  <LinkedInProfileHeader data={resData}/>
-  {/* <ExperienceSection data={resData}/> */}
+  {/* <LinkedInProfileHeader data={resData}/> */}
+   <ProfileSection data={resData}/>
   </>
   );
 
