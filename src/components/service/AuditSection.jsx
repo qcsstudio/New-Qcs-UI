@@ -22,6 +22,7 @@ export default function AuditSection() {
 
   // ================= EXTENSION CHECK =================
   useEffect(() => {
+       let detected = false;
     let pingInterval;
 
     const handler = (e) => {
@@ -30,11 +31,17 @@ export default function AuditSection() {
 
         console.log("✅ Extension detected");
         extensionDetectedRef.current = true;
+          detected = true;
 
         setIsExtensionReady(true);
         setShowExtensionPopup(false);
-
+             // 🛑 stop pinging
         clearInterval(pingInterval);
+
+        // cleanup reload flag
+        localStorage.removeItem("audit_auto_reloaded");
+
+        // clearInterval(pingInterval);
       }
     };
 
@@ -45,14 +52,24 @@ export default function AuditSection() {
         window.postMessage("PING_EXTENSION", "*");
       }
     }, 1000);
+ const reloadTimeout = setTimeout(() => {
+      const hasReloaded = localStorage.getItem("audit_auto_reloaded");
 
+      if (!detected && !hasReloaded) {
+        console.log("🔁 Auto reloading page once to inject extension");
+        localStorage.setItem("audit_auto_reloaded", "true");
+        window.location.reload();
+      }
+    }, 1000);
     return () => {
       clearInterval(pingInterval);
+       clearTimeout(reloadTimeout);
       window.removeEventListener("message", handler);
     };
   }, []);
 
   console.log("result: ", result);
+  
 
   useEffect(() => {
     const onFocus = () => {
@@ -60,7 +77,7 @@ export default function AuditSection() {
 
       if (waiting && !extensionDetectedRef.current) {
         console.log("🔁 User returned after extension install, reloading...");
-        // localStorage.removeItem("audit_waiting_for_extension");
+        localStorage.removeItem("audit_waiting_for_extension");
         window.location.reload();
       }
     };
@@ -118,7 +135,7 @@ export default function AuditSection() {
       return alert("Please enter a valid LinkedIn profile URL");
     }
 
-    localStorage.setItem("linkedin_audit_url ", finalUrl);
+    localStorage.setItem("linkedin_audit_url", finalUrl);
     localStorage.setItem("linkedin_audit_role", role);
 
     setLoading(true);

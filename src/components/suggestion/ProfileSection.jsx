@@ -1,15 +1,20 @@
+'use client';
 import Image from 'next/image';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const ProfileSection = ({ data }) => {
-  if (!data) {
-    return <div className='d-flex justify-content-center align-items-center h-100'>Loading...</div>;
-  }
+
   const [showFullAboutUpdated, setShowFullAboutUpdated] = useState(false);
   const [showAllExperience, setShowAllExperience] = useState(false);
   const [showAllSkills, setShowAllSkills] = useState(false);
 
   console.log("ProfileSection data:", data);
+
+      useEffect(() => {
+  if (data) {
+    document.body.style.overflow = "auto";
+  }
+}, [data]);
   const experienceData = data?.original?.profile?.experience || [];
   const profile_pic = data?.original?.profile?.profile_picture || "";
   const educationData = data?.original?.profile?.education || [];
@@ -67,6 +72,15 @@ const ProfileSection = ({ data }) => {
      const Updated_visibleSkills = showAllSkills
     ? skillsDataUpdated
     : skillsDataUpdated.slice(0, 5);
+
+if (!data) {
+  return (
+    <div className="d-flex justify-content-center align-items-center min-vh-100">
+      Loading...
+    </div>
+  );
+}
+
   return (
     <>
       <div className='container d-flex gap-1 '>
