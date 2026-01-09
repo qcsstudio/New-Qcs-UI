@@ -94,7 +94,7 @@ useEffect(() => {
     if (!extensionDetectedRef.current) {
       window.postMessage("PING_EXTENSION", "*");
     }
-  }, 1000);
+  }, 700);
 
   // 🔁 ONE-TIME AUTO RELOAD
   const hasReloaded = localStorage.getItem("audit_auto_reloaded");
