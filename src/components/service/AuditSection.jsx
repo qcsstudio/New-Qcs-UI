@@ -21,52 +21,101 @@ export default function AuditSection() {
   const extensionDetectedRef = useRef(false);
 
   // ================= EXTENSION CHECK =================
-  useEffect(() => {
-       let detected = false;
-    let pingInterval;
+//   useEffect(() => {
+//        let detected = false;
+//     let pingInterval;
 
-    const handler = (e) => {
-      if (e.data === "EXTENSION_RUNNING") {
-        if (extensionDetectedRef.current) return;
+//     const handler = (e) => {
+//       if (e.data === "EXTENSION_RUNNING") {
+//         if (extensionDetectedRef.current) return;
 
-        console.log("✅ Extension detected");
-        extensionDetectedRef.current = true;
-          detected = true;
+//         console.log("✅ Extension detected");
+//         extensionDetectedRef.current = true;
+//           detected = true;
 
-        setIsExtensionReady(true);
-        setShowExtensionPopup(false);
-             // 🛑 stop pinging
-        clearInterval(pingInterval);
+//         setIsExtensionReady(true);
+//         setShowExtensionPopup(false);
+//              // 🛑 stop pinging
+//         clearInterval(pingInterval);
 
-        // cleanup reload flag
-        localStorage.removeItem("audit_auto_reloaded");
+//         // cleanup reload flag
+//         localStorage.removeItem("audit_auto_reloaded");
 
-        // clearInterval(pingInterval);
-      }
-    };
+//         // clearInterval(pingInterval);
+//       }
+//     };
 
-    window.addEventListener("message", handler);
+//     window.addEventListener("message", handler);
 
-    pingInterval = setInterval(() => {
+//     pingInterval = setInterval(() => {
+//       if (!extensionDetectedRef.current) {
+//         window.postMessage("PING_EXTENSION", "*");
+//       }
+//     }, 1000);
+//  const reloadTimeout = setTimeout(() => {
+//       const hasReloaded = localStorage.getItem("audit_auto_reloaded");
+
+//       if (!detected && !hasReloaded) {
+//         console.log("🔁 Auto reloading page once to inject extension");
+//         localStorage.setItem("audit_auto_reloaded", "true");
+//         window.location.reload();
+//       }
+//     }, 1000);
+//     return () => {
+//       clearInterval(pingInterval);
+//        clearTimeout(reloadTimeout);
+//       window.removeEventListener("message", handler);
+//     };
+//   }, []);
+
+useEffect(() => {
+  let pingInterval;
+
+  const handler = (e) => {
+    if (e.data === "EXTENSION_RUNNING") {
+      if (extensionDetectedRef.current) return;
+
+      console.log("✅ Extension detected");
+      extensionDetectedRef.current = true;
+
+      setIsExtensionReady(true);
+      setShowExtensionPopup(false);
+
+      // 🛑 stop everything
+      clearInterval(pingInterval);
+      localStorage.removeItem("audit_auto_reloaded");
+    }
+  };
+
+  window.addEventListener("message", handler);
+
+  // 🔁 Ping extension
+  pingInterval = setInterval(() => {
+    if (!extensionDetectedRef.current) {
+      window.postMessage("PING_EXTENSION", "*");
+    }
+  }, 1000);
+
+  // 🔁 ONE-TIME AUTO RELOAD
+  const hasReloaded = localStorage.getItem("audit_auto_reloaded");
+
+  if (!hasReloaded) {
+    localStorage.setItem("audit_auto_reloaded", "true");
+
+    setTimeout(() => {
       if (!extensionDetectedRef.current) {
-        window.postMessage("PING_EXTENSION", "*");
-      }
-    }, 1000);
- const reloadTimeout = setTimeout(() => {
-      const hasReloaded = localStorage.getItem("audit_auto_reloaded");
-
-      if (!detected && !hasReloaded) {
-        console.log("🔁 Auto reloading page once to inject extension");
-        localStorage.setItem("audit_auto_reloaded", "true");
+        console.log("🔁 One-time reload for extension injection");
         window.location.reload();
       }
-    }, 1000);
-    return () => {
-      clearInterval(pingInterval);
-       clearTimeout(reloadTimeout);
-      window.removeEventListener("message", handler);
-    };
-  }, []);
+    }, 1200);
+  }
+
+  return () => {
+    clearInterval(pingInterval);
+    window.removeEventListener("message", handler);
+  };
+}, []);
+
 
   console.log("result: ", result);
   
@@ -253,6 +302,10 @@ export default function AuditSection() {
               <p style={{ textAlign: "center", marginBottom: 20 }}>
                 To audit your LinkedIn profile, please install our secure Chrome
                 extension. It only reads public profile data.
+              </p>
+              <p style={{ textAlign: "center", marginBottom: "40px" }}>
+                 Please make sure you are logged in to LinkedIn on this Chrome browser.
+
               </p>
 
               <Link

@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
+import { DNA } from 'react-loader-spinner';
 
 const ProfileSection = ({ data }) => {
 
@@ -10,11 +11,11 @@ const ProfileSection = ({ data }) => {
 
   console.log("ProfileSection data:", data);
 
-      useEffect(() => {
-  if (data) {
-    document.body.style.overflow = "auto";
-  }
-}, [data]);
+  useEffect(() => {
+    if (data) {
+      document.body.style.overflow = "auto";
+    }
+  }, [data]);
   const experienceData = data?.original?.profile?.experience || [];
   const profile_pic = data?.original?.profile?.profile_picture || "";
   const educationData = data?.original?.profile?.education || [];
@@ -68,18 +69,30 @@ const ProfileSection = ({ data }) => {
     ? skillsData
     : skillsData.slice(0, 5);
 
-    //updated skills
-     const Updated_visibleSkills = showAllSkills
+  //updated skills
+  const Updated_visibleSkills = showAllSkills
     ? skillsDataUpdated
     : skillsDataUpdated.slice(0, 5);
 
-if (!data) {
-  return (
-    <div className="d-flex justify-content-center align-items-center min-vh-100">
-      Loading...
-    </div>
-  );
-}
+  if (!data) {
+    return (
+      <>
+
+
+        <div className="d-flex justify-content-center align-items-center min-vh-100">
+          <DNA
+            visible={true}
+            height="100"
+            width="100"
+            ariaLabel="dna-loading"
+            wrapperStyle={{}}
+            wrapperClass="dna-wrapper"
+          />
+        </div>
+        <h1 className='text-black'>Please Wait...</h1>
+      </>
+    );
+  }
 
   return (
     <>
@@ -400,7 +413,7 @@ if (!data) {
             <div className=" my-5">
               <div className="card shadow-sm rounded-4 p-4">
                 <h3 className="fw-bold mb-4 d-flex justify-content-between">Skills<span className='fw-normal '>{data?.improved?.score?.sections?.skills}</span></h3>
-                 {Updated_visibleSkills.map((skill, index) => (
+                {Updated_visibleSkills.map((skill, index) => (
                   <span
                     key={index}
                     className="pill me-2 mb-2"
