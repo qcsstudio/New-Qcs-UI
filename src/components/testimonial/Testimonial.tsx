@@ -87,7 +87,7 @@ const Testimonial = ({ style_service }: any) => {
           <div className="row align-items-center">
             <div className="col-lg-4">
               <div>
-                <Image src={testimonial_thumb} alt="" className="w-100" />
+                <Image src={testimonial_thumb} alt="testimonial-thumb-image" className="w-100" />
               </div>
             </div>
             <div className="col-lg-7 offset-lg-1">
@@ -124,7 +124,7 @@ const Testimonial = ({ style_service }: any) => {
                         </blockquote>
                         <div className="cs_testimonial_meta">
                           <div className="cs_testimonial_avatar">
-                            <Image src={item.img} alt="Avatar" />
+                            <Image src={item.img} alt="Avatar-logo" />
                           </div>
                           <div className="cs_testimonial_meta_right">
                             <h3 className="cs_testimonial_avatar_name">

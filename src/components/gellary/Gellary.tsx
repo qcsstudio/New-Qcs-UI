@@ -48,7 +48,7 @@ const Gellary = ({style_2}: any) => {
         className="cs_slider cs_slider_6">
           {gellary_data.map((item, i) => (
             <SwiperSlide key={i} className="swiper-slide">
-              <Image src={item} className="card-img" alt="image-here" />
+              <Image src={item} className="card-img" alt="products-image" />
             </SwiperSlide>
           ))}
         </Swiper>

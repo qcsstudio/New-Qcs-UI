@@ -181,10 +181,10 @@ export default function AuditSection() {
         </div>
 
         {/* HEADING */}
-        <h1 className="audit-heading">
+        <h2 className="audit-heading">
           Audit Your LinkedIn <span>{`{Profile}`}</span> to Unlock <br />
           <strong>Your Full Potential</strong>
-        </h1>
+        </h2>
 
         <p className="audit-desc">
           See how decision-makers truly perceive your profile and unlock actions
