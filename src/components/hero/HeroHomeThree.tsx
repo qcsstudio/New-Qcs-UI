@@ -79,7 +79,7 @@ const HeroHomeThree = () => {
           </div>
         </div>
       </section>
-      <div className="cs_height_150 cs_height_lg_0"></div>
+      {/* <div className="cs_height_150 cs_height_lg_0"></div> */}
     </>
   );
 };

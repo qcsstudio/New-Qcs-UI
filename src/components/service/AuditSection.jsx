@@ -166,7 +166,7 @@ export default function AuditSection() {
     <div className="audit-hero" id="linkedinaudit">
       <div className="audit-inner">
 
-        {/* TRUST */}
+        {/* TRUST with image and star */}
         <div className="audit-trust">
           <Image
             src="/assets/img/Images/auditimage.png"
@@ -198,6 +198,8 @@ export default function AuditSection() {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             onFocus={handleextensionInstall}
+            // className="border"
+            required
           />
 
           <select value={role} onChange={(e) => setRole(e.target.value)}>
