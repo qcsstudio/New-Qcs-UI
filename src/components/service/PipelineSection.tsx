@@ -20,9 +20,9 @@ export default function PipelineSection() {
     <section className="py-5 my-5" style={{ background: "#101010", color: "#fff" }}>
       <div className="container">
         {/* Heading */}
-        <h1 className="fw-bold mb-2 text-white">
+        <h2 className="fw-bold mb-2 text-white">
           The Market Has Changed. Most Founders Haven’t.
-        </h1>
+        </h2>
 
         <p className="text-white mb-4" style={{ fontSize: "14px" }}>
           This is not marketing.{" "}
@@ -37,7 +37,7 @@ export default function PipelineSection() {
               <div style={boxStyle}>
                 <Image
                   src="/assets/img/Images/Old Model.png"
-                  alt="Old Model"
+                  alt="Old-Model"
                   width={100}
                   height={100}
                 />  
@@ -47,11 +47,11 @@ export default function PipelineSection() {
               <hr />
 
               <ul style={{ lineHeight: "1.8", color: "#ffffff" ,marginTop:"10px",listStyle:"none" ,padding:"0"}}>
-                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post often" width={12} height={12} /> <span>Post often</span></li>
-                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post often" width={12} height={12} /> <span>Hope buyers notice </span></li>
-                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post often" width={12} height={12} /> <span>Send polite DMs </span></li>
-                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post often" width={12} height={12} /> <span>Outsource to content agencies </span></li>
-                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post often" width={12} height={12} /> <span>Wait for leads to appear </span></li>
+                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="list-mark1" width={12} height={12} /> <span>Post-often</span></li>
+                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="list-mark2" width={12} height={12} /> <span>Hope buyers notice </span></li>
+                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="list-mark3" width={12} height={12} /> <span>Send polite DMs </span></li>
+                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="list-mark4" width={12} height={12} /> <span>Outsource to content agencies </span></li>
+                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="list-mark5" width={12} height={12} /> <span>Wait for leads to appear </span></li>
               </ul>
             </div>
           </div>
@@ -63,7 +63,7 @@ export default function PipelineSection() {
               <div style={boxStyle}>
                 <Image
                   src="/assets/img/Images/New Model.png"
-                  alt="Old Model"
+                  alt="New-Model"
                   width={100}
                   height={100}
                 />  
@@ -75,12 +75,12 @@ export default function PipelineSection() {
               <hr />
 
               <ul style={{ lineHeight: "1.8", color: "#ffffff",marginTop:"10px" }}>
-                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post often" width={12} height={12} /> <span>Strategic positioning that commands attention </span></li>
-                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post often" width={12} height={12} /> <span>Precision segmentation: decision-makers only </span></li>
-                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post often" width={12} height={12} /> <span>Message flows designed for response psychology </span></li>
-                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post often" width={12} height={12} /> <span>Manual outbound with controlled touchpoints </span></li>
-                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post often" width={12} height={12} /> <span>Weekly optimization based on conversion patterns </span></li>
-                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post often" width={12} height={12} /> <span>Governance, dashboards, accountability </span></li>
+                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post-often1" width={12} height={12} /> <span>Strategic positioning that commands attention </span></li>
+                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post-often2" width={12} height={12} /> <span>Precision segmentation: decision-makers only </span></li>
+                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post-often3" width={12} height={12} /> <span>Message flows designed for response psychology </span></li>
+                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post-often4" width={12} height={12} /> <span>Manual outbound with controlled touchpoints </span></li>
+                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post-often5" width={12} height={12} /> <span>Weekly optimization based on conversion patterns </span></li>
+                <li style={{display:"flex",gap:"10px"}}> <Image src="/assets/img/Images/button-icon-list.svg" alt="Post-often6" width={12} height={12} /> <span>Governance, dashboards, accountability </span></li>
               </ul>
             </div>
           </div>

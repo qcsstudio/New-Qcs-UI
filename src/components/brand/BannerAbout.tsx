@@ -11,9 +11,9 @@ const BannerAbout = () => {
         <div className="container">
           <div className="cs_section_heading cs_style_1 cs_type_1">
             <div className="cs_section_heading_text">
-              <h2 className="cs_section_title anim_text_writting">
+              <h1 className="cs_section_title anim_text_writting">
                 How Our Agency is Transforming <br /> Businesses and Brands through <br /> Online Solutions
-              </h2>
+              </h1>
             </div>
             <div className="cs_section_heading_right ">
               <div className="cs_animated_badge ">
@@ -36,7 +36,7 @@ const BannerAbout = () => {
                 </div>
 
                 <div className="position-absolute cs_ceneter_text">
-                  <Image src={logo} alt="" />
+                  <Image src={logo} alt="textPath-logo" />
                 </div>
               </div>
             </div>

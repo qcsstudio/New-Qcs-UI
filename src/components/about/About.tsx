@@ -74,15 +74,15 @@ const About = () => {
         <div className="container">
           <div className="cs_agency agency_about_images_posation">
             <div className="cs_img_section_1">
-              <Image src={agency_story_1} alt="image-here" className="w-100" />
+              <Image src={agency_story_1} alt="agency_story_1" className="w-100" />
             </div>
             <div className="cs_img_section_2">
-              <Image src={agency_story_2} alt="image-here" className="w-100" />
+              <Image src={agency_story_2} alt="agency_story_2" className="w-100" />
             </div>
             <div className="cs_img_section_3">
               <div className="text-end">
-                <Image src={agency_story_4} alt="image-here" />
-                <Image src={agency_story_3} className="w-100" alt="image-here" />
+                <Image src={agency_story_4} alt="agency_story_4" />
+                <Image src={agency_story_3} className="w-100" alt="agency_story_3" />
               </div>
             </div>
           </div>

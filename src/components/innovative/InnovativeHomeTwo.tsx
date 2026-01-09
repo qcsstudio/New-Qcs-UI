@@ -62,7 +62,7 @@ const InnovativeHomeTwo = ({ data, image }: Props) => {
 						</div>
 						<div className="cs_col_md_672">
 							<div className="cs_img_section">
-								<Image src={image} alt="modern_digital_need" />
+								<Image src={image} alt="modern_digital_pipeline" />
 								<div className="cs_img_card_text anim_div_ShowZoom">
 									<h6 className="cs_color_style">{title_2}</h6>
 									<p>{des_2}</p>

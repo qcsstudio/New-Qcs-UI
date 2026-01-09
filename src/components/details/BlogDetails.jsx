@@ -16,9 +16,9 @@ const BlogDetails = ({blog}) => {
       <div className="container">
         <div className="cs_section_heading cs_style_1">
           <div className="cs_section_heading_text">
-            <h2 className="cs_section_title anim_word_writting">
+            <h1 className="cs_section_title anim_word_writting">
               {blog?.heading}
-            </h2>
+            </h1>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@ const BlogDetails = ({blog}) => {
         <div className="container">
           <div className="cs_portfolio_details">
             <div className="reveal">
-              <Image src={blog?.thumbnail} alt="blog_detals_banner" width={400} height={400} className='w-100 h-100'/>
+              <Image src={blog?.thumbnail} alt={blog?.heading} width={400} height={400} className='w-100 h-100'/>
             </div>
             <div className="cs_height_100 cs_height_lg_60"></div>
             <div className="cs_img_show_text cs_text_style_1 anim_div_ShowDowns">

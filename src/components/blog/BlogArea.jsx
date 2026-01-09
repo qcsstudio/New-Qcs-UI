@@ -71,9 +71,9 @@ const makeSlug = (text) => {
           <div className="container">
             <div className="cs_section_heading cs_style_1 cs_type_1">
               <div className="cs_section_heading_text">
-                <h2 className="cs_section_title anim_heading_title">
+                <h1 className="cs_section_title anim_heading_title">
                   New Day <br /> New Inspiration
-                </h2>
+                </h1>
               </div>
             </div>
           </div>

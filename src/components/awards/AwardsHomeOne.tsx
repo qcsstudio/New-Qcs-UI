@@ -89,7 +89,7 @@ const AwardsHomeOne = ({ style_2 }: any) => {
                   <h2 className="cs_card_brand">{item.brand}</h2>
                 </div>
                 <div className="cs_card_hover_img">
-                  <Image src={item.img} alt="Thumb" />
+                  <Image src={item.img} alt="certificates" />
                 </div>
               </div>
             )}

@@ -40,7 +40,7 @@ const FooterOne = () => {
           <div className="row">
             <div className="col-lg-5">
               <div className="cs_footer_info">
-                <Image src={footer_logo} alt="Logo" />
+                <Image src={footer_logo} alt="footer-logo" />
                 <p>{footer_info}</p>
                 <a href={`mailto:${email}`}
                   className="cs_primary_font anim_text_upanddowns"><span>{email}</span></a>

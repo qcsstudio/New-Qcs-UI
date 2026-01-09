@@ -61,7 +61,7 @@ const BrandHomeOne = ({ style_2 }: any) => {
     <div className="brand-marquee-item" key={index}>
       <Image
         src={img}
-        alt="brand"
+        alt="brand-image"
         width={210}
         height={146}
         style={{ objectFit: "contain" }}
