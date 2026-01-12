@@ -35,7 +35,7 @@ export default function PaymentPage() {
 
   function openRazorpay(order, token) {
     const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      key: process.env.NEXT_PUBLIC_LIVE_RAZORPAY_KEY_ID,
       amount: order.amount,
       currency: "INR",
       name: "QCS LinkedIn AI Scanner",
