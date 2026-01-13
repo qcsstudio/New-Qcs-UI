@@ -181,7 +181,7 @@ const handleImageChange = async (e) => {
   // Table Header with Search
   const renderHeader = () => {
     return (
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center ">
         <h2 className={`text-2xl font-bold font-unbounded`}>Blog Posts</h2>
         <span className="p-input-icon-left">
           <i className="pi pi-search" />
@@ -201,19 +201,30 @@ const handleImageChange = async (e) => {
       <img
         src={rowData.thumbnail || 'https://placehold.co/100x60'}
         alt="thumbnail"
-        className="w-20 h-16 object-cover rounded"
+        className=" object-cover rounded"
+        style={{width:"200px ",height:"100px"}}
       />
     );
   };
 
-  const descriptionBodyTemplate = (rowData) => {
-    return (
-      <div
-        className="line-clamp-2 max-w-xs"
-        dangerouslySetInnerHTML={{ __html: rowData.description }}
-      />
-    );
+const descriptionBodyTemplate = (rowData) => {
+  const stripHtml = (html) => {
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    return div.textContent || div.innerText || "";
   };
+
+  const text = stripHtml(rowData.description);
+  const words = text.split(" ");
+
+  const limitedText =
+    words.length > 15
+      ? words.slice(0, 15).join(" ") + "..."
+      : text;
+
+  return <div className="max-w-xs">{limitedText}</div>;
+};
+
 
   const actionBodyTemplate = (rowData) => {
     return (
@@ -239,7 +250,7 @@ const handleImageChange = async (e) => {
   const header = renderHeader();
 
   return (
-    <div className="p-6">
+    <div className="p-6 border  float-end" style={{width:"90%"}}>
       <Toast ref={toast} position="top-right" />
 
       {/* DataTable */}
