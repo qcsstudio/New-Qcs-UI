@@ -10,6 +10,7 @@ export default function Login() {
     password: "",
   });
 
+ 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -49,7 +50,8 @@ export default function Login() {
         localStorage.setItem("token", data.token);
       }
       // router.push("/suggestions");
-      router.push("/payment");
+      // router.push("/https://rzp.io/rzp/EGOrlgI");
+      window.location.href = "https://rzp.io/rzp/EGOrlgI";
       console.log("login data============",data)
       alert("Login Successful 🎉");
 

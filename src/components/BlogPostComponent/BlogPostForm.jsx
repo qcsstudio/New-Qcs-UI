@@ -114,7 +114,7 @@ const handleImageChange = async (e) => {
  
     const method = editingId ? "PUT" : "POST";
     const url = editingId
-      ? `/api/blog/${encodeURIComponent(formData.heading)}`
+      ? `/api/blog/${encodeURIComponent(formData.slug)}`
       : `/api/blog`;
     formData.thumbnail = thumbnail;
     try {
@@ -146,7 +146,7 @@ const handleImageChange = async (e) => {
   // Delete Blog
   const handleDelete = async (blog) => {
     try {
-      const res = await fetch(`/api/blog/${encodeURIComponent(blog.heading)}`, {
+      const res = await fetch(`/api/blog/${encodeURIComponent(blog.slug)}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
@@ -163,7 +163,7 @@ const handleImageChange = async (e) => {
   // Edit Blog
   const handleEdit = (blog) => {
     setFormData(blog);
-    setEditingId(blog.heading); // Store the heading as the identifier
+    setEditingId(blog.slug); // Store the heading as the identifier
     setModalOpen(true);
   };
 
