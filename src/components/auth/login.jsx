@@ -48,7 +48,8 @@ export default function Login() {
       if (data.token) {
         localStorage.setItem("token", data.token);
       }
-      router.push("/suggestions");
+      // router.push("/suggestions");
+      router.push("/payment");
       console.log("login data============",data)
       alert("Login Successful 🎉");
 
