@@ -45,11 +45,11 @@ export default function Suggestions() {
             },
           }
         );
-           if (response.status === 403) {
-          console.log("⚠️ Payment required");
-          router.push("/payment");
-          return;
-        }
+        //    if (response.status === 403) {
+        //   console.log("⚠️ Payment required");
+        //   router.push("/payment");
+        //   return;
+        // }
 
          if (!response.ok) {
         console.error("API Error:", response.status);
