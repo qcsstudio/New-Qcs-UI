@@ -33,6 +33,11 @@ export default function PaymentPage() {
   }
 
   function openRazorpay(order, token) {
+    if (typeof window === "undefined" || !window.Razorpay) {
+      console.log("Razorpay SDK not loaded yet");
+      setTimeout(() => openRazorpay(order, token), 500);
+      return;
+    }
     const options = {
       key: process.env.NEXT_PUBLIC_LIVE_RAZORPAY_KEY_ID,
       amount: order.amount,
