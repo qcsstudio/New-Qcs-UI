@@ -47,6 +47,7 @@ export async function PUT(req, { params }) {
 export async function DELETE(req, { params }) {
   await connectMongo();
   const { slug } = params;
+  console.log("DELETE slug:", slug);
 
   try {
     const deletedBlog = await Blog.findOneAndDelete({ heading: decodeURIComponent(slug) });

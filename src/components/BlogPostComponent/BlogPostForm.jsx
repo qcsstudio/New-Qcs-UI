@@ -146,7 +146,7 @@ const handleImageChange = async (e) => {
   // Delete Blog
   const handleDelete = async (blog) => {
     try {
-      const res = await fetch(`/api/blog/${encodeURIComponent(blog.slug)}`, {
+      const res = await fetch(`/api/blog/${encodeURIComponent(blog.heading)}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
@@ -227,6 +227,7 @@ const descriptionBodyTemplate = (rowData) => {
 
 
   const actionBodyTemplate = (rowData) => {
+    console.log(rowData,"rowDatarowData");
     return (
       <div className="flex gap-2 ">
         <Button
