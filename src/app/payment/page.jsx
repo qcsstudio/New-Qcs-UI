@@ -5,9 +5,16 @@ import { useRouter } from "next/navigation";
 export default function PaymentPage() {
   const router = useRouter();
 
+  // useEffect(() => {
+  //   startPayment();
+  // }, []);
   useEffect(() => {
+  const timer = setTimeout(() => {
     startPayment();
-  }, []);
+  }, 1000);
+
+  return () => clearTimeout(timer);
+}, []);
 
   async function startPayment() {
     const token = localStorage.getItem("token");
@@ -29,15 +36,23 @@ export default function PaymentPage() {
     const data = await res.json();
     console.log("Order data:", data);
 
+    if (!data || !data.order) {
+  alert("Order create failed");
+  return;
+}
+
     openRazorpay(data.order, token);
   }
 
   function openRazorpay(order, token) {
-    if (typeof window === "undefined" || !window.Razorpay) {
-      console.log("Razorpay SDK not loaded yet");
-      setTimeout(() => openRazorpay(order, token), 500);
-      return;
-    }
+      console.log("Checking Razorpay SDK...");
+   if (!window.Razorpay) {
+    console.log("Razorpay SDK not loaded yet");
+    setTimeout(() => openRazorpay(order, token), 500);
+    return;
+  }
+
+  console.log("Using Key:", process.env.NEXT_PUBLIC_LIVE_RAZORPAY_KEY_ID);
     const options = {
       key: process.env.NEXT_PUBLIC_LIVE_RAZORPAY_KEY_ID,
       amount: order.amount,
@@ -64,6 +79,8 @@ export default function PaymentPage() {
     const rzp = new window.Razorpay(options);
     rzp.open();
   }
+  console.log("RAZORPAY KEY:", process.env.NEXT_PUBLIC_LIVE_RAZORPAY_KEY_ID);
+
 
   async function verifyPayment(response, token) {
     const res = await fetch("https://analyzer.qcsstudio.com/api/payment/verify", {
