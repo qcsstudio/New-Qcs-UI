@@ -51,7 +51,8 @@ export default function Login() {
       }
       // router.push("/suggestions");
       // router.push("/https://rzp.io/rzp/EGOrlgI");
-      window.location.href = "https://rzp.io/rzp/EGOrlgI";
+      // window.location.href = "https://rzp.io/rzp/EGOrlgI";
+      router.push("/payment");
       console.log("login data============",data)
       alert("Login Successful 🎉");
 
