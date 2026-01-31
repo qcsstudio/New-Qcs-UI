@@ -26,7 +26,7 @@ const page = () => {
               <BannerAbout />
               <VideoHomeOne style_2={true} />
               <FeatureHomeTwo feature_data={featureData} />
-              <Service />
+              {/* <Service /> */}
               <ServiceHomeTwo />
               <BrandHomeOne style_2={false} />
               <Testimonial />

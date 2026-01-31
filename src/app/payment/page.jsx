@@ -5,9 +5,16 @@ import { useRouter } from "next/navigation";
 export default function PaymentPage() {
   const router = useRouter();
 
+  // useEffect(() => {
+  //   startPayment();
+  // }, []);
   useEffect(() => {
+  const timer = setTimeout(() => {
     startPayment();
-  }, []);
+  }, 1000);
+
+  return () => clearTimeout(timer);
+}, []);
 
   async function startPayment() {
     const token = localStorage.getItem("token");
@@ -18,23 +25,36 @@ export default function PaymentPage() {
     }
 
     // 🟢 Step 1: Create Order
-    const res = await fetch("http://13.127.109.214:5000/api/payment/create-order", {
+    const res = await fetch("https://analyzer.qcsstudio.com/api/payment/create-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({ amount: 1 })
     });
 
     const data = await res.json();
+    console.log("Order data:", data);
+
+    if (!data || !data.order) {
+  alert("Order create failed");
+  return;
+}
 
     openRazorpay(data.order, token);
   }
 
   function openRazorpay(order, token) {
+      console.log("Checking Razorpay SDK...");
+   if (!window.Razorpay) {
+    console.log("Razorpay SDK not loaded yet");
+    setTimeout(() => openRazorpay(order, token), 500);
+    return;
+  }
+
+  console.log("Using Key:", process.env.NEXT_PUBLIC_LIVE_RAZORPAY_KEY_ID);
     const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      key: process.env.NEXT_PUBLIC_LIVE_RAZORPAY_KEY_ID,
       amount: order.amount,
       currency: "INR",
       name: "QCS LinkedIn AI Scanner",
@@ -59,18 +79,20 @@ export default function PaymentPage() {
     const rzp = new window.Razorpay(options);
     rzp.open();
   }
+  console.log("RAZORPAY KEY:", process.env.NEXT_PUBLIC_LIVE_RAZORPAY_KEY_ID);
+
 
   async function verifyPayment(response, token) {
-    const res = await fetch("http://13.127.109.214:5000/api/payment/verify", {
+    const res = await fetch("https://analyzer.qcsstudio.com/api/payment/verify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
-        orderId: response.razorpay_order_id,
-        paymentId: response.razorpay_payment_id,
-        signature: response.razorpay_signature
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature
       })
     });
 

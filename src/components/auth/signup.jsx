@@ -1,8 +1,13 @@
 'use client';
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Signup() {
+  //   const [role, setRole] = useState(null);
+  // const [linkedinUrl, setLinkedinUrl] = useState(null);
+    const router = useRouter();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -10,7 +15,10 @@ export default function Signup() {
     confirm: "",
     agree: false,
   });
-
+  // useEffect(() => {
+  //   setRole(localStorage.getItem("linkedin_audit_role"));
+  //   setLinkedinUrl(localStorage.getItem("linkedin_audit_url"));
+  // }, []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -31,11 +39,12 @@ export default function Signup() {
       setError("Password and Confirm Password do not match");
       return;
     }
-
+    const url = localStorage.getItem("linkedin_audit_url");
+    const role = localStorage.getItem("linkedin_audit_role");
     try {
       setLoading(true);
 
-      const res = await fetch("http://13.127.109.214:5000/api/auth/signup", {
+      const res = await fetch("https://analyzer.qcsstudio.com/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,6 +53,8 @@ export default function Signup() {
           name: form.name,
           email: form.email,
           password: form.password,
+          url: url,
+          role: role,
         }),
       });
 
@@ -54,6 +65,7 @@ export default function Signup() {
       }
 
       alert("Signup Successful 🎉");
+         router.push("/linkedin-login");
 
       // optional: form reset
       setForm({
@@ -63,6 +75,7 @@ export default function Signup() {
         confirm: "",
         agree: false,
       });
+      
 
     } catch (err) {
       setError(err.message);
@@ -133,6 +146,7 @@ export default function Signup() {
                 required
               />
             </div>
+          
 
             <div className="form-check mb-3">
               <input
@@ -145,7 +159,7 @@ export default function Signup() {
                 required
               />
               <label htmlFor="agree" className="form-check-label small">
-                By signing up, you agree to QCS’s Terms & Privacy Policy
+                By signing up, you agree to QCS’s <Link href="/terms-condition" className="text-primary">Terms</Link> & <Link href="/privacy-policy" className="text-primary">Privacy Policy</Link>
               </label>
             </div>
 
@@ -163,7 +177,7 @@ export default function Signup() {
 
             <button type="button" className="btn btn-google w-100">
               <Image
-                src="/assets/img/Images/Google.png"
+                src="/assets/img/Images/Google-signup.png"
                 alt="google-logo"
                 width={34}
                 height={34}

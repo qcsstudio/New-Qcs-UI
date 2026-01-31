@@ -10,6 +10,7 @@ export default function Login() {
     password: "",
   });
 
+ 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -27,7 +28,7 @@ export default function Login() {
     try {
       setLoading(true);
 
-      const res = await fetch("http://13.127.109.214:5000/api/auth/login", {
+      const res = await fetch("https://analyzer.qcsstudio.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,6 +49,9 @@ export default function Login() {
       if (data.token) {
         localStorage.setItem("token", data.token);
       }
+      // router.push("/suggestions");
+      // router.push("/https://rzp.io/rzp/EGOrlgI");
+      // window.location.href = "https://rzp.io/rzp/EGOrlgI";
       router.push("/payment");
       console.log("login data============",data)
       alert("Login Successful 🎉");
@@ -115,7 +119,7 @@ export default function Login() {
 
             <button type="button" className="btn btn-google w-100">
               <Image
-                src="/assets/img/Images/Google.png"
+                src="/assets/img/Images/Google-signup.png"
                 alt="google-logo"
                 width={34}
                 height={34}

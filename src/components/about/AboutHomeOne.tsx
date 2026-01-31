@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 interface DataType {
   img: string;
@@ -12,19 +12,20 @@ interface DataType {
 
 const about_slider: DataType[] = [
   {
-    img: "/assets/img/about_img.jpg",
+    // img: "/assets/img/about_img.jpg", SAME ALL THREE
+    img: "/assets/img/Images/about_img_1.png",
     sub_title: "Our Vision",
     title: `Engineer Clarity <br> Unify Workflows <br> Compound Growth`,
     des: `We imagine growth as everyday reality, not a campaign spike. By unifying tools, data, and teams into one system, work moves faster and cleaner. Agents handle the busywork, people handle decisions—and every week’s learning compounds.`,
   },
   {
-    img: "/assets/img/about_img.jpg",
+    img: "/assets/img/Images/about_img_2.png",
     sub_title: "Our Mission",
     title: `Design Once <br> Run Everywhere <br> Measure What Matters`,
     des: ` We turn scattered tools into a governed operating model. Agents execute, apps scale, and marketing self-optimizes while dashboards tie effort to revenue. Teams get fewer handoffs, clearer accountability, and confident, repeatable ROI.`,
   },
   {
-    img: "/assets/img/about_img.jpg",
+    img: "/assets/img/Images/about_img_3.png",
     sub_title: "Our Principle",
     title: `Build Once <br> Make It Smarter <br> Every Week`,
     des: ` We replace fragile, one-off tactics with systems that learn. We design agentic AI, craft high-performance apps, and run AI-powered marketing as one operating model—so your best week becomes the baseline.`,
@@ -38,7 +39,11 @@ const AboutHomeOne = () => {
       <Swiper
         loop={true}
         speed={1000}
-        modules={[Navigation, Pagination]}
+        modules={[Navigation, Pagination, Autoplay]}
+         autoplay={{
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    }}
         navigation={{
           nextEl: ".cs_swiper_button_next",
           prevEl: ".cs_swiper_button_prev",

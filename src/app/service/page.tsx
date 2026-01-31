@@ -24,7 +24,7 @@ const index = () => {
         <div id="smooth-content">
           <main>
             <HeroService />
-            <Service />
+            {/* <Service /> */}
             <Testimonial style_service={true} />
             <AboutHomeFour />
           </main>

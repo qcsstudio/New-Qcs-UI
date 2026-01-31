@@ -203,3 +203,16 @@
 		}
 	}
 }
+
+
+// marquee brand home one
+.brand-marquee-item {
+  flex: 0 0 auto;          /* 🔥 marquee ko control dena */
+  width: 210px;            /* same width for all logos */
+  height: 146px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 40px;      /* ✅ equal spacing */
+}
+

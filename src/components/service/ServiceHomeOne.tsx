@@ -94,7 +94,7 @@ const ServiceHomeOne = () => {
                     </div>
                   </div>
                 </div>
-                <div className="cs_card_link_wrap border">
+                <div className="cs_card_link_wrap ">
                   <Link href="/service-details" className="cs_card_link">
                     <span>
                       <svg width="30" height="30" viewBox="0 0 30 30" fill="none"

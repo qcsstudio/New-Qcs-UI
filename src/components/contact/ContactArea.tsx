@@ -67,10 +67,10 @@ const ContactArea = () => {
               </div>
             </div>
             <div className="cs_contact_section_2 anim_div_ShowRightSide">
-              <div className="cs_google_map cs_bg" data-src="assets/img/map_img.png">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d96652.27317354927!2d-74.33557928194516!3d40.79756494697628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3a82f1352d0dd%3A0x81d4f72c4435aab5!2sTroy+Meadows+Wetlands!5e0!3m2!1sen!2sbd!4v1563075599994!5m2!1sen!2sbd"
-                  allowFullScreen={true}></iframe>
+              <div className="cs_google_map cs_bg" >
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3430.3826714955653!2d76.68162051219592!3d30.707640774490436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fefa3c5ea2fd5%3A0x332a8d3fa1ce9747!2sQuantumCrafters%20Studio%20Private%20Limited!5e0!3m2!1sen!2sin!4v1766137326603!5m2!1sen!2sin"
+                  width="600" height="450" style={{ border: 0 }} allowFullScreen={true} loading="lazy" ></iframe>
+                
               </div>
               <div className="cs_height_50 cs_height_lg_50"></div>
               <div className="row">
@@ -88,7 +88,7 @@ const ContactArea = () => {
                     </a>
                     <div className="cs_icon_text">
                       <h6 className="cs_icon_title">Address</h6>
-                      <p className="cs_icon_subtitle">El-Mahalla El-Kubra 37</p>
+                      <p className="cs_icon_subtitle">D266 (C) 203, Second Floor Ram Hari Tower, Phase 8B, Industrial Area, Sector 74 Mohali - 160055</p>
                     </div>
                   </div>
                 </div>
@@ -112,7 +112,7 @@ const ContactArea = () => {
                     </a>
                     <div className="cs_icon_text">
                       <h6 className="cs_icon_title">Phone</h6>
-                      <p className="cs_icon_subtitle">(406) 555-0120</p>
+                      <p className="cs_icon_subtitle">+91 8264017346</p>
                     </div>
                   </div>
                 </div>
@@ -133,7 +133,7 @@ const ContactArea = () => {
                     </a>
                     <div className="cs_icon_text">
                       <h6 className="cs_icon_title">Email</h6>
-                      <p className="cs_icon_subtitle">vixan@email.com</p>
+                      <p className="cs_icon_subtitle">info@qcsstudio.com</p>
                     </div>
                   </div>
                 </div>
