@@ -17,7 +17,7 @@ interface DataType {
 
 const footer_data: DataType = {
   email: `info@qcsstudio.com`,
-  phone: `+91 8264017346`,
+  phone: `91 7719607776`,
   location: `D266 (C) 203, Second Floor Ram Hari Tower, Phase 8B, Industrial Area, Sector 74 Mohali - 160055`,
   footer_info: `The next big thing starts here drop us a line and let's get creating!`,
   links: [

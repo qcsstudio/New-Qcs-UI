@@ -57,7 +57,7 @@ export default function RootLayout({
               "logo": "https://www.qcsstudio.com/assets/img/Images/favicon.png",
               "description":
                 "AI-powered growth studio offering AI development, web/app engineering, automation, analytics, and marketing solutions to help businesses scale.",
-              "telephone": "+91-8264017346",
+              "telephone": "91 7719607776",
               "email": "info@qcsstudio.com",
               "address": {
                 "@type": "PostalAddress",
