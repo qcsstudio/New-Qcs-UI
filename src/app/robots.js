@@ -29,6 +29,6 @@ export default function robots() {
     ],
 
     // 🔹 Sitemap ka exact location
-    sitemap: "https://qcsstudio.com/sitemap.xml", // 
+    sitemap: "https://www.qcsstudio.com/sitemap.xml", // 
   };
 }

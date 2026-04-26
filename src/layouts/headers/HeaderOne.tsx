@@ -223,7 +223,7 @@ const HeaderOne = () => {
 									</p>
 
 									{/* <h4 className="cs_phone_number">
-										<a href="+91 8264017346">
+										<a href="+91 7719607776">
 											<svg width="35" height="35" viewBox="0 0 18 19" fill="none"
 												xmlns="http://www.w3.org/2000/svg">
 												<path
@@ -235,12 +235,12 @@ const HeaderOne = () => {
 												<path
 													d="M15.1294 2.93344C13.5338 1.33791 11.5151 0.330398 9.28656 0.0195312L9.0918 1.40907C11.0169 1.67874 12.7623 2.55141 14.1406 3.92597C15.4477 5.23311 16.3054 6.88483 16.6163 8.70134L17.9983 8.46538C17.635 6.36047 16.6425 4.45033 15.1294 2.93344Z"
 													fill="white"></path>
-											</svg><span className="ms-2">+91 8264017346</span></a>
+											</svg><span className="ms-2">+91 7719607776</span></a>
 									</h4> */}
 
 									<h4 className="cs_phone_number">
 										<Link
-											href="tel:+918264017346"
+											href="tel:+917719607776"
 											className="d-inline-flex align-items-center"
 										>
 											<svg

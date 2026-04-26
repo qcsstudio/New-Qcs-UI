@@ -17,7 +17,7 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;900&family=Kanit:wght@400;500;600;700&display=swap"
         />
-        <title>QuantaumCrafter Studio</title>
+        <title>QuantumCrafters Studio</title>
          <link
           rel="canonical"
           href="https://www.qcsstudio.com"
@@ -57,7 +57,7 @@ export default function RootLayout({
               "logo": "https://www.qcsstudio.com/assets/img/Images/favicon.png",
               "description":
                 "AI-powered growth studio offering AI development, web/app engineering, automation, analytics, and marketing solutions to help businesses scale.",
-              "telephone": "+91-8264017346",
+              "telephone": "+917719607776",
               "email": "info@qcsstudio.com",
               "address": {
                 "@type": "PostalAddress",
