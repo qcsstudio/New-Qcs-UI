@@ -50,7 +50,7 @@ export const SocialLinks = () => {
 const copy_right_text = {
   copy_right: (
     <>
-     © 2025 QuantumCrafters Studio Pvt. Ltd. All rights reserved.
+     © 2026 QuantumCrafters Studio Pvt. Ltd. All rights reserved.
 
     </>
   ),
