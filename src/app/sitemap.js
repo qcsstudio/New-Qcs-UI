@@ -7,7 +7,7 @@ import { MetadataRoute } from "next";
  */
 export default function sitemap() {
   // 🔹 Apni website ka base URL
-  const baseUrl = "https://qcsstudio.com"; 
+  const baseUrl = "https://www.qcsstudio.com"; 
 
   /**
    * Yahan hum public pages define karte hain
