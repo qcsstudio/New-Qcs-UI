@@ -10,8 +10,8 @@ import React from 'react';
 
 
 export const metadata = {
-  title: 'Services | QuantumCrafters Studio',
-  description: 'Explore QuantumCrafters Studio services in AI growth, automation, web/app development, and digital marketing.',
+  title: 'Services - QuantumCrafters',
+  description: 'Explore QuantumCrafters services in AI growth, automation, web/app engineering, and performance marketing.',
 };
 
 const index = () => {

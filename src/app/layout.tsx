@@ -1,8 +1,39 @@
 
 import Script from "next/script";
+import type { Metadata } from "next";
 import "../styles/index.scss";
 import { PolicyProvider } from "@/context/policyContext";
 
+export const metadata: Metadata = {
+  metadataBase: new URL("https://www.qcsstudio.com"),
+  title: {
+    default: "QuantumCrafters | AI Growth, Automation & Marketing",
+    template: "%s | QuantumCrafters",
+  },
+  description:
+    "QuantumCrafters helps brands scale with agentic AI, automation, web/app engineering, and performance marketing built for measurable ROI.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "QuantumCrafters | AI Growth, Automation & Marketing",
+    description:
+      "Agentic AI systems, automation, and growth marketing services designed to improve revenue, efficiency, and decision quality.",
+    url: "https://www.qcsstudio.com/",
+    siteName: "QuantumCrafters",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "QuantumCrafters | AI Growth, Automation & Marketing",
+    description:
+      "Scale faster with AI systems, automation, and performance marketing from QuantumCrafters.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function RootLayout({
   children,
@@ -16,12 +47,6 @@ export default function RootLayout({
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;900&family=Kanit:wght@400;500;600;700&display=swap"
-        />
-        <title>QuantumCrafters Studio</title>
-         <link
-          rel="canonical"
-          href="https://www.qcsstudio.com"
-          key="canonical"
         />
         <Script
           id="microsoft-clarity"
@@ -52,11 +77,11 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              "name": "QuantumCrafters Studio Pvt. Ltd.",
+              "name": "QuantumCrafters",
               "url": "https://www.qcsstudio.com/",
               "logo": "https://www.qcsstudio.com/assets/img/Images/favicon.png",
               "description":
-                "AI-powered growth studio offering AI development, web/app engineering, automation, analytics, and marketing solutions to help businesses scale.",
+                "AI-powered growth partner offering agentic AI development, web/app engineering, automation, analytics, and marketing solutions to help businesses scale.",
               "telephone": "+917719607776",
               "email": "info@qcsstudio.com",
               "address": {

@@ -1,8 +1,8 @@
 import LoginPageClient from '@/components/auth/LoginPageClient';
 
 export const metadata = {
-  title: 'Dashboard Login | QuantumCrafters Studio',
-  description: 'Secure dashboard login for QuantumCrafters Studio.',
+  title: 'Dashboard Login | QuantumCrafters',
+  description: 'Secure dashboard login for QuantumCrafters.',
   robots: {
     index: false,
     follow: false,

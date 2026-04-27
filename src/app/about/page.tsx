@@ -14,8 +14,8 @@ import AboutHomeOne from '@/components/about/AboutHomeOne';
 import ServiceHomeFive from '@/components/service/ServiceHomeFive';
 
 export const metadata = {
-  title: "Who We Are - AI Growth, Automation & Marketing | QCS Studio",
-  description: "Learn how QuantumCrafters Studio blends human creativity with AI-driven growth, automation and marketing to help brands scale faster and smarter."
+  title: "About QuantumCrafters - AI Growth, Automation & Marketing",
+  description: "Learn how QuantumCrafters blends strategic thinking with AI-driven growth, automation, and marketing to help brands scale faster and smarter."
  
 };
 
