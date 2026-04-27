@@ -1,6 +1,3 @@
- 
- 'use client'
-
 
 import AboutHomeFour from '@/components/about/AboutHomeFour';
 import HeroService from '@/components/hero/HeroService';
@@ -12,9 +9,10 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import React from 'react';
 
 
-// export const metadata = {
-//   title: "Service Vixan - Digital  Creative Agency Next js Template",
-// };
+export const metadata = {
+  title: 'Services | QuantumCrafters Studio',
+  description: 'Explore QuantumCrafters Studio services in AI growth, automation, web/app development, and digital marketing.',
+};
 
 const index = () => {
   return (
