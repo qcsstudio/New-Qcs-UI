@@ -1,6 +1,4 @@
 
- 
-'use client'
 
 import React from 'react';
 import Wrapper from '@/layouts/Wrapper';
@@ -10,9 +8,10 @@ import AboutHomeFour from '@/components/about/AboutHomeFour';
 import PortfolioDetailsArea from '@/components/details/PortfolioDetailsArea';
 
 
-// export const metadata = {
-//   title: "Portfolio Details Vixan - Digital  Creative Agency Next js Template",
-// };
+export const metadata = {
+  title: 'Portfolio Details | QuantumCrafters Studio',
+  description: 'Case studies and project outcomes delivered by QuantumCrafters Studio.',
+};
 
 
 const index = () => {
