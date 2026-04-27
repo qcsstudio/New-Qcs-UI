@@ -5,8 +5,8 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import React from 'react';
 
 export const metadata = {
-  title: "Contact QCS Studio - AI Growth & Marketing Experts",
-  description: "Get in touch with QCS Studio for AI-driven growth, marketing automation, LinkedIn optimization and performance strategies that scale your business."
+  title: "Contact QuantumCrafters - AI Growth & Marketing Experts",
+  description: "Get in touch with QuantumCrafters for AI-driven growth, marketing automation, LinkedIn optimization, and performance strategies that scale your business."
  
 };
 

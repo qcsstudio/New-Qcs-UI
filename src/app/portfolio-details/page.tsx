@@ -9,8 +9,8 @@ import PortfolioDetailsArea from '@/components/details/PortfolioDetailsArea';
 
 
 export const metadata = {
-  title: 'Portfolio Details | QuantumCrafters Studio',
-  description: 'Case studies and project outcomes delivered by QuantumCrafters Studio.',
+  title: 'Portfolio Details | QuantumCrafters',
+  description: 'Case studies and project outcomes delivered by QuantumCrafters.',
 };
 
 

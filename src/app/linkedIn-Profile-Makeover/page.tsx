@@ -18,8 +18,8 @@ import img from "@/assets/img/Images/linkedin_innovation.png";
 import { service_data } from '@/data/serviceArea_detail';
 
 export const metadata = {
-  title: "LinkedIn Profile Optimization for B2B Leads | QCS Studio ",
-  description: "Optimize your LinkedIn profile to attract qualified B2B leads with strategic positioning, keyword optimization, and conversion-focused messaging by QCS Studio."
+  title: "LinkedIn Profile Optimization for B2B Leads",
+  description: "Optimize your LinkedIn profile to attract qualified B2B leads with strategic positioning, keyword optimization, and conversion-focused messaging by QuantumCrafters."
  
 };
 

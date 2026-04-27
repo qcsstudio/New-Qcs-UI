@@ -6,8 +6,8 @@ import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 
 export const metadata = {
-  title: "Digital Marketing & AI SEO Insights | QuantumCrafters Studio Blog",
-  description: "Explore expert insights on SEO, GEO, AI marketing, LinkedIn growth, and lead generation. Learn what works in 2026 with QuantumCrafters Studio."
+  title: "Digital Marketing & AI SEO Insights Blog",
+  description: "Explore expert insights on SEO, GEO, AI marketing, LinkedIn growth, and lead generation. Learn what works in 2026 with QuantumCrafters."
 };
 
 const index = () => {

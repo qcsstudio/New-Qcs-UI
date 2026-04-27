@@ -23,8 +23,8 @@ import {service_data_home} from "@/data/serviceArea_detail";
 
 
 export const metadata = {
-  title: "AI Growth & Marketing Automation Studio | QCS Studio",
-  description: "Transform growth with agentic AI, AI SEO, performance ads, chatbots & automation - intelligent marketing solutions to drive revenue and efficiency.",
+  title: "AI Growth & Marketing Automation Services",
+  description: "Transform growth with agentic AI, AI SEO, performance ads, chatbots, and automation—built to improve revenue, pipeline velocity, and operational efficiency.",
   verification: {
     google: "MbqWeyYPvPzsogXFxsL8o_LZUqhL-lqb0C6-EeSNemM",
   },
