@@ -42,6 +42,11 @@ const menu_data: DataType[] = [
         id: 1,
         title: "LinkedIn Profile Makeover",
         link: "/linkedIn-Profile-Makeover",
+      },
+      {
+        id: 2,
+        title: "Network Support Services",
+        link: "/network-support-services",
       }
     ]
   },
