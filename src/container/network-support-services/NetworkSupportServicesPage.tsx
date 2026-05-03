@@ -17,6 +17,10 @@ import {
   trustBadges,
   useCases,
   vendors,
+  painCards,
+  oldModelItems,
+  qcsModelItems,
+  whyPrinciples,
 } from "@/data/networkSupportPage";
 
 const SectionTitle = ({ eyebrow, title }: { eyebrow?: string; title: string }) => (
@@ -105,6 +109,19 @@ export default function NetworkSupportServicesPage({
                 </section>
 
                 <section className="mb-5">
+                  <SectionTitle title="Your Network Should Not Become a Business Risk" />
+                  <div className="row g-3">{painCards.map((card,idx)=><div key={card.title} className="col-md-4"><div className="cs_card cs_style_1 p-4 h-100"><h3 className="h5">0{idx+1}. {card.title}</h3><p className="mb-0">{card.description}</p></div></div>)}</div>
+                </section>
+
+                <section className="mb-5">
+                  <SectionTitle title="The Old Support Model Is Not Built for Modern Infrastructure" />
+                  <div className="row g-4">
+                    <div className="col-md-6"><div className="cs_card cs_style_1 p-4 h-100"><h3 className="h5">Old Model</h3><ul>{oldModelItems.map((i)=><li key={i}>{i}</li>)}</ul></div></div>
+                    <div className="col-md-6"><div className="cs_card cs_style_1 p-4 h-100"><h3 className="h5">QCS Model</h3><ul>{qcsModelItems.map((i)=><li key={i}>{i}</li>)}</ul></div></div>
+                  </div>
+                </section>
+
+                <section className="mb-5">
                   <SectionTitle
                     eyebrow="Our Network Support Services"
                     title="Complete Network Configuration, Troubleshooting & Managed Support"
@@ -178,6 +195,7 @@ export default function NetworkSupportServicesPage({
                 </section>
 
                 <section className="mb-5">
+                  <SectionTitle title="Diagnose. Stabilize. Secure. Support." />
                   <SectionTitle title="Diagnose. Stabilise. Secure. Support." />
                   <div className="row g-3">
                     {processSteps.map((step, idx) => (
@@ -193,6 +211,9 @@ export default function NetworkSupportServicesPage({
 
                 <section className="mb-5">
                   <SectionTitle title="Engineering Discipline for Your Network Operations" />
+                  <p>QCS brings the same systems-thinking used across automation, product, AI and growth engineering into network infrastructure support. We focus on secure configuration, operational clarity, controlled delivery and measurable support quality — not temporary fixes that create future instability.</p>
+                  <div className="row g-3">{whyPrinciples.map((p,idx)=><div key={p.title} className="col-md-4"><div className="cs_card cs_style_1 p-4 h-100"><h3 className="h5">{idx+1}. {p.title}</h3><p className="mb-0">{p.description}</p></div></div>)}</div>
+                  <ul className="mt-3">{differentiators.map((item) => <li key={item}>{item}</li>)}</ul>
                   <ul>{differentiators.map((item) => <li key={item}>{item}</li>)}</ul>
                 </section>
 

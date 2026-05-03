@@ -81,3 +81,16 @@ export const faqs = [
   ["Can you support new office network installation?", "Yes. We support new office network setup including firewall, router, switch, Wi-Fi, VLAN, VPN, internet failover, and secure access configuration."],
   ["Do you provide ongoing managed network services?", "Yes. We provide ongoing SLA-based network support for configuration changes, troubleshooting, incident response, preventive checks, documentation, and performance review."],
 ] as const;
+
+export const painCards = [
+  { title: "Unstable Connectivity", description: "Frequent drops, WAN failures, Wi-Fi issues, slow application access and branch downtime." },
+  { title: "Configuration Drift", description: "Firewall rules, routing changes, VPN tunnels and VLAN structures become difficult to control over time." },
+  { title: "Slow Incident Response", description: "Without clear ownership and SLA support, small issues can quickly become business-impacting outages." },
+];
+export const oldModelItems = ["Reactive troubleshooting","No proper change documentation","Firewall rules added without review","VPN issues fixed temporarily","No SLA ownership","Vendor dependency during emergencies","Network visibility remains fragmented"];
+export const qcsModelItems = ["Structured diagnosis and remediation","Controlled configuration changes","Firewall, VPN, SD-WAN and cloud handled together","Clear documentation and handover","SLA-based response","Freelance specialists when needed","Ongoing support for critical infrastructure"];
+export const whyPrinciples = [
+  { title: "Precision Over Guesswork", description: "We diagnose before making changes, so fixes are controlled and explainable." },
+  { title: "Governance Over Ad-Hoc Changes", description: "Every configuration change should improve stability, security and visibility." },
+  { title: "Support Over One-Time Fixes", description: "We help businesses move from reactive troubleshooting to SLA-backed operations." },
+];
