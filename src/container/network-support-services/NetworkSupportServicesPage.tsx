@@ -48,8 +48,6 @@ export default function NetworkSupportServicesPage({
             <section>
               <div className="container">
                 <section className="mb-5 cs_card cs_style_1 p-4 p-lg-5">
-                  <div className="row g-4 align-items-center">
-                    <div className="col-lg-7">
                   <p className="text-uppercase mb-2">Network Infrastructure Support</p>
                   <h1 className="cs_section_title">
                     24x7 Network Support for Secure, Stable & Always-On Business Operations
@@ -74,7 +72,7 @@ export default function NetworkSupportServicesPage({
                       Talk to a Network Engineer
                     </Link>
                   </div>
-                  </div><div className="col-lg-5"><div className="cs_card cs_style_1 p-4" aria-hidden="true" style={{background:"linear-gradient(140deg,#0d1f3a,#1d4f91)",color:"#fff"}}><h3 className="h5 text-white">Network Operations Architecture</h3><ul className="mb-3"><li>Users / Branches</li><li>Firewall / SD-WAN</li><li>Core Network</li><li>Cloud / Apps</li></ul><div className="d-flex flex-wrap gap-2"><span className="badge text-bg-light">Secure</span><span className="badge text-bg-light">Online</span><span className="badge text-bg-light">SLA Active</span><span className="badge text-bg-light">Policy Synced</span></div></div></div></div><div className="row g-2 mt-3">
+                  <div className="row g-2 mt-3">
                     {trustBadges.map((badge) => (
                       <div key={badge} className="col-md-6 col-lg-4">
                         <span className="badge text-bg-light p-2">{badge}</span>
@@ -155,10 +153,9 @@ export default function NetworkSupportServicesPage({
                   <ul>{freelanceItems.map((item) => <li key={item}>{item}</li>)}</ul>
                 </section>
 
-                <section className="mb-5 cs_card cs_style_1 p-4 p-lg-5" style={{background:"linear-gradient(145deg,#0f1c33,#183b69)",color:"#fff"}}>
-                  <h2 className="text-white">24x7 SLA-Based Network Support for Critical Infrastructure</h2>
-                  <p className="text-white">For businesses that need continuous support, QCS provides SLA-based network assistance for critical incidents, planned changes, troubleshooting, configuration requests, preventive checks, and ongoing operational stability.</p>
-                  <div className="row g-2">{managedSupportItems.map((item) => <div key={item} className="col-md-6"><div className="border rounded p-2">{item}</div></div>)}</div>
+                <section className="mb-5">
+                  <SectionTitle title="24x7 Network Support for Critical Business Infrastructure" />
+                  <ul>{managedSupportItems.map((item) => <li key={item}>{item}</li>)}</ul>
                 </section>
 
                 <section className="mb-5">
@@ -199,6 +196,7 @@ export default function NetworkSupportServicesPage({
 
                 <section className="mb-5">
                   <SectionTitle title="Diagnose. Stabilize. Secure. Support." />
+                  <SectionTitle title="Diagnose. Stabilise. Secure. Support." />
                   <div className="row g-3">
                     {processSteps.map((step, idx) => (
                       <div key={step.title} className="col-md-6">
@@ -216,6 +214,7 @@ export default function NetworkSupportServicesPage({
                   <p>QCS brings the same systems-thinking used across automation, product, AI and growth engineering into network infrastructure support. We focus on secure configuration, operational clarity, controlled delivery and measurable support quality — not temporary fixes that create future instability.</p>
                   <div className="row g-3">{whyPrinciples.map((p,idx)=><div key={p.title} className="col-md-4"><div className="cs_card cs_style_1 p-4 h-100"><h3 className="h5">{idx+1}. {p.title}</h3><p className="mb-0">{p.description}</p></div></div>)}</div>
                   <ul className="mt-3">{differentiators.map((item) => <li key={item}>{item}</li>)}</ul>
+                  <ul>{differentiators.map((item) => <li key={item}>{item}</li>)}</ul>
                 </section>
 
                 <section className="mb-5">
