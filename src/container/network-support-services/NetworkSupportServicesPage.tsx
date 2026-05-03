@@ -196,6 +196,7 @@ export default function NetworkSupportServicesPage({
 
                 <section className="mb-5">
                   <SectionTitle title="Diagnose. Stabilize. Secure. Support." />
+                  <SectionTitle title="Diagnose. Stabilise. Secure. Support." />
                   <div className="row g-3">
                     {processSteps.map((step, idx) => (
                       <div key={step.title} className="col-md-6">
@@ -213,6 +214,7 @@ export default function NetworkSupportServicesPage({
                   <p>QCS brings the same systems-thinking used across automation, product, AI and growth engineering into network infrastructure support. We focus on secure configuration, operational clarity, controlled delivery and measurable support quality — not temporary fixes that create future instability.</p>
                   <div className="row g-3">{whyPrinciples.map((p,idx)=><div key={p.title} className="col-md-4"><div className="cs_card cs_style_1 p-4 h-100"><h3 className="h5">{idx+1}. {p.title}</h3><p className="mb-0">{p.description}</p></div></div>)}</div>
                   <ul className="mt-3">{differentiators.map((item) => <li key={item}>{item}</li>)}</ul>
+                  <ul>{differentiators.map((item) => <li key={item}>{item}</li>)}</ul>
                 </section>
 
                 <section className="mb-5">
