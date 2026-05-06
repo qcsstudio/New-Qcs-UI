@@ -82,6 +82,62 @@ export const faqs = [
   ["Do you provide ongoing managed network services?", "Yes. We provide ongoing SLA-based network support for configuration changes, troubleshooting, incident response, preventive checks, documentation, and performance review."],
 ] as const;
 
+export const getNetworkSupportSchemaGraph = () => ({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": "https://www.qcsstudio.com/network-support-services#service",
+      name: "24x7 Network Support, Firewall and SD-WAN Configuration Services",
+      url: "https://www.qcsstudio.com/network-support-services",
+      provider: {
+        "@type": "Organization",
+        name: "QuantumCrafters Studio Pvt. Ltd.",
+        url: "https://www.qcsstudio.com",
+      },
+      serviceType: "Network Support Services",
+      areaServed: [
+        { "@type": "Country", name: "India" },
+        { "@type": "Place", name: "Remote and Global Support" },
+      ],
+      description: metadataConfig.description,
+      audience: industries.map((industry) => ({
+        "@type": "Audience",
+        audienceType: industry,
+      })),
+      brand: vendors.map((vendor) => ({
+        "@type": "Brand",
+        name: vendor,
+      })),
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Network Infrastructure Support Services",
+        itemListElement: networkServices.map((service) => ({
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: service.title,
+            description: service.description,
+            serviceOutput: service.bullets,
+          },
+        })),
+      },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.qcsstudio.com/network-support-services#faq",
+      mainEntity: faqs.map(([question, answer]) => ({
+        "@type": "Question",
+        name: question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: answer,
+        },
+      })),
+    },
+  ],
+});
+
 export const painCards = [
   { title: "Unstable Connectivity", description: "Frequent drops, WAN failures, Wi-Fi issues, slow application access and branch downtime." },
   { title: "Configuration Drift", description: "Firewall rules, routing changes, VPN tunnels and VLAN structures become difficult to control over time." },
