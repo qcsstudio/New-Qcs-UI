@@ -4,75 +4,11 @@ import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 import UseSticky from "@/hooks/UseSticky";
 import React, { useEffect, useState } from "react";
-
+import { navigationData } from "@/data/navigation";
 
 import Image from "next/image";
 import logo from "@/assets/img/Images/Nav-logo.png";
 import Logo_white from "@/assets/img/Images/MobileNavLogo.png";
-
-interface DataType {
-	id: number;
-	title: string;
-	link: string;
-	has_dropdown: boolean;
-	sub_menu?: {
-		id: number;
-		title: string;
-		link: string;
-	}[]
-}
-
-const menu_data: DataType[] = [
-	{
-		id: 1,
-		title: "Home",
-		link: "/",
-		has_dropdown: false,
-
-	},
-	{
-		id: 2,
-		title: "About",
-		link: '/about',
-		has_dropdown: false
-	},
-	{
-		id: 3,
-		title: "services",
-		link: "/linkedIn-Profile-Makeover",
-		has_dropdown: true,
-		sub_menu: [
-
-			{
-				id: 1,
-				title: "LinkedIn Profile-Makeover",
-				link: "/linkedIn-Profile-Makeover",
-			},
-			{
-				id: 2,
-				title: "Network Support Services",
-				link: "/network-support-services",
-			}
-		]
-	},
-
-
-	{
-		id: 4,
-		title: "Contact",
-		link: "/contact",
-		has_dropdown: false,
-	},
-	{
-		id: 5,
-		title: "Blogs",
-		link: "/blog",
-		has_dropdown: false,
-	},
-
-
-]
-
 
 const HeaderOne = () => {
 	const { sticky } = UseSticky()
@@ -183,7 +119,7 @@ const HeaderOne = () => {
 							<div className="cs_box_one">
 								<div className="cs_nav_black_section cs_font_changes">
 									<ul>
-										{menu_data.map((item, i) => (
+										{navigationData.map((item, i) => (
 											<li key={i} className={`menu-item-has-black-section cs_style_1 ${navTitle === item.title ? "active" : ""}`}>
 												<Link href={item.link}>{item.title}</Link>
 												{item.has_dropdown && (
