@@ -2,6 +2,10 @@ import Link from "next/link";
 import Wrapper from "@/layouts/Wrapper";
 import HeaderOne from "@/layouts/headers/HeaderOne";
 import FooterOne from "@/layouts/footers/FooterOne";
+import Testimonial from "@/components/testimonial/Testimonial";
+import AwardsHomeOne from "@/components/awards/AwardsHomeOne";
+import BlogHomeOne from "@/components/blog/BlogHomeOne";
+import FaqAccordion from "@/components/faq/FaqAccordion";
 import {
   architecturePillars,
   differentiators,
@@ -851,6 +855,7 @@ export default function NetworkSupportServicesPage({
 
                 <section className="mb-5">
                   <SectionTitle title="Frequently Asked Questions" />
+                  <FaqAccordion faqs={faqs} />
                   {faqs.map(({ question, answer }, idx) => (
                     <details key={question} className="cs_card cs_style_1 p-3 mb-3" open={idx === 0}>
                       <summary className="fw-semibold">{question}</summary>
