@@ -219,7 +219,7 @@ export default function NetworkSupportServicesPage({
 
                 <section className="mb-5">
                   <SectionTitle title="Frequently Asked Questions" />
-                  {faqs.map(([question, answer], idx) => (
+                  {faqs.map(({ question, answer }, idx) => (
                     <details key={question} className="cs_card cs_style_1 p-3 mb-3" open={idx === 0}>
                       <summary className="fw-semibold">{question}</summary>
                       <p className="mt-2 mb-0">{answer}</p>
