@@ -497,6 +497,25 @@ export default function NetworkSupportServicesPage({
                       </details>
                     </div>
                   ))}
+                </section>
+
+                <section className="cs_card cs_style_1 p-4 p-lg-5 text-center mb-5">
+                  <h2>Need Reliable Network Support Today?</h2>
+                  <p>
+                    Whether you need a freelance network engineer, a firewall specialist, FortiGate
+                    or Cisco configuration support, SD-WAN troubleshooting, cloud networking
+                    assistance, or 24x7 SLA-based managed network support, QCS can help.
+                  </p>
+                  <div className="d-flex flex-wrap justify-content-center gap-3">
+                    <Link href="/contact?intent=network-support" className="btn btn-dark">
+                      Talk to a Network Engineer
+                    </Link>
+                    <Link
+                      href="/contact?intent=remote-troubleshooting"
+                      className="btn btn-outline-dark"
+                    >
+                      Request Remote Troubleshooting
+                    </Link>
                 </div>
               </div>
             </section>
