@@ -2,9 +2,6 @@ import Link from "next/link";
 import Wrapper from "@/layouts/Wrapper";
 import HeaderOne from "@/layouts/headers/HeaderOne";
 import FooterOne from "@/layouts/footers/FooterOne";
-import Testimonial from "@/components/testimonial/Testimonial";
-import AwardsHomeOne from "@/components/awards/AwardsHomeOne";
-import BlogHomeOne from "@/components/blog/BlogHomeOne";
 import {
   architecturePillars,
   differentiators,
@@ -226,10 +223,6 @@ export default function NetworkSupportServicesPage({
                     </details>
                   ))}
                 </section>
-
-                <Testimonial />
-                <AwardsHomeOne style_2={true} />
-                <BlogHomeOne />
 
                 <section className="cs_card cs_style_1 p-4 p-lg-5 text-center mb-5">
                   <h2>Need Reliable Network Support Today?</h2>
