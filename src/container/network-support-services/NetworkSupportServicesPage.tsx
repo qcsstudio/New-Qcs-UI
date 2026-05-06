@@ -12,6 +12,7 @@ import {
   differentiators,
   faqs,
   freelanceItems,
+  heroStats,
   industries,
   managedSupportItems,
   networkServices,
@@ -19,6 +20,7 @@ import {
   painCards,
   processSteps,
   qcsModelItems,
+  topologyNodes,
   trustBadges,
   useCases,
   vendors,
@@ -110,41 +112,76 @@ export default function NetworkSupportServicesPage({ children }: { children?: Re
       <HeaderOne />
       <div id="smooth-wrapper">
         <div id="smooth-content">
-          <main>
+          <main className="network-support-page">
             {children}
             <Spacer size="lg" />
             <div className="container">
-              <section className="cs_card cs_style_1 p-4 p-lg-5 anim_div_ShowDowns">
-                <p className="text-uppercase mb-2 anim_text">Network Infrastructure Support</p>
-                <h1 className="cs_section_title anim_heading_title">
-                  24x7 Network Support for Secure, Stable & Always-On Business Operations
-                </h1>
-                <p className="anim_text">
-                  Your network is the operating layer behind every user, branch, application,
-                  cloud workload, and customer interaction. QCS helps businesses configure,
-                  troubleshoot, secure, and support their network infrastructure with SLA-based
-                  engineering support across firewalls, routers, switches, SD-WAN, VPN, Wi-Fi,
-                  and cloud networking.
-                </p>
-                <p className="anim_text">
-                  From one-time specialised configuration to long-term managed network support,
-                  we provide remote and onsite assistance for business-critical infrastructure
-                  where downtime is not an option.
-                </p>
-                <div className="d-flex gap-3 flex-wrap">
-                  <Link href="/contact" className="btn btn-dark">
-                    Get Network Support
-                  </Link>
-                  <Link href="/contact?intent=network-support" className="btn btn-outline-dark">
-                    Talk to a Network Engineer
-                  </Link>
-                </div>
-                <div className="row g-2 mt-3">
-                  {trustBadges.map((badge) => (
-                    <div key={badge} className="col-md-6 col-lg-4 anim_div_ShowDowns">
-                      <span className="badge text-bg-light p-2">{badge}</span>
+              <section className="network-support-hero cs_card cs_style_1 p-4 p-lg-5 anim_div_ShowDowns">
+                <div className="row align-items-center g-5">
+                  <div className="col-lg-7">
+                    <p className="network-support-page__eyebrow text-uppercase mb-2 anim_text">
+                      Network Infrastructure Support
+                    </p>
+                    <h1 className="cs_section_title anim_heading_title">
+                      24x7 Network Support for Secure, Stable & Always-On Business Operations
+                    </h1>
+                    <p className="network-support-page__lead anim_text">
+                      Your network is the operating layer behind every user, branch, application,
+                      cloud workload, and customer interaction. QCS helps businesses configure,
+                      troubleshoot, secure, and support their network infrastructure with SLA-based
+                      engineering support across firewalls, routers, switches, SD-WAN, VPN, Wi-Fi,
+                      and cloud networking.
+                    </p>
+                    <p className="anim_text">
+                      From one-time specialised configuration to long-term managed network support,
+                      we provide remote and onsite assistance for business-critical infrastructure
+                      where downtime is not an option.
+                    </p>
+                    <div className="d-flex gap-3 flex-wrap">
+                      <Link href="/contact" className="btn btn-dark">
+                        Get Network Support
+                      </Link>
+                      <Link href="/contact?intent=network-support" className="btn btn-outline-dark">
+                        Talk to a Network Engineer
+                      </Link>
                     </div>
-                  ))}
+                    <div className="network-support-hero__stats" aria-label="Network support highlights">
+                      {heroStats.map((stat) => (
+                        <div key={stat.label} className="network-support-hero__stat">
+                          <strong>{stat.value}</strong>
+                          <span>{stat.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="col-lg-5">
+                    <div className="network-support-hero__topology-card">
+                      <div className="network-support-hero__card-header">
+                        <div>
+                          <span className="network-support-hero__eyebrow">Live support model</span>
+                          <h2 className="network-support-hero__card-title">Diagnose → Stabilise → Secure</h2>
+                        </div>
+                        <span className="network-support-hero__pulse" aria-hidden="true" />
+                      </div>
+                      <div className="network-support-hero__topology" aria-label="Supported network layers">
+                        {topologyNodes.map((node) => (
+                          <span
+                            key={node.label}
+                            className={`network-support-hero__node network-support-hero__node--${node.modifier}`}
+                          >
+                            {node.label}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="network-support-hero__status-grid">
+                        {trustBadges.map((badge) => (
+                          <span key={badge} className="network-support-hero__status-pill">
+                            {badge}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </section>
 

@@ -67,6 +67,19 @@ export const trustBadges: string[] = [
   "Multi-Vendor Network Support",
 ];
 
+export const heroStats = [
+  { value: "24x7", label: "SLA-led response" },
+  { value: "10+", label: "Network and security vendors" },
+  { value: "Remote + Onsite", label: "Support coverage" },
+] as const;
+
+export const topologyNodes = [
+  { label: "Users & Branches", modifier: "users" },
+  { label: "Firewall / SD-WAN Edge", modifier: "edge" },
+  { label: "Core LAN / WAN", modifier: "core" },
+  { label: "Cloud & VPN Access", modifier: "cloud" },
+] as const;
+
 export const architecturePillars: SimpleCard[] = [
   {
     title: "Stable Connectivity",
