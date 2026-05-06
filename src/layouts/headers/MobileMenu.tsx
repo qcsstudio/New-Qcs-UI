@@ -1,78 +1,14 @@
 'use client'
 
 import Link from 'next/link';
-import React, { useState } from 'react';
-
-
-
-interface DataType {
-  id: number;
-  title: string;
-  link: string;
-  has_dropdown: boolean;
-  sub_menu?: {
-    id: number;
-    title: string;
-    link: string;
-  }[]
-}
-
-
-const menu_data: DataType[] = [
-  {
-    id: 1,
-    title: "Home",
-    link: "/",
-    has_dropdown: false,
-  },
-  {
-    id: 2,
-    title: "About",
-    link: '/about',
-    has_dropdown: false
-  },
-  {
-    id: 3,
-    title: "Services",
-    link: "/linkedIn-Profile-Makeover",
-    has_dropdown: true,
-    sub_menu: [
-  
-      {
-        id: 1,
-        title: "LinkedIn Profile Makeover",
-        link: "/linkedIn-Profile-Makeover",
-      },
-      {
-        id: 2,
-        title: "Network Support Services",
-        link: "/network-support-services",
-      }
-    ]
-  },
-  {
-    id: 4,
-    title: "Contact",
-    link: "/contact",
-    has_dropdown: false,
-  },
-  {
-		id: 5,
-		title: "Blogs",
-		link: "/blog",
-		has_dropdown: false,
-	},
-
-
-]
-
+import { navigationData } from '@/data/navigation';
 
 const MobileMenu = ({active, navTitle, openMobileMenu} : any) => {
 
   return (
     <>
       <ul className="cs_nav_list" style={{ display: active ? "block" : "none" }}>
-        {menu_data.map((menu) => (
+        {navigationData.map((menu) => (
           <li key={menu.id} className={`${menu.has_dropdown ? "menu-item-has-children" : ""} ${navTitle === menu.title ? "active" : ""}`}>
             <Link href={menu.link}>{menu.title}</Link>
             {menu.has_dropdown && (
