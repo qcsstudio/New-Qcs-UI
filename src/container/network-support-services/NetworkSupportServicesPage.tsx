@@ -27,6 +27,20 @@ import {
   whyPrinciples,
 } from "@/data/networkSupportPage";
 
+type CardItem = {
+  title: string;
+  description: string;
+};
+
+type SectionShellProps = {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  children: ReactNode;
+  className?: string;
+  headerClassName?: string;
+};
+
 const Spacer = ({ size = "sm" }: { size?: "sm" | "md" | "lg" }) => {
   const spacingClass = {
     sm: "cs_height_80 cs_height_lg_40",
@@ -66,7 +80,7 @@ const SectionTitle = ({
 );
 
 const ArrowIcon = () => (
-  <svg width="19" height="13" viewBox="0 0 19 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="19" height="13" viewBox="0 0 19 13" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <path
       d="M18.5303 7.03033C18.8232 6.73744 18.8232 6.26256 18.5303 5.96967L13.7574 1.1967C13.4645 0.903806 12.9896 0.903806 12.6967 1.1967C12.4038 1.48959 12.4038 1.96447 12.6967 2.25736L16.9393 6.5L12.6967 10.7426C12.4038 11.0355 12.4038 11.5104 12.6967 11.8033C12.9896 12.0962 13.4645 12.0962 13.7574 11.8033L18.5303 7.03033ZM0 7.25H18V5.75H0V7.25Z"
       fill="currentColor"
@@ -74,12 +88,30 @@ const ArrowIcon = () => (
   </svg>
 );
 
-const CheckList = ({ items, light = false }: { items: readonly string[]; light?: boolean }) => (
-  <ul className="cs_mp0" style={{ lineHeight: "1.9", listStyle: "none", padding: 0 }}>
+const SectionShell = ({
+  eyebrow,
+  title,
+  description,
+  children,
+  className = "",
+  headerClassName = "",
+}: SectionShellProps) => (
+  <section className={`network-support-section ${className}`.trim()}>
+    <div className={`network-support-section__header ${headerClassName}`.trim()}>
+      {eyebrow ? <p className="network-support-eyebrow">{eyebrow}</p> : null}
+      <h2 className="network-support-section__title">{title}</h2>
+      {description ? <p className="network-support-section__description">{description}</p> : null}
+    </div>
+    {children}
+  </section>
+);
+
+const CheckList = ({ items, muted = false }: { items: readonly string[]; muted?: boolean }) => (
+  <ul className={`network-support-checklist ${muted ? "network-support-checklist--muted" : ""}`.trim()}>
     {items.map((item) => (
-      <li key={item} className="d-flex gap-2 align-items-start">
-        <span className={light ? "text-white" : "text-dark"}>→</span>
-        <span className={light ? "text-white" : ""}>{item}</span>
+      <li key={item}>
+        <span aria-hidden="true">✓</span>
+        <strong>{item}</strong>
       </li>
     ))}
   </ul>
@@ -295,9 +327,8 @@ export default function NetworkSupportServicesPage({ children }: { children?: Re
 
               <Spacer />
 
-              <section>
-                <SectionTitle title="Network Support for Offices, Branches, Plants & Cloud-First Teams" />
-                <div className="row g-2">
+              <SectionShell title="Network Support for Offices, Branches, Plants & Cloud-First Teams" headerClassName="network-support-section__header--compact">
+                <div className="network-support-pill-cloud network-support-pill-cloud--muted">
                   {industries.map((industry) => (
                     <div key={industry} className="col-sm-6 col-lg-4">
                       <div className="cs_card cs_style_1 p-3 h-100 anim_div_ShowDowns">{industry}</div>
