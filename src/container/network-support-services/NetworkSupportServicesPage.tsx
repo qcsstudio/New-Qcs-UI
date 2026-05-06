@@ -51,6 +51,34 @@ const Spacer = ({ size = "sm" }: { size?: "sm" | "md" | "lg" }) => {
   return <div className={spacingClass} />;
 };
 
+const SectionTitle = ({
+  eyebrow,
+  title,
+  description,
+  dark = false,
+}: {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  dark?: boolean;
+}) => (
+  <div className={`cs_section_heading cs_style_1 mb-4 ${dark ? "cs_color_1" : ""}`}>
+    <div className="cs_section_heading_text">
+      {eyebrow ? (
+        <p className={`text-uppercase mb-2 anim_text ${dark ? "text-white" : ""}`}>
+          {eyebrow}
+        </p>
+      ) : null}
+      <h2 className={`cs_section_title anim_heading_title ${dark ? "text-white" : ""}`}>
+        {title}
+      </h2>
+      {description ? (
+        <p className={`anim_text mb-0 ${dark ? "text-white" : ""}`}>{description}</p>
+      ) : null}
+    </div>
+  </div>
+);
+
 const ArrowIcon = () => (
   <svg width="19" height="13" viewBox="0 0 19 13" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <path
@@ -89,225 +117,25 @@ const CheckList = ({ items, muted = false }: { items: readonly string[]; muted?:
   </ul>
 );
 
-const InsightGrid = ({
+const CardGrid = ({
   items,
-  columns = "network-support-grid--3",
-  tone = "light",
+  columns = "col-md-4",
 }: {
-  items: readonly CardItem[];
+  items: readonly { title: string; description: string }[];
   columns?: string;
-  tone?: "light" | "warning";
 }) => (
-  <div className={`network-support-grid ${columns}`.trim()}>
-    {items.map((item, index) => (
-      <article key={item.title} className={`network-support-card network-support-card--${tone}`}>
-        <span className="network-support-card__index">{String(index + 1).padStart(2, "0")}</span>
-        <h3>{item.title}</h3>
-        <p>{item.description}</p>
-      </article>
+  <div className="row g-3">
+    {items.map((item, idx) => (
+      <div key={item.title} className={columns}>
+        <article className="cs_card cs_style_1 p-4 h-100 anim_div_ShowDowns">
+          <h3 className="h5 anim_heading_title">
+            0{idx + 1}. {item.title}
+          </h3>
+          <p className="mb-0 anim_text">{item.description}</p>
+        </article>
+      </div>
     ))}
   </div>
-);
-
-const HeroTopology = () => (
-  <div className="network-support-topology" aria-label="Network layers covered by QCS support">
-    <div className="network-support-topology__header">
-      <div>
-        <span>Live support model</span>
-        <h2>Diagnose → Stabilise → Secure</h2>
-      </div>
-      <span className="network-support-topology__pulse" aria-hidden="true" />
-    </div>
-    <div className="network-support-topology__map">
-      {topologyNodes.map((node) => (
-        <span key={node.label} className={`network-support-topology__node network-support-topology__node--${node.modifier}`}>
-          {node.label}
-        </span>
-      ))}
-    </div>
-    <div className="network-support-topology__badges">
-      {trustBadges.map((badge) => (
-        <span key={badge}>{badge}</span>
-      ))}
-    </div>
-  </div>
-);
-
-const HeroSection = () => (
-  <section className="network-support-hero" aria-labelledby="network-support-hero-title">
-    <div className="network-support-hero__content">
-      <p className="network-support-eyebrow">Network Infrastructure Support</p>
-      <h1 id="network-support-hero-title">24x7 Network Support for Secure, Stable & Always-On Business Operations</h1>
-      <p className="network-support-hero__lead">
-        Your network is the operating layer behind every user, branch, application, cloud workload, and customer interaction.
-        QCS helps businesses configure, troubleshoot, secure, and support their network infrastructure with SLA-based
-        engineering support across firewalls, routers, switches, SD-WAN, VPN, Wi-Fi, and cloud networking.
-      </p>
-      <p>
-        From one-time specialised configuration to long-term managed network support, we provide remote and onsite assistance
-        for business-critical infrastructure where downtime is not an option.
-      </p>
-      <div className="network-support-hero__actions">
-        <Link href="/contact" className="cs_btn cs_style_1">
-          <span>Get Network Support</span>
-          <ArrowIcon />
-        </Link>
-        <Link href="/contact?intent=network-support" className="network-support-link-button">
-          Talk to a Network Engineer
-        </Link>
-      </div>
-      <div className="network-support-hero__stats" aria-label="Network support highlights">
-        {heroStats.map((stat) => (
-          <div key={stat.label}>
-            <strong>{stat.value}</strong>
-            <span>{stat.label}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-    <HeroTopology />
-  </section>
-);
-
-const ComparisonSection = () => (
-  <SectionShell
-    eyebrow="Support model"
-    title="The Old Support Model Is Not Built for Modern Infrastructure"
-    description="Modern environments need documented ownership, controlled changes, and a support path that connects firewall, VPN, SD-WAN, cloud, and LAN operations."
-    className="network-support-section--comparison"
-  >
-    <div className="network-support-comparison">
-      <article className="network-support-comparison__panel network-support-comparison__panel--old">
-        <span>Reactive</span>
-        <h3>Old model</h3>
-        <CheckList items={oldModelItems} muted />
-      </article>
-      <article className="network-support-comparison__panel network-support-comparison__panel--new">
-        <span>Governed</span>
-        <h3>QCS model</h3>
-        <CheckList items={qcsModelItems} />
-      </article>
-    </div>
-  </SectionShell>
-);
-
-const ServicesSection = () => (
-  <SectionShell
-    eyebrow="Our network support services"
-    title="Complete Network Configuration, Troubleshooting & Managed Support"
-    description="We support businesses across the full network lifecycle: installation, configuration, migration, optimisation, troubleshooting, documentation, and continuous support."
-  >
-    <div className="network-support-services-grid">
-      {networkServices.map((service, index) => (
-        <article key={service.title} className="network-support-service-card">
-          <div className="network-support-service-card__header">
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <h3>{service.title}</h3>
-          </div>
-          <p>{service.description}</p>
-          <CheckList items={service.bullets} />
-        </article>
-      ))}
-    </div>
-  </SectionShell>
-);
-
-const EngagementSection = () => (
-  <SectionShell
-    eyebrow="Engagement options"
-    title="Use QCS for a One-Time Network Task or Continuous SLA Support"
-    description="Choose the support format that fits the urgency and ownership model of your infrastructure."
-  >
-    <div className="network-support-engagement">
-      <article>
-        <span>Project / freelance</span>
-        <h3>Need a Freelance Network Engineer for a Specific Task?</h3>
-        <CheckList items={freelanceItems} />
-      </article>
-      <article>
-        <span>Managed operations</span>
-        <h3>24x7 Network Support for Critical Business Infrastructure</h3>
-        <CheckList items={managedSupportItems} />
-      </article>
-    </div>
-  </SectionShell>
-);
-
-const VendorSection = () => (
-  <SectionShell
-    eyebrow="Multi-vendor coverage"
-    title="Support Across Leading Network & Security Vendors"
-    description="QCS can coordinate troubleshooting and configuration across the platforms commonly found in multi-branch and cloud-connected businesses."
-  >
-    <div className="network-support-pill-cloud">
-      {vendors.map((vendor) => (
-        <span key={vendor}>{vendor}</span>
-      ))}
-    </div>
-  </SectionShell>
-);
-
-const ProcessSection = () => (
-  <SectionShell
-    eyebrow="Delivery workflow"
-    title="Diagnose. Stabilise. Secure. Support."
-    description="Every support request follows a clear operating rhythm so fixes are controlled, validated, and documented."
-  >
-    <div className="network-support-timeline">
-      {processSteps.map((step, index) => (
-        <article key={step.title}>
-          <span>{String(index + 1).padStart(2, "0")}</span>
-          <h3>{step.title}</h3>
-          <p>{step.description}</p>
-        </article>
-      ))}
-    </div>
-  </SectionShell>
-);
-
-const WhySection = () => (
-  <SectionShell
-    eyebrow="Why QCS"
-    title="Engineering Discipline for Your Network Operations"
-    description="Practical troubleshooting, clear handover, and support for urgent incidents and planned projects."
-    className="network-support-section--dark"
-  >
-    <div className="network-support-why">
-      <div>
-        <h3>What you get</h3>
-        <CheckList items={differentiators} />
-      </div>
-      <div className="network-support-why__principles">
-        {whyPrinciples.map((principle, index) => (
-          <article key={principle.title}>
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <h3>{principle.title}</h3>
-            <p>{principle.description}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </SectionShell>
-);
-
-const CtaSection = () => (
-  <section className="network-support-cta">
-    <p className="network-support-eyebrow">Ready for stable operations?</p>
-    <h2>Need Reliable Network Support Today?</h2>
-    <p>
-      Whether you need a freelance network engineer, a firewall specialist, FortiGate or Cisco configuration support,
-      SD-WAN troubleshooting, cloud networking assistance, or 24x7 SLA-based managed network support, QCS can help.
-    </p>
-    <div className="network-support-hero__actions network-support-cta__actions">
-      <Link href="/contact?intent=network-support" className="cs_btn cs_style_1">
-        <span>Talk to a Network Engineer</span>
-        <ArrowIcon />
-      </Link>
-      <Link href="/contact?intent=remote-troubleshooting" className="network-support-link-button">
-        Request Remote Troubleshooting
-      </Link>
-    </div>
-  </section>
 );
 
 export default function NetworkSupportServicesPage({ children }: { children?: ReactNode }) {
@@ -320,73 +148,259 @@ export default function NetworkSupportServicesPage({ children }: { children?: Re
             {children}
             <Spacer size="lg" />
             <div className="container">
-              <HeroSection />
+              <section className="network-support-hero cs_card cs_style_1 p-4 p-lg-5 anim_div_ShowDowns">
+                <div className="row align-items-center g-5">
+                  <div className="col-lg-7">
+                    <p className="network-support-page__eyebrow text-uppercase mb-2 anim_text">
+                      Network Infrastructure Support
+                    </p>
+                    <h1 className="cs_section_title anim_heading_title">
+                      24x7 Network Support for Secure, Stable & Always-On Business Operations
+                    </h1>
+                    <p className="network-support-page__lead anim_text">
+                      Your network is the operating layer behind every user, branch, application,
+                      cloud workload, and customer interaction. QCS helps businesses configure,
+                      troubleshoot, secure, and support their network infrastructure with SLA-based
+                      engineering support across firewalls, routers, switches, SD-WAN, VPN, Wi-Fi,
+                      and cloud networking.
+                    </p>
+                    <p className="anim_text">
+                      From one-time specialised configuration to long-term managed network support,
+                      we provide remote and onsite assistance for business-critical infrastructure
+                      where downtime is not an option.
+                    </p>
+                    <div className="d-flex gap-3 flex-wrap">
+                      <Link href="/contact" className="btn btn-dark">
+                        Get Network Support
+                      </Link>
+                      <Link href="/contact?intent=network-support" className="btn btn-outline-dark">
+                        Talk to a Network Engineer
+                      </Link>
+                    </div>
+                    <div className="network-support-hero__stats" aria-label="Network support highlights">
+                      {heroStats.map((stat) => (
+                        <div key={stat.label} className="network-support-hero__stat">
+                          <strong>{stat.value}</strong>
+                          <span>{stat.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="col-lg-5">
+                    <div className="network-support-hero__topology-card">
+                      <div className="network-support-hero__card-header">
+                        <div>
+                          <span className="network-support-hero__eyebrow">Live support model</span>
+                          <h2 className="network-support-hero__card-title">Diagnose → Stabilise → Secure</h2>
+                        </div>
+                        <span className="network-support-hero__pulse" aria-hidden="true" />
+                      </div>
+                      <div className="network-support-hero__topology" aria-label="Supported network layers">
+                        {topologyNodes.map((node) => (
+                          <span
+                            key={node.label}
+                            className={`network-support-hero__node network-support-hero__node--${node.modifier}`}
+                          >
+                            {node.label}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="network-support-hero__status-grid">
+                        {trustBadges.map((badge) => (
+                          <span key={badge} className="network-support-hero__status-pill">
+                            {badge}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
 
               <Spacer />
 
-              <SectionShell
-                eyebrow="Reliable infrastructure for predictable operations"
-                title="A Governed Network Support System, Not Just Break-Fix Assistance"
-                description="QCS brings a structured support model to your network environment: diagnose the issue, stabilise the service, harden the configuration, document the change, and support the infrastructure through SLA-led operations."
-              >
-                <InsightGrid items={architecturePillars} />
-              </SectionShell>
+              <section>
+                <SectionTitle
+                  eyebrow="Reliable Infrastructure for Predictable Operations"
+                  title="A Governed Network Support System, Not Just Break-Fix Assistance"
+                  description="QCS brings a structured support model to your network environment: diagnose the issue, stabilise the service, harden the configuration, document the change, and support the infrastructure through SLA-led operations."
+                />
+                <CardGrid items={architecturePillars} />
+              </section>
 
               <Spacer />
 
-              <SectionShell title="Your Network Should Not Become a Business Risk" headerClassName="network-support-section__header--compact">
-                <InsightGrid items={painCards} tone="warning" />
-              </SectionShell>
+              <section>
+                <SectionTitle title="Your Network Should Not Become a Business Risk" />
+                <CardGrid items={painCards} />
+              </section>
 
               <Spacer />
 
-              <ComparisonSection />
+              <section>
+                <SectionTitle title="The Old Support Model Is Not Built for Modern Infrastructure" />
+                <div className="row g-4">
+                  <div className="col-md-6">
+                    <article className="cs_card cs_style_1 p-4 h-100 anim_div_ShowDowns">
+                      <h3 className="h5 anim_heading_title">Old Model</h3>
+                      <CheckList items={oldModelItems} />
+                    </article>
+                  </div>
+                  <div className="col-md-6">
+                    <article className="cs_card cs_style_1 p-4 h-100 anim_div_ShowDowns">
+                      <h3 className="h5 anim_heading_title">QCS Model</h3>
+                      <CheckList items={qcsModelItems} />
+                    </article>
+                  </div>
+                </div>
+              </section>
 
               <Spacer size="md" />
 
-              <ServicesSection />
+              <section>
+                <SectionTitle
+                  eyebrow="Our Network Support Services"
+                  title="Complete Network Configuration, Troubleshooting & Managed Support"
+                  description="We support businesses across the full network lifecycle: installation, configuration, migration, optimisation, troubleshooting, documentation, and continuous support."
+                />
+                <div className="cs_card_1_list">
+                  {networkServices.map((service, idx) => (
+                    <article key={service.title} className="cs_card cs_style_1 cs_color_1 anim_div_ShowDowns">
+                      <div className="cs_card_left">
+                        <div
+                          className="cs_card_number cs_primary_font"
+                          style={{ backgroundImage: "url(/assets/img/hero_img_1.jpg)" }}
+                        >
+                          0{idx + 1}
+                        </div>
+                      </div>
+                      <div className="cs_card_right">
+                        <div className="cs_card_right_in">
+                          <h3 className="cs_card_title anim_heading_title">{service.title}</h3>
+                          <p className="cs_card_subtitle anim_text">{service.description}</p>
+                          <CheckList items={service.bullets} light />
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
 
               <Spacer />
 
-              <EngagementSection />
+              <section>
+                <div className="row g-4">
+                  <div className="col-lg-6">
+                    <article className="cs_card cs_style_1 p-4 h-100 anim_div_ShowDowns">
+                      <SectionTitle title="Need a Freelance Network Engineer for a Specific Task?" />
+                      <CheckList items={freelanceItems} />
+                    </article>
+                  </div>
+                  <div className="col-lg-6">
+                    <article className="cs_card cs_style_1 p-4 h-100 anim_div_ShowDowns">
+                      <SectionTitle title="24x7 Network Support for Critical Business Infrastructure" />
+                      <CheckList items={managedSupportItems} />
+                    </article>
+                  </div>
+                </div>
+              </section>
 
               <Spacer />
 
-              <VendorSection />
+              <section>
+                <SectionTitle title="Support Across Leading Network & Security Vendors" />
+                <div className="row g-2">
+                  {vendors.map((vendor) => (
+                    <div key={vendor} className="col-sm-6 col-lg-3">
+                      <div className="cs_card cs_style_1 p-3 h-100 anim_div_ShowDowns">{vendor}</div>
+                    </div>
+                  ))}
+                </div>
+              </section>
 
               <Spacer />
 
-              <SectionShell title="Network Support for Real Business Scenarios" headerClassName="network-support-section__header--compact">
-                <InsightGrid items={useCases} columns="network-support-grid--3" />
-              </SectionShell>
+              <section>
+                <SectionTitle title="Network Support for Real Business Scenarios" />
+                <CardGrid items={useCases} columns="col-md-6 col-lg-4" />
+              </section>
 
               <Spacer />
 
               <SectionShell title="Network Support for Offices, Branches, Plants & Cloud-First Teams" headerClassName="network-support-section__header--compact">
                 <div className="network-support-pill-cloud network-support-pill-cloud--muted">
                   {industries.map((industry) => (
-                    <span key={industry}>{industry}</span>
+                    <div key={industry} className="col-sm-6 col-lg-4">
+                      <div className="cs_card cs_style_1 p-3 h-100 anim_div_ShowDowns">{industry}</div>
+                    </div>
                   ))}
                 </div>
-              </SectionShell>
+              </section>
 
               <Spacer />
 
-              <ProcessSection />
+              <section>
+                <SectionTitle title="Diagnose. Stabilise. Secure. Support." />
+                <CardGrid items={processSteps} columns="col-md-6 col-lg-3" />
+              </section>
 
               <Spacer />
 
-              <WhySection />
+              <section>
+                <div className="cs_card cs_style_1 cs_color_1 p-4 p-lg-5 anim_div_ShowDowns">
+                  <SectionTitle
+                    title="Engineering Discipline for Your Network Operations"
+                    description="Practical troubleshooting, clear handover, and support for urgent incidents and planned projects."
+                    dark
+                  />
+                  <div className="row g-4">
+                    <div className="col-lg-6">
+                      <h3 className="h5 text-white">Why QCS</h3>
+                      <CheckList items={differentiators} light />
+                    </div>
+                    <div className="col-lg-6">
+                      <div className="row g-3">
+                        {whyPrinciples.map((principle, idx) => (
+                          <div key={principle.title} className="col-12">
+                            <article className="cs_card cs_style_1 p-3 h-100">
+                              <h4 className="h6">
+                                0{idx + 1}. {principle.title}
+                              </h4>
+                              <p className="mb-0">{principle.description}</p>
+                            </article>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
 
               <Spacer />
 
-              <SectionShell title="Frequently Asked Questions" headerClassName="network-support-section__header--compact">
+              <section>
+                <SectionTitle title="Frequently Asked Questions" />
                 <FaqAccordion faqs={faqs} />
-              </SectionShell>
+              </section>
 
               <Spacer />
 
-              <CtaSection />
+              <section className="cs_card cs_style_1 p-4 p-lg-5 text-center anim_div_ShowDowns">
+                <h2>Need Reliable Network Support Today?</h2>
+                <p>
+                  Whether you need a freelance network engineer, a firewall specialist,
+                  FortiGate or Cisco configuration support, SD-WAN troubleshooting, cloud
+                  networking assistance, or 24x7 SLA-based managed network support, QCS can help.
+                </p>
+                <div className="d-flex flex-wrap justify-content-center gap-3">
+                  <Link href="/contact?intent=network-support" className="btn btn-dark">
+                    Talk to a Network Engineer
+                  </Link>
+                  <Link href="/contact?intent=remote-troubleshooting" className="btn btn-outline-dark">
+                    Request Remote Troubleshooting
+                  </Link>
+                </div>
+              </section>
             </div>
 
             <Spacer />
