@@ -1,9 +1,10 @@
-import { faqs, metadataConfig } from "@/data/networkSupportPage";
+import { getNetworkSupportSchemaGraph, metadataConfig } from "@/data/networkSupportPage";
 import NetworkSupportServicesPage from "@/container/network-support-services/NetworkSupportServicesPage";
 
 export const metadata = metadataConfig;
 
 export default function Page() {
+  const schemaGraph = getNetworkSupportSchemaGraph();
   const schemaGraph = {
     "@context": "https://schema.org",
     "@graph": [
@@ -65,6 +66,7 @@ export default function Page() {
     <NetworkSupportServicesPage>
       <script
         type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaGraph) }}
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(schemaGraph),
         }}
