@@ -47,37 +47,86 @@ export default function NetworkSupportServicesPage({
             <div className="cs_height_150 cs_height_lg_80" />
             <section>
               <div className="container">
-                <section className="mb-5 cs_card cs_style_1 p-4 p-lg-5">
-                  <p className="text-uppercase mb-2">Network Infrastructure Support</p>
-                  <h1 className="cs_section_title">
-                    24x7 Network Support for Secure, Stable & Always-On Business Operations
-                  </h1>
-                  <p>
-                    Your network is the operating layer behind every user, branch, application,
-                    cloud workload, and customer interaction. QCS helps businesses configure,
-                    troubleshoot, secure, and support their network infrastructure with SLA-based
-                    engineering support across firewalls, routers, switches, SD-WAN, VPN, Wi-Fi,
-                    and cloud networking.
-                  </p>
-                  <p>
-                    From one-time specialised configuration to long-term managed network support,
-                    we provide remote and onsite assistance for business-critical infrastructure
-                    where downtime is not an option.
-                  </p>
-                  <div className="d-flex gap-3 flex-wrap">
-                    <Link href="/contact" className="btn btn-dark">
-                      Get Network Support
-                    </Link>
-                    <Link href="/contact?intent=network-support" className="btn btn-outline-dark">
-                      Talk to a Network Engineer
-                    </Link>
-                  </div>
-                  <div className="row g-2 mt-3">
-                    {trustBadges.map((badge) => (
-                      <div key={badge} className="col-md-6 col-lg-4">
-                        <span className="badge text-bg-light p-2">{badge}</span>
+                <section className="network-support-hero mb-5 cs_card cs_style_1 p-4 p-lg-5 anim_div_ShowDowns">
+                  <div className="row align-items-center g-4 g-xl-5">
+                    <div className="col-lg-7">
+                      <div className="cs_section_heading cs_style_1 mb-4">
+                        <div className="cs_section_heading_text">
+                          <p className="text-uppercase mb-2 anim_text">
+                            Network Infrastructure Support
+                          </p>
+                          <h1 className="cs_section_title anim_heading_title">
+                            24x7 Network Support for Secure, Stable & Always-On Business Operations
+                          </h1>
+                        </div>
                       </div>
-                    ))}
+                      <p className="anim_text">
+                        Your network is the operating layer behind every user, branch, application,
+                        cloud workload, and customer interaction. QCS helps businesses configure,
+                        troubleshoot, secure, and support their network infrastructure with SLA-based
+                        engineering support across firewalls, routers, switches, SD-WAN, VPN, Wi-Fi,
+                        and cloud networking.
+                      </p>
+                      <p className="anim_text">
+                        From one-time specialised configuration to long-term managed network support,
+                        we provide remote and onsite assistance for business-critical infrastructure
+                        where downtime is not an option.
+                      </p>
+                      <div className="cs_height_20 cs_height_lg_20" />
+                      <div className="d-flex gap-3 flex-wrap anim_div_ShowDowns">
+                        <Link href="/contact" className="btn btn-dark">
+                          Get Network Support
+                        </Link>
+                        <Link href="/contact?intent=network-support" className="btn btn-outline-dark">
+                          Talk to a Network Engineer
+                        </Link>
+                      </div>
+                      <div className="row g-2 mt-3 anim_div_ShowDowns">
+                        {trustBadges.map((badge) => (
+                          <div key={badge} className="col-md-6 col-lg-4">
+                            <span className="badge text-bg-light p-2">{badge}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="col-lg-5">
+                      <div
+                        className="network-support-hero__topology-card anim_div_ShowDowns"
+                        aria-label="Network support topology status"
+                      >
+                        <div className="network-support-hero__card-header">
+                          <div>
+                            <span className="network-support-hero__eyebrow">Live Operations View</span>
+                            <h2 className="network-support-hero__card-title">Topology Health</h2>
+                          </div>
+                          <span className="network-support-hero__pulse" aria-hidden="true" />
+                        </div>
+
+                        <div className="network-support-hero__topology" aria-hidden="true">
+                          <div className="network-support-hero__node network-support-hero__node--users">
+                            <span>Users / Branches</span>
+                          </div>
+                          <div className="network-support-hero__node network-support-hero__node--edge">
+                            <span>Firewall / SD-WAN</span>
+                          </div>
+                          <div className="network-support-hero__node network-support-hero__node--core">
+                            <span>Core Network</span>
+                          </div>
+                          <div className="network-support-hero__node network-support-hero__node--cloud">
+                            <span>Cloud / Apps</span>
+                          </div>
+                        </div>
+
+                        <div className="network-support-hero__status-grid">
+                          {["Secure", "Online", "SLA Active", "Policy Synced"].map((status) => (
+                            <span key={status} className="network-support-hero__status-pill">
+                              {status}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </section>
 
