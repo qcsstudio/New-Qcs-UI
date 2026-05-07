@@ -50,6 +50,12 @@ const pageNavItems = [
   { label: "FAQ", href: "#faq" },
 ] as const;
 
+const heroProofPoints = [
+  "SLA triage",
+  "Controlled changes",
+  "Documented handover",
+] as const;
+
 const Spacer = ({ size = "sm" }: { size?: "sm" | "md" | "lg" }) => {
   const spacingClass = {
     sm: "cs_height_80 cs_height_lg_40",
@@ -151,6 +157,11 @@ const HeroTopology = () => (
         </span>
       ))}
     </div>
+    <div className="network-support-topology__signal" aria-hidden="true">
+      <span />
+      <span />
+      <span />
+    </div>
     <div className="network-support-topology__badges">
       {trustBadges.map((badge) => (
         <span key={badge}>{badge}</span>
@@ -173,6 +184,11 @@ const HeroSection = () => (
         From one-time specialised configuration to long-term managed network support, we provide remote and onsite assistance
         for business-critical infrastructure where downtime is not an option.
       </p>
+      <div className="network-support-hero__proof" aria-label="Network support delivery standards">
+        {heroProofPoints.map((point) => (
+          <span key={point}>{point}</span>
+        ))}
+      </div>
       <div className="network-support-hero__actions">
         <Link href="/contact" className="cs_btn cs_style_1">
           <span>Get Network Support</span>

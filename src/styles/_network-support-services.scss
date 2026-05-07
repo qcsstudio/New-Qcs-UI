@@ -1015,123 +1015,145 @@
     }
   }
 }
-.network-support-page {
-  overflow: hidden;
 
-  .container {
-    max-width: 1200px;
+/* Cross-device readability and visual support refinements */
+.network-support-hero__proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 8px 12px;
+    border: 1px solid rgba(16, 16, 16, 0.08);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    color: #20242d;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.2;
+    box-shadow: 0 10px 28px rgba(17, 24, 39, 0.06);
+
+    &::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ns-green);
+      box-shadow: 0 0 0 4px rgba(33, 208, 122, 0.12);
+    }
   }
-
-  .cs_card,
-  .cs_section_heading,
-  .cs_section_heading_text,
-  p,
-  li,
-  span,
-  h1,
-  h2,
-  h3,
-  h4 {
-    max-width: 100%;
-    overflow-wrap: break-word;
-    word-break: normal;
-  }
 }
 
-.network-support-page__eyebrow {
-  color: #ff6b00;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-}
-
-.network-support-page__lead {
-  color: #303030;
-  font-size: 18px;
-  line-height: 1.75;
-}
-
-.network-support-hero__stats {
+.network-support-topology__signal {
+  position: relative;
+  z-index: 2;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 28px;
-}
-
-.network-support-hero__stat {
-  min-width: 0;
-  padding: 16px;
-  border: 1px solid rgba(16, 16, 16, 0.08);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.74);
-  box-shadow: 0 14px 34px rgba(16, 16, 16, 0.08);
-
-  strong,
-  span {
-    display: block;
-  }
-
-  strong {
-    color: #101010;
-    font-size: clamp(20px, 2vw, 28px);
-    line-height: 1.15;
-  }
+  gap: 8px;
+  margin: -6px 0 18px;
 
   span {
-    margin-top: 6px;
-    color: #5f5f5f;
-    font-size: 13px;
-    line-height: 1.35;
+    height: 6px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+
+    &::before {
+      display: block;
+      width: 72%;
+      height: 100%;
+      content: "";
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--ns-green), var(--ns-orange));
+    }
+
+    &:nth-child(2)::before {
+      width: 54%;
+    }
+
+    &:nth-child(3)::before {
+      width: 86%;
+    }
   }
 }
 
-.network-support-page .cs_card_1_list {
-  .cs_card.cs_style_1 {
-    gap: 24px;
-  }
-
-  .cs_card_left {
-    min-width: 0;
-  }
-
-  .cs_card_right {
-    min-width: 0;
-    width: 100%;
-  }
-
-  .cs_card_right_in {
-    max-width: 760px;
+.network-support-page {
+  .container {
+    width: min(100% - 24px, 1200px);
   }
 }
 
-.network-support-page .cs_accordeon summary {
-  white-space: normal;
-}
-
-@media (max-width: 991px) {
-  .network-support-hero__stats {
-    grid-template-columns: 1fr;
+@media (min-width: 1400px) {
+  .network-support-hero {
+    grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
   }
 
-  .network-support-page .cs_card_1_list {
-    .cs_card_left,
-    .cs_card_right {
+  .network-support-hero__content h1 {
+    max-width: 840px;
+  }
+}
+
+@media (max-width: 480px) {
+  .network-support-page .container {
+    width: min(100% - 18px, 1200px);
+  }
+
+  .network-support-hero,
+  .network-support-section,
+  .network-support-cta {
+    border-radius: 18px;
+  }
+
+  .network-support-hero__actions,
+  .network-support-cta__actions {
+    align-items: stretch;
+    flex-direction: column;
+
+    .cs_btn.cs_style_1,
+    .network-support-link-button {
       width: 100%;
-      padding-right: 0;
     }
+  }
 
-    .cs_card_right {
-      padding-top: 0;
-    }
+  .network-support-hero__proof,
+  .network-support-pill-cloud {
+    gap: 8px;
+  }
+
+  .network-support-hero__proof span,
+  .network-support-pill-cloud span {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .network-support-topology__header {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
 
-@media (max-width: 575px) {
-  .network-support-page .cs_section_title {
+@media (max-width: 380px) {
+  .network-support-hero__content h1 {
     font-size: 34px;
-    line-height: 1.16;
   }
 
-  .network-support-page__lead {
-    font-size: 16px;
+  .network-support-section__title,
+  .network-support-cta h2 {
+    font-size: 28px;
+  }
+
+  .network-support-service-card,
+  .network-support-comparison__panel,
+  .network-support-engagement article,
+  .network-support-why > div:first-child,
+  .network-support-why__principles article {
+    padding: 18px;
   }
 }
