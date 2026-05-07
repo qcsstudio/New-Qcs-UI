@@ -20,17 +20,34 @@ export default function PaymentPage() {
     const token = localStorage.getItem("token");
 
     if (!token) {
+      localStorage.setItem("payment_return_path", "/payment");
       router.push("/login");
       return;
     }
 
-    // 🟢 Step 1: Create Order
+    const service = localStorage.getItem("linkedin_paid_service") || "profile-rewrite-100-score";
+    const amount = Number(localStorage.getItem("linkedin_paid_amount") || 49);
+    const auditScore = localStorage.getItem("linkedin_audit_score");
+    const linkedinUrl = localStorage.getItem("linkedin_audit_url");
+    const role = localStorage.getItem("linkedin_audit_role");
+    const auditReport = parseStoredJson(localStorage.getItem("linkedin_audit_report"));
+
+    // 🟢 Step 1: Create ₹49 Razorpay Order for the profile rewrite service
     const res = await fetch("https://analyzer.qcsstudio.com/api/payment/create-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
+      body: JSON.stringify({
+        service,
+        amount,
+        amountInPaise: amount * 100,
+        auditScore,
+        linkedinUrl,
+        role,
+        auditReport,
+      }),
     });
 
     const data = await res.json();
@@ -44,6 +61,15 @@ export default function PaymentPage() {
     openRazorpay(data.order, token);
   }
 
+  function parseStoredJson(value) {
+    if (!value) return undefined;
+    try {
+      return JSON.parse(value);
+    } catch {
+      return undefined;
+    }
+  }
+
   function openRazorpay(order, token) {
       console.log("Checking Razorpay SDK...");
    if (!window.Razorpay) {
@@ -52,13 +78,12 @@ export default function PaymentPage() {
     return;
   }
 
-  console.log("Using Key:", process.env.NEXT_PUBLIC_LIVE_RAZORPAY_KEY_ID);
     const options = {
       key: process.env.NEXT_PUBLIC_LIVE_RAZORPAY_KEY_ID,
       amount: order.amount,
       currency: "INR",
       name: "QCS LinkedIn AI Scanner",
-      description: "Unlock LinkedIn Suggestions",
+      description: "₹49 LinkedIn Profile Rewrite to 100% QCS Score",
       order_id: order.id,
 
       handler: async function (response) {
@@ -79,7 +104,6 @@ export default function PaymentPage() {
     const rzp = new window.Razorpay(options);
     rzp.open();
   }
-  console.log("RAZORPAY KEY:", process.env.NEXT_PUBLIC_LIVE_RAZORPAY_KEY_ID);
 
 
   async function verifyPayment(response, token) {
@@ -99,6 +123,7 @@ export default function PaymentPage() {
     const data = await res.json();
 
     if (data.success) {
+      localStorage.setItem("linkedin_rewrite_paid", "true");
       router.push("/suggestions");
     }
   }
