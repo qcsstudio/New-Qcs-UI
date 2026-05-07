@@ -3,14 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState, useRef } from "react";
 import { PulseLoader } from "react-spinners";
-import { scoreLinkedInProfilePayload } from "@/scoring/linkedinProfileScoring";
-
-const getScoreTone = (score) => {
-  if (score >= 85) return { label: "Excellent", color: "#16a34a", status: "Best-practice aligned" };
-  if (score >= 70) return { label: "Strong", color: "#22c55e", status: "Good foundation" };
-  if (score >= 50) return { label: "Average", color: "#f59e0b", status: "Needs optimization" };
-  return { label: "Needs work", color: "#dc2626", status: "Conversion risk" };
-};
 
 const ROLE_SCORE_WEIGHTS = {
   "Job Seeker": { headline: 20, about: 18, experience: 22, skills: 16, proof: 12, activity: 12 },
@@ -88,53 +80,110 @@ export default function AuditSection() {
   const extensionDetectedRef = useRef(false);
 
   // ================= EXTENSION CHECK =================
-  useEffect(() => {
-    let pingInterval;
+//   useEffect(() => {
+//        let detected = false;
+//     let pingInterval;
 
-    const handler = (e) => {
-      if (e.data === "EXTENSION_RUNNING") {
-        if (extensionDetectedRef.current) return;
+//     const handler = (e) => {
+//       if (e.data === "EXTENSION_RUNNING") {
+//         if (extensionDetectedRef.current) return;
 
-        extensionDetectedRef.current = true;
-        setIsExtensionReady(true);
-        setShowExtensionPopup(false);
-        clearInterval(pingInterval);
-        localStorage.removeItem("audit_auto_reloaded");
-      }
-    };
+//         console.log("✅ Extension detected");
+//         extensionDetectedRef.current = true;
+//           detected = true;
 
-    window.addEventListener("message", handler);
+//         setIsExtensionReady(true);
+//         setShowExtensionPopup(false);
+//              // 🛑 stop pinging
+//         clearInterval(pingInterval);
 
-    pingInterval = setInterval(() => {
-      if (!extensionDetectedRef.current) {
-        window.postMessage("PING_EXTENSION", "*");
-      }
-    }, 700);
+//         // cleanup reload flag
+//         localStorage.removeItem("audit_auto_reloaded");
 
-    const hasReloaded = localStorage.getItem("audit_auto_reloaded");
+//         // clearInterval(pingInterval);
+//       }
+//     };
 
-    if (!hasReloaded) {
-      localStorage.setItem("audit_auto_reloaded", "true");
+//     window.addEventListener("message", handler);
 
-      setTimeout(() => {
-        if (!extensionDetectedRef.current) {
-          window.location.reload();
-        }
-      }, 1200);
-    }
+//     pingInterval = setInterval(() => {
+//       if (!extensionDetectedRef.current) {
+//         window.postMessage("PING_EXTENSION", "*");
+//       }
+//     }, 1000);
+//  const reloadTimeout = setTimeout(() => {
+//       const hasReloaded = localStorage.getItem("audit_auto_reloaded");
 
-    return () => {
+//       if (!detected && !hasReloaded) {
+//         console.log("🔁 Auto reloading page once to inject extension");
+//         localStorage.setItem("audit_auto_reloaded", "true");
+//         window.location.reload();
+//       }
+//     }, 1000);
+//     return () => {
+//       clearInterval(pingInterval);
+//        clearTimeout(reloadTimeout);
+//       window.removeEventListener("message", handler);
+//     };
+//   }, []);
+
+useEffect(() => {
+  let pingInterval;
+
+  const handler = (e) => {
+    if (e.data === "EXTENSION_RUNNING") {
+      if (extensionDetectedRef.current) return;
+
+      console.log("✅ Extension detected");
+      extensionDetectedRef.current = true;
+
+      setIsExtensionReady(true);
+      setShowExtensionPopup(false);
+
+      // 🛑 stop everything
       clearInterval(pingInterval);
-      window.removeEventListener("message", handler);
-    };
-  }, []);
+      localStorage.removeItem("audit_auto_reloaded");
+    }
+  };
 
+  window.addEventListener("message", handler);
+
+  // 🔁 Ping extension
+  pingInterval = setInterval(() => {
+    if (!extensionDetectedRef.current) {
+      window.postMessage("PING_EXTENSION", "*");
+    }
+  }, 700);
+
+  // 🔁 ONE-TIME AUTO RELOAD
+  const hasReloaded = localStorage.getItem("audit_auto_reloaded");
+
+  if (!hasReloaded) {
+    localStorage.setItem("audit_auto_reloaded", "true");
+
+    setTimeout(() => {
+      if (!extensionDetectedRef.current) {
+        console.log("🔁 One-time reload for extension injection");
+        window.location.reload();
+      }
+    }, 1200);
+  }
+
+  return () => {
+    clearInterval(pingInterval);
+    window.removeEventListener("message", handler);
+  };
+}, []);
+
+
+  
 
   useEffect(() => {
     const onFocus = () => {
       const waiting = localStorage.getItem("audit_waiting_for_extension");
 
       if (waiting && !extensionDetectedRef.current) {
+        console.log("🔁 User returned after extension install, reloading...");
         localStorage.removeItem("audit_waiting_for_extension");
         window.location.reload();
       }
@@ -151,6 +200,10 @@ export default function AuditSection() {
     const onMsg = (e) => {
       if (!e.data) return;
       if (e.data.from !== "LINKEDIN_AUDIT_EXT") return;
+
+      if (e.data.type === "DEBUG_DATA") {
+        console.log("🔥 DEBUG:", e.data.payload);
+      }
 
       if (e.data.type === "SCRAPE_RESULT") {
         setLoading(false);
@@ -201,7 +254,7 @@ export default function AuditSection() {
         role,
         accepted,
         sameTab: true,
-        scoringModel: "QCS LinkedIn-aware persona scoring v2026-05",
+        scoringModel: "QCS role-based LinkedIn profile audit",
       },
       "*"
     );
@@ -217,14 +270,11 @@ export default function AuditSection() {
   }
 
 
-  const scoreResult = result ? scoreLinkedInProfilePayload(result, role) : null;
-  const auditScore = scoreResult?.overallScore || 0;
+  const auditScore = result ? calculateLinkedInScore(result, role) : 0;
   const scoreTone = getScoreTone(auditScore);
-  const topSuggestions = scoreResult?.suggestions?.slice(0, 3) || [];
 
   const startRewritePayment = () => {
     localStorage.setItem("linkedin_audit_score", String(auditScore));
-    localStorage.setItem("linkedin_audit_report", JSON.stringify(scoreResult));
     localStorage.setItem("linkedin_paid_service", "profile-rewrite-100-score");
     localStorage.setItem("linkedin_paid_amount", "49");
     window.location.href = "/payment";
@@ -308,7 +358,7 @@ export default function AuditSection() {
         </p>
 
         <p className="audit-secure">
-          No passwords · No contacts · No messages · Rule-based, explainable scoring · ₹49 paid rewrite available after score
+          No passwords · No contacts · No messages · ₹49 paid rewrite available after score
         </p>
 
         {/* ================= EXTENSION POPUP ================= */}
@@ -368,62 +418,14 @@ export default function AuditSection() {
               </div>
 
               <p style={{ textAlign: "center", margin: "18px 0 8px", color: scoreTone.color, fontWeight: 700 }}>
-                {scoreTone.label} · {scoreTone.status} · {scoreResult?.persona?.replaceAll("_", " ")}
+                {scoreTone.label} Score · {scoreTone.status}
               </p>
-              <p style={{ textAlign: "center", marginBottom: 18 }}>
-                This score is aligned with known LinkedIn profile best practices. It is designed to improve clarity, trust, search visibility, and post-click conversion — not to guarantee rankings, jobs, or leads.
+              <p style={{ textAlign: "center", marginBottom: 24 }}>
+                We can rewrite your headline, about, experience, and authority positioning to target a 100% QCS profile score for your selected profile type.
               </p>
-
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginBottom: 18 }}>
-                <div className="rounded-3 p-2" style={{ background: "#f7f8fb" }}>
-                  <strong>{scoreResult?.searchVisibilityScore || 0}%</strong>
-                  <p className="mb-0" style={{ fontSize: 12 }}>Search Visibility</p>
-                </div>
-                <div className="rounded-3 p-2" style={{ background: "#f7f8fb" }}>
-                  <strong>{scoreResult?.postClickConversionScore || 0}%</strong>
-                  <p className="mb-0" style={{ fontSize: 12 }}>Post-Click Conversion</p>
-                </div>
-                <div className="rounded-3 p-2" style={{ background: "#f7f8fb" }}>
-                  <strong>{scoreResult?.trustScore || 0}%</strong>
-                  <p className="mb-0" style={{ fontSize: 12 }}>Trust & Proof</p>
-                </div>
-              </div>
-
-              {scoreResult?.subScores && (
-                <div style={{ textAlign: "left", marginBottom: 20 }}>
-                  <strong>Section scores</strong>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8, marginTop: 8 }}>
-                    {Object.entries(scoreResult.subScores).slice(0, 6).map(([key, item]) => (
-                      <div key={key} className="rounded-3 p-2" style={{ background: "#fff", border: "1px solid #eee" }}>
-                        <span style={{ fontSize: 12 }}>{item.label}</span>
-                        <strong style={{ float: "right" }}>{item.score}%</strong>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {topSuggestions.length > 0 && (
-                <div style={{ textAlign: "left", marginBottom: 20 }}>
-                  <strong>Top priority fixes</strong>
-                  <ul style={{ paddingLeft: 18, marginTop: 8 }}>
-                    {topSuggestions.map((item) => (
-                      <li key={item.id} style={{ marginBottom: 6 }}>
-                        <span style={{ fontWeight: 700 }}>{item.priority}:</span> {item.reason}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {scoreResult?.makeover?.headlineOptions?.[0] && (
-                <p style={{ textAlign: "left", fontSize: 13, background: "#f7f8fb", padding: 12, borderRadius: 12 }}>
-                  <strong>Makeover preview:</strong> {scoreResult.makeover.headlineOptions[0]}
-                </p>
-              )}
 
               <button type="button" onClick={startRewritePayment} className="audit-main-btn">
-                Rewrite My Profile With Makeover Plan — Pay ₹49 →
+                Rewrite My Profile to 100% — Pay ₹49 →
               </button>
 
               <button

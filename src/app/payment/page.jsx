@@ -30,6 +30,7 @@ export default function PaymentPage() {
     const auditScore = localStorage.getItem("linkedin_audit_score");
     const linkedinUrl = localStorage.getItem("linkedin_audit_url");
     const role = localStorage.getItem("linkedin_audit_role");
+    const auditReport = parseStoredJson(localStorage.getItem("linkedin_audit_report"));
 
     // 🟢 Step 1: Create ₹49 Razorpay Order for the profile rewrite service
     const res = await fetch("https://analyzer.qcsstudio.com/api/payment/create-order", {
@@ -45,6 +46,7 @@ export default function PaymentPage() {
         auditScore,
         linkedinUrl,
         role,
+        auditReport,
       }),
     });
 
@@ -57,6 +59,15 @@ export default function PaymentPage() {
 }
 
     openRazorpay(data.order, token);
+  }
+
+  function parseStoredJson(value) {
+    if (!value) return undefined;
+    try {
+      return JSON.parse(value);
+    } catch {
+      return undefined;
+    }
   }
 
   function openRazorpay(order, token) {
