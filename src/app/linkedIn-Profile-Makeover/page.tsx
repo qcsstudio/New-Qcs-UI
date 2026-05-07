@@ -11,15 +11,14 @@ import Wrapper from '@/layouts/Wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 import { featureDataservice } from "@/data/featureData";
-import AuditSection from '@/components/service/AuditSection';
 import HeroHomeThree from '@/components/hero/HeroHomeThree';
 import {  innovative_data_linkedin } from '@/data/innovation_homeTwo';
 import img from "@/assets/img/Images/linkedin_innovation.png";
 import { service_data } from '@/data/serviceArea_detail';
 
 export const metadata = {
-  title: "LinkedIn Profile Optimization for B2B Leads",
-  description: "Optimize your LinkedIn profile to attract qualified B2B leads with strategic positioning, keyword optimization, and conversion-focused messaging by QuantumCrafters."
+  title: "Done-for-You LinkedIn Sales & Outbound Engine | QCS",
+  description: "Build a managed LinkedIn outbound engine with positioning, profile conversion, prospect intelligence, manual outreach, follow-ups, and weekly optimization by QuantumCrafters."
  
 };
 
@@ -32,8 +31,7 @@ const index = () => {
         <div id="smooth-content">
           <main>
             <HeroHomeThree/>
-            {/* <HeroServiceDetails /> */}
-            <AuditSection/>
+            <HeroServiceDetails />
             <InnovativeHomeTwo  data={innovative_data_linkedin} image={img}/>
             <PipelineSection />
             <ServiceDetailsFaq />
