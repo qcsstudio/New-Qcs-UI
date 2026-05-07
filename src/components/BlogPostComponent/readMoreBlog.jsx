@@ -139,7 +139,7 @@ export default function ReadMoreBlog() {
             <p className="text-center text-red-500">Error: {error}</p>
           ) : (
             <>
-              <img src={blog.thumbnail} alt={blog.heading} className='rounded-lg mb-6' />
+              <img src={blog.thumbnail} alt={blog.heading} width="960" height="540" loading="eager" className='rounded-lg mb-6' />
               <h2 className="font-light mb-4 font-unbounded">{blog.heading}</h2>
               <p className="text-sm text-gray-500 mb-2">Created: {new Date(blog.createdAt).toLocaleString()}</p>
               <div className=" text-[#202124]" dangerouslySetInnerHTML={{ __html: blog.description }}></div>
