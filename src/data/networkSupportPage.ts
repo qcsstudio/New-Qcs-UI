@@ -67,6 +67,19 @@ export const trustBadges: string[] = [
   "Multi-Vendor Network Support",
 ];
 
+export const heroStats = [
+  { value: "24x7", label: "SLA-led response" },
+  { value: "10+", label: "Network and security vendors" },
+  { value: "Remote + Onsite", label: "Support coverage" },
+] as const;
+
+export const topologyNodes = [
+  { label: "Users & Branches", modifier: "users" },
+  { label: "Firewall / SD-WAN Edge", modifier: "edge" },
+  { label: "Core LAN / WAN", modifier: "core" },
+  { label: "Cloud & VPN Access", modifier: "cloud" },
+] as const;
+
 export const architecturePillars: SimpleCard[] = [
   {
     title: "Stable Connectivity",
@@ -304,58 +317,48 @@ export const differentiators: string[] = [
   "Support for both urgent incidents and planned projects",
 ];
 
-export const faqs: FaqItem[] = [
-  {
-    question: "Do you provide 24x7 network support?",
-    answer:
-      "Yes. QCS provides 24x7 SLA-based support for critical network issues, firewall problems, VPN failures, SD-WAN issues, routing problems, Wi-Fi instability, and business-impacting incidents.",
-  },
-  {
-    question: "Do you provide freelance network engineers?",
-    answer:
-      "Yes. We provide freelance and on-demand network engineers for specialised configuration, troubleshooting, migration, installation, and project-based support.",
-  },
-  {
-    question: "Which vendors do you support?",
-    answer:
-      "We support Cisco, Fortinet/FortiGate, Palo Alto Networks, Sophos, SonicWall, Juniper Networks, Aruba/HPE, Ubiquiti, MikroTik, and Check Point.",
-  },
-  {
-    question: "Can you configure FortiGate firewalls?",
-    answer:
-      "Yes. We support FortiGate firewall policies, NAT, VPN, SD-WAN, HA, firmware upgrade support, backup, optimisation, troubleshooting, and security hardening.",
-  },
-  {
-    question: "Can you support Cisco router and switch configuration?",
-    answer:
-      "Yes. We support Cisco VLANs, routing, trunking, port security, VPN, WAN setup, switch configuration, router configuration, and troubleshooting.",
-  },
-  {
-    question: "Do you provide SD-WAN support?",
-    answer:
-      "Yes. We support SD-WAN deployment, application-aware routing, branch connectivity, WAN failover, performance SLA policies, cloud breakout, and troubleshooting.",
-  },
-  {
-    question: "Can you support cloud networking?",
-    answer:
-      "Yes. We support cloud networking across AWS, Azure, and Google Cloud, including VPC/VNet, routing, VPN, firewall rules, security groups, NAT, and hybrid connectivity.",
-  },
-  {
-    question: "Do you provide remote support?",
-    answer:
-      "Yes. Most troubleshooting and configuration work can be handled remotely. Onsite support can also be arranged depending on location and project requirement.",
-  },
-  {
-    question: "Can you support new office network installation?",
-    answer:
-      "Yes. We support new office network setup including firewall, router, switch, Wi-Fi, VLAN, VPN, internet failover, and secure access configuration.",
-  },
-  {
-    question: "Do you provide ongoing managed network services?",
-    answer:
-      "Yes. We provide ongoing SLA-based network support for configuration changes, troubleshooting, incident response, preventive checks, documentation, and performance review.",
-  },
-];
+export const faqs = [
+  [
+    "Do you provide 24x7 network support?",
+    "Yes. QCS provides 24x7 SLA-based support for critical network issues. We cover firewall problems, VPN failures, SD-WAN issues, routing faults, Wi-Fi instability, and business-impacting incidents.",
+  ],
+  [
+    "Do you provide freelance network engineers?",
+    "Yes. We provide freelance and on-demand network engineers for specialised configuration, troubleshooting, migration, installation, and project-based support.",
+  ],
+  [
+    "Which vendors do you support?",
+    "We support Cisco, Fortinet/FortiGate, Palo Alto Networks, Sophos, SonicWall, Juniper Networks, Aruba/HPE, Ubiquiti, MikroTik, and Check Point.",
+  ],
+  [
+    "Can you configure FortiGate firewalls?",
+    "Yes. We support FortiGate firewall policies, NAT, VPN, SD-WAN, HA, firmware upgrade support, backup, optimisation, troubleshooting, and security hardening.",
+  ],
+  [
+    "Can you support Cisco router and switch configuration?",
+    "Yes. We support Cisco VLANs, routing, trunking, port security, VPN, WAN setup, switch configuration, router configuration, and troubleshooting.",
+  ],
+  [
+    "Do you provide SD-WAN support?",
+    "Yes. We support SD-WAN deployment, application-aware routing, branch connectivity, WAN failover, performance SLA policies, cloud breakout, and troubleshooting.",
+  ],
+  [
+    "Can you support cloud networking?",
+    "Yes. We support cloud networking across AWS, Azure, and Google Cloud. This includes VPC/VNet, routing, VPN, firewall rules, security groups, NAT, and hybrid connectivity.",
+  ],
+  [
+    "Do you provide remote support?",
+    "Yes. Most troubleshooting and configuration work can be handled remotely. Onsite support can also be arranged depending on location and project requirement.",
+  ],
+  [
+    "Can you support new office network installation?",
+    "Yes. We support new office network setup including firewall, router, switch, Wi-Fi, VLAN, VPN, internet failover, and secure access configuration.",
+  ],
+  [
+    "Do you provide ongoing managed network services?",
+    "Yes. We provide ongoing SLA-based network support for configuration changes, troubleshooting, incident response, preventive checks, documentation, and performance review.",
+  ],
+] as const;
 
 export const painCards: SimpleCard[] = [
   {
@@ -384,19 +387,34 @@ export const oldModelItems: string[] = [
   "Vendor dependency during emergencies",
   "Network visibility remains fragmented",
 ];
-export const differentiators = ["SLA-based support model","Multi-vendor technical capability","Remote and onsite assistance","Freelance and managed support options","Firewall, SD-WAN, VPN, cloud, LAN and WAN expertise","Clear documentation and change handover","Practical troubleshooting approach","Support for both urgent incidents and planned projects"];
-export const faqs = [
-  ["Do you provide 24x7 network support?", "Yes. QCS provides 24x7 SLA-based support for critical network issues, firewall problems, VPN failures, SD-WAN issues, routing problems, Wi-Fi instability, and business-impacting incidents."],
-  ["Do you provide freelance network engineers?", "Yes. We provide freelance and on-demand network engineers for specialised configuration, troubleshooting, migration, installation, and project-based support."],
-  ["Which vendors do you support?", "We support Cisco, Fortinet/FortiGate, Palo Alto Networks, Sophos, SonicWall, Juniper Networks, Aruba/HPE, Ubiquiti, MikroTik, and Check Point."],
-  ["Can you configure FortiGate firewalls?", "Yes. We support FortiGate firewall policies, NAT, VPN, SD-WAN, HA, firmware upgrade support, backup, optimisation, troubleshooting, and security hardening."],
-  ["Can you support Cisco router and switch configuration?", "Yes. We support Cisco VLANs, routing, trunking, port security, VPN, WAN setup, switch configuration, router configuration, and troubleshooting."],
-  ["Do you provide SD-WAN support?", "Yes. We support SD-WAN deployment, application-aware routing, branch connectivity, WAN failover, performance SLA policies, cloud breakout, and troubleshooting."],
-  ["Can you support cloud networking?", "Yes. We support cloud networking across AWS, Azure, and Google Cloud, including VPC/VNet, routing, VPN, firewall rules, security groups, NAT, and hybrid connectivity."],
-  ["Do you provide remote support?", "Yes. Most troubleshooting and configuration work can be handled remotely. Onsite support can also be arranged depending on location and project requirement."],
-  ["Can you support new office network installation?", "Yes. We support new office network setup including firewall, router, switch, Wi-Fi, VLAN, VPN, internet failover, and secure access configuration."],
-  ["Do you provide ongoing managed network services?", "Yes. We provide ongoing SLA-based network support for configuration changes, troubleshooting, incident response, preventive checks, documentation, and performance review."],
-] as const;
+
+export const qcsModelItems: string[] = [
+  "Structured diagnosis and remediation",
+  "Controlled configuration changes",
+  "Firewall, VPN, SD-WAN and cloud handled together",
+  "Clear documentation and handover",
+  "SLA-based response",
+  "Freelance specialists when needed",
+  "Ongoing support for critical infrastructure",
+];
+
+export const whyPrinciples: SimpleCard[] = [
+  {
+    title: "Precision Over Guesswork",
+    description:
+      "We diagnose before making changes, so fixes are controlled and explainable.",
+  },
+  {
+    title: "Governance Over Ad-Hoc Changes",
+    description:
+      "Every configuration change should improve stability, security and visibility.",
+  },
+  {
+    title: "Support Over One-Time Fixes",
+    description:
+      "We help businesses move from reactive troubleshooting to SLA-backed operations.",
+  },
+];
 
 export const getNetworkSupportSchemaGraph = () => ({
   "@context": "https://schema.org",
@@ -453,35 +471,3 @@ export const getNetworkSupportSchemaGraph = () => ({
     },
   ],
 });
-
-export const painCards = [
-  { title: "Unstable Connectivity", description: "Frequent drops, WAN failures, Wi-Fi issues, slow application access and branch downtime." },
-  { title: "Configuration Drift", description: "Firewall rules, routing changes, VPN tunnels and VLAN structures become difficult to control over time." },
-  { title: "Slow Incident Response", description: "Without clear ownership and SLA support, small issues can quickly become business-impacting outages." },
-
-export const qcsModelItems: string[] = [
-  "Structured diagnosis and remediation",
-  "Controlled configuration changes",
-  "Firewall, VPN, SD-WAN and cloud handled together",
-  "Clear documentation and handover",
-  "SLA-based response",
-  "Freelance specialists when needed",
-  "Ongoing support for critical infrastructure",
-];
-
-export const whyPrinciples: SimpleCard[] = [
-  {
-    title: "Precision Over Guesswork",
-    description: "We diagnose before making changes, so fixes are controlled and explainable.",
-  },
-  {
-    title: "Governance Over Ad-Hoc Changes",
-    description:
-      "Every configuration change should improve stability, security and visibility.",
-  },
-  {
-    title: "Support Over One-Time Fixes",
-    description:
-      "We help businesses move from reactive troubleshooting to SLA-backed operations.",
-  },
-];

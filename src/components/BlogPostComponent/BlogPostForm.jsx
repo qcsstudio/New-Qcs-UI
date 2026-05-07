@@ -200,9 +200,11 @@ const handleImageChange = async (e) => {
     return (
       <img
         src={rowData.thumbnail || 'https://placehold.co/100x60'}
-        alt="thumbnail"
-        className=" object-cover rounded"
-        style={{width:"200px ",height:"100px"}}
+        alt={`Thumbnail for ${rowData.heading || "blog post"}`}
+        width="200"
+        height="100"
+        loading="lazy"
+        className="object-cover rounded"
       />
     );
   };
