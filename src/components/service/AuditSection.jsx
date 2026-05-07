@@ -12,65 +12,6 @@ const getScoreTone = (score) => {
   return { label: "Needs work", color: "#dc2626", status: "Conversion risk" };
 };
 
-const ROLE_SCORE_WEIGHTS = {
-  "Job Seeker": { headline: 20, about: 18, experience: 22, skills: 16, proof: 12, activity: 12 },
-  "Founder / CEO": { headline: 22, about: 18, experience: 16, skills: 10, proof: 16, activity: 18 },
-  "Sales / SDR / AE": { headline: 20, about: 16, experience: 18, skills: 12, proof: 16, activity: 18 },
-  "Consultant / Coach": { headline: 22, about: 20, experience: 14, skills: 10, proof: 18, activity: 16 },
-  "Recruiter / Talent": { headline: 18, about: 16, experience: 18, skills: 16, proof: 12, activity: 20 },
-};
-
-const clampScore = (score) => Math.max(0, Math.min(100, Math.round(Number(score) || 0)));
-
-const countWords = (value) => {
-  if (!value) return 0;
-  const text = Array.isArray(value) ? value.join(" ") : String(value);
-  return text.trim().split(/\s+/).filter(Boolean).length;
-};
-
-const getProfile = (payload) => payload?.profile || payload?.original?.profile || payload || {};
-
-const scoreText = (text, minWords, maxWords) => {
-  const words = countWords(text);
-  if (!words) return 0;
-  if (words >= minWords && words <= maxWords) return 1;
-  if (words > maxWords) return 0.85;
-  return Math.min(0.85, words / minWords);
-};
-
-const calculateLinkedInScore = (payload, selectedRole) => {
-  const explicitScore = payload?.baseScore || payload?.score?.total || payload?.original?.score?.total;
-  if (explicitScore) return clampScore(String(explicitScore).replace("%", ""));
-
-  const profile = getProfile(payload);
-  const weights = ROLE_SCORE_WEIGHTS[selectedRole] || ROLE_SCORE_WEIGHTS["Job Seeker"];
-  const headlineScore = scoreText(profile.headline, 8, 28);
-  const aboutScore = scoreText(profile.about, selectedRole === "Founder / CEO" ? 55 : 45, 180);
-  const experienceCount = Array.isArray(profile.experience) ? profile.experience.length : profile.experience ? 1 : 0;
-  const experienceScore = Math.min(1, experienceCount / 2);
-  const skillsCount = Array.isArray(profile.skills) ? profile.skills.length : countWords(profile.skills);
-  const skillsScore = Math.min(1, skillsCount / 12);
-  const proofSignals = [profile.connections, profile.education, profile.certifications, profile.recommendations, profile.featured].filter(Boolean).length;
-  const proofScore = Math.min(1, proofSignals / 3);
-  const activitySignals = [profile.posts, profile.activity, profile.creator_mode, profile.followers].filter(Boolean).length;
-  const activityScore = Math.min(1, activitySignals / 2);
-
-  return clampScore(
-    headlineScore * weights.headline +
-    aboutScore * weights.about +
-    experienceScore * weights.experience +
-    skillsScore * weights.skills +
-    proofScore * weights.proof +
-    activityScore * weights.activity
-  );
-};
-
-const getScoreTone = (score) => {
-  if (score >= 90) return { label: "Green", color: "#16a34a", status: "Excellent" };
-  if (score >= 60) return { label: "Yellow", color: "#f59e0b", status: "Needs Optimization" };
-  return { label: "Red", color: "#dc2626", status: "Revenue Leak" };
-};
-
 export default function AuditSection() {
   // ================= STATES =================
   const [url, setUrl] = useState("");
