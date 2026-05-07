@@ -4,7 +4,6 @@ import Wrapper from "@/layouts/Wrapper";
 import HeaderOne from "@/layouts/headers/HeaderOne";
 import FooterOne from "@/layouts/footers/FooterOne";
 import Testimonial from "@/components/testimonial/Testimonial";
-import AwardsHomeOne from "@/components/awards/AwardsHomeOne";
 import BlogHomeOne from "@/components/blog/BlogHomeOne";
 import FaqAccordion from "@/components/faq/FaqAccordion";
 import {
@@ -40,7 +39,7 @@ type SectionShellProps = {
   className?: string;
   headerClassName?: string;
   id?: string;
-  effect?: "radar" | "mesh" | "pulse" | "orbit" | "grid" | "wave";
+  effect?: "radar" | "mesh" | "pulse" | "orbit" | "grid" | "wave" | "beam" | "matrix" | "spark" | "halo" | "rings";
 };
 
 const pageNavItems = [
@@ -55,6 +54,12 @@ const heroProofPoints = [
   "SLA triage",
   "Controlled changes",
   "Documented handover",
+] as const;
+
+const liveSupportSignals = [
+  "SLA clock active",
+  "Policies backed up",
+  "Change log open",
 ] as const;
 
 const Spacer = ({ size = "sm" }: { size?: "sm" | "md" | "lg" }) => {
@@ -152,6 +157,11 @@ const HeroTopology = () => (
       <span className="network-support-topology__pulse" aria-hidden="true" />
     </div>
     <div className="network-support-topology__map">
+      <span className="network-support-topology__ring network-support-topology__ring--outer" aria-hidden="true" />
+      <span className="network-support-topology__ring network-support-topology__ring--inner" aria-hidden="true" />
+      <span className="network-support-topology__packet network-support-topology__packet--one" aria-hidden="true" />
+      <span className="network-support-topology__packet network-support-topology__packet--two" aria-hidden="true" />
+      <span className="network-support-topology__packet network-support-topology__packet--three" aria-hidden="true" />
       {topologyNodes.map((node, index) => (
         <span
           key={node.label}
@@ -167,6 +177,11 @@ const HeroTopology = () => (
       <span />
       <span />
     </div>
+    <ul className="network-support-topology__status" aria-label="Live support activity">
+      {liveSupportSignals.map((signal) => (
+        <li key={signal}>{signal}</li>
+      ))}
+    </ul>
     <div className="network-support-topology__badges">
       {trustBadges.map((badge) => (
         <span key={badge}>{badge}</span>
@@ -179,14 +194,12 @@ const HeroSection = () => (
   <section className="network-support-hero anim_div_ShowDowns" aria-labelledby="network-support-hero-title">
     <div className="network-support-hero__content">
       <p className="network-support-eyebrow cs_section_subtitle anim_div_ShowZoom">Network Infrastructure Support</p>
-      <h1 id="network-support-hero-title" className="anim_heading_title">24x7 Network Support for Secure, Stable & Always-On Business Operations</h1>
+      <h1 id="network-support-hero-title" className="anim_heading_title">24x7 Network Support for Secure, Always-On Operations</h1>
       <p className="network-support-hero__lead">
-        Your network keeps every user, branch, app, cloud workload, and customer touchpoint connected.
-        QCS helps you configure, troubleshoot, secure, and support that infrastructure.
+        Keep users, branches, apps, cloud workloads, and customers connected with SLA-led engineering support.
       </p>
       <p>
-        Get SLA-based engineering for firewalls, routers, switches, SD-WAN, VPN, Wi-Fi, and cloud networking.
-        Use us for one urgent task or for ongoing managed support.
+        QCS stabilises firewalls, routers, switches, SD-WAN, VPN, Wi-Fi, and cloud networks for urgent fixes or ongoing managed operations.
       </p>
       <div className="network-support-hero__proof" aria-label="Network support delivery standards">
         {heroProofPoints.map((point) => (
@@ -290,7 +303,7 @@ const VendorSection = () => (
     title="Support Across Leading Network & Security Vendors"
     description="QCS can coordinate troubleshooting and configuration across the platforms commonly found in multi-branch and cloud-connected businesses."
     id="vendors"
-    effect="pulse"
+    effect="spark"
   >
     <div className="network-support-pill-cloud">
       {vendors.map((vendor) => (
@@ -326,7 +339,7 @@ const WhySection = () => (
     title="Engineering Discipline for Your Network Operations"
     description="Practical troubleshooting, clear handover, and support for urgent incidents and planned projects."
     className="network-support-section--dark"
-    effect="radar"
+    effect="halo"
   >
     <div className="network-support-why">
       <div>
@@ -414,13 +427,13 @@ export default function NetworkSupportServicesPage({ children }: { children?: Re
 
               <Spacer />
 
-              <SectionShell effect="orbit" title="Network Support for Real Business Scenarios" headerClassName="network-support-section__header--compact">
+              <SectionShell effect="beam" title="Network Support for Real Business Scenarios" headerClassName="network-support-section__header--compact">
                 <InsightGrid items={useCases} columns="network-support-grid--3" />
               </SectionShell>
 
               <Spacer />
 
-              <SectionShell effect="grid" title="Network Support for Offices, Branches, Plants & Cloud-First Teams" headerClassName="network-support-section__header--compact">
+              <SectionShell effect="matrix" title="Network Support for Offices, Branches, Plants & Cloud-First Teams" headerClassName="network-support-section__header--compact">
                 <div className="network-support-pill-cloud network-support-pill-cloud--muted">
                   {industries.map((industry) => (
                     <span key={industry} className="anim_div_ShowZoom">{industry}</span>
@@ -439,7 +452,7 @@ export default function NetworkSupportServicesPage({ children }: { children?: Re
               <Spacer />
 
               <SectionShell id="faq"
-                effect="pulse"
+                effect="rings"
                 title="Frequently Asked Questions" headerClassName="network-support-section__header--compact">
                 <FaqAccordion faqs={faqs} />
               </SectionShell>
@@ -451,7 +464,6 @@ export default function NetworkSupportServicesPage({ children }: { children?: Re
 
             <Spacer />
             <Testimonial />
-            <AwardsHomeOne />
             <BlogHomeOne />
             <Spacer />
           </main>
