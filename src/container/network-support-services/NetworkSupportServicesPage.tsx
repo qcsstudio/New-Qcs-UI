@@ -40,6 +40,7 @@ type SectionShellProps = {
   className?: string;
   headerClassName?: string;
   id?: string;
+  effect?: "radar" | "mesh" | "pulse" | "orbit" | "grid" | "wave";
 };
 
 const pageNavItems = [
@@ -83,8 +84,12 @@ const SectionShell = ({
   className = "",
   headerClassName = "",
   id,
+  effect = "mesh",
 }: SectionShellProps) => (
-  <section id={id} className={`network-support-section cs_card cs_style_1 anim_div_ShowDowns ${className}`.trim()}>
+  <section
+    id={id}
+    className={`network-support-section network-support-section--effect-${effect} cs_card cs_style_1 anim_div_ShowDowns ${className}`.trim()}
+  >
     <div className={`network-support-section__header cs_section_heading cs_style_1 ${headerClassName}`.trim()}>
       <div className="cs_section_heading_text">
         {eyebrow ? <p className="network-support-eyebrow cs_section_subtitle anim_div_ShowZoom">{eyebrow}</p> : null}
@@ -118,7 +123,7 @@ const InsightGrid = ({
 }) => (
   <div className={`network-support-grid ${columns}`.trim()}>
     {items.map((item, index) => (
-      <article key={item.title} className={`network-support-card network-support-card--${tone}`}>
+      <article key={item.title} className={`network-support-card network-support-card--${tone} anim_div_ShowDowns`}>
         <span className="network-support-card__index">{String(index + 1).padStart(2, "0")}</span>
         <h3>{item.title}</h3>
         <p>{item.description}</p>
@@ -128,7 +133,7 @@ const InsightGrid = ({
 );
 
 const PageNav = () => (
-  <nav className="network-support-nav" aria-label="Network support page sections">
+  <nav className="network-support-nav anim_div_ShowDowns" aria-label="Network support page sections">
     {pageNavItems.map((item) => (
       <a key={item.href} href={item.href}>
         {item.label}
@@ -150,7 +155,7 @@ const HeroTopology = () => (
       {topologyNodes.map((node, index) => (
         <span
           key={node.label}
-          className={`network-support-topology__node network-support-topology__node--${node.modifier}`}
+          className={`network-support-topology__node network-support-topology__node--${node.modifier} anim_div_ShowZoom`}
         >
           <small>{String(index + 1).padStart(2, "0")}</small>
           {node.label}
@@ -176,13 +181,12 @@ const HeroSection = () => (
       <p className="network-support-eyebrow cs_section_subtitle anim_div_ShowZoom">Network Infrastructure Support</p>
       <h1 id="network-support-hero-title" className="anim_heading_title">24x7 Network Support for Secure, Stable & Always-On Business Operations</h1>
       <p className="network-support-hero__lead">
-        Your network is the operating layer behind every user, branch, application, cloud workload, and customer interaction.
-        QCS helps businesses configure, troubleshoot, secure, and support their network infrastructure with SLA-based
-        engineering support across firewalls, routers, switches, SD-WAN, VPN, Wi-Fi, and cloud networking.
+        Your network keeps every user, branch, app, cloud workload, and customer touchpoint connected.
+        QCS helps you configure, troubleshoot, secure, and support that infrastructure.
       </p>
       <p>
-        From one-time specialised configuration to long-term managed network support, we provide remote and onsite assistance
-        for business-critical infrastructure where downtime is not an option.
+        Get SLA-based engineering for firewalls, routers, switches, SD-WAN, VPN, Wi-Fi, and cloud networking.
+        Use us for one urgent task or for ongoing managed support.
       </p>
       <div className="network-support-hero__proof" aria-label="Network support delivery standards">
         {heroProofPoints.map((point) => (
@@ -198,7 +202,7 @@ const HeroSection = () => (
           Talk to a Network Engineer
         </Link>
       </div>
-      <div className="network-support-hero__stats" aria-label="Network support highlights">
+      <div className="network-support-hero__stats anim_div_ShowDowns" aria-label="Network support highlights">
         {heroStats.map((stat) => (
           <div key={stat.label}>
             <strong>{stat.value}</strong>
@@ -218,14 +222,15 @@ const ComparisonSection = () => (
     description="Modern environments need documented ownership, controlled changes, and a support path that connects firewall, VPN, SD-WAN, cloud, and LAN operations."
     className="network-support-section--comparison"
     id="support-models"
+    effect="orbit"
   >
     <div className="network-support-comparison">
-      <article className="network-support-comparison__panel network-support-comparison__panel--old">
+      <article className="network-support-comparison__panel network-support-comparison__panel--old anim_div_ShowLeftSide">
         <span>Reactive</span>
         <h3>Old model</h3>
         <CheckList items={oldModelItems} muted />
       </article>
-      <article className="network-support-comparison__panel network-support-comparison__panel--new">
+      <article className="network-support-comparison__panel network-support-comparison__panel--new anim_div_ShowRightSide">
         <span>Governed</span>
         <h3>QCS model</h3>
         <CheckList items={qcsModelItems} />
@@ -240,10 +245,11 @@ const ServicesSection = () => (
     title="Complete Network Configuration, Troubleshooting & Managed Support"
     description="We support businesses across the full network lifecycle: installation, configuration, migration, optimisation, troubleshooting, documentation, and continuous support."
     id="network-services"
+    effect="grid"
   >
     <div className="network-support-services-grid">
       {networkServices.map((service, index) => (
-        <article key={service.title} className="network-support-service-card">
+        <article key={service.title} className="network-support-service-card anim_div_ShowDowns">
           <div className="network-support-service-card__header">
             <span>{String(index + 1).padStart(2, "0")}</span>
             <h3>{service.title}</h3>
@@ -259,16 +265,17 @@ const ServicesSection = () => (
 const EngagementSection = () => (
   <SectionShell
     eyebrow="Engagement options"
+    effect="mesh"
     title="Use QCS for a One-Time Network Task or Continuous SLA Support"
     description="Choose the support format that fits the urgency and ownership model of your infrastructure."
   >
     <div className="network-support-engagement">
-      <article>
+      <article className="anim_div_ShowLeftSide">
         <span>Project / freelance</span>
         <h3>Need a Freelance Network Engineer for a Specific Task?</h3>
         <CheckList items={freelanceItems} />
       </article>
-      <article>
+      <article className="anim_div_ShowRightSide">
         <span>Managed operations</span>
         <h3>24x7 Network Support for Critical Business Infrastructure</h3>
         <CheckList items={managedSupportItems} />
@@ -283,10 +290,11 @@ const VendorSection = () => (
     title="Support Across Leading Network & Security Vendors"
     description="QCS can coordinate troubleshooting and configuration across the platforms commonly found in multi-branch and cloud-connected businesses."
     id="vendors"
+    effect="pulse"
   >
     <div className="network-support-pill-cloud">
       {vendors.map((vendor) => (
-        <span key={vendor}>{vendor}</span>
+        <span key={vendor} className="anim_div_ShowZoom">{vendor}</span>
       ))}
     </div>
   </SectionShell>
@@ -298,10 +306,11 @@ const ProcessSection = () => (
     title="Diagnose. Stabilise. Secure. Support."
     description="Every support request follows a clear operating rhythm so fixes are controlled, validated, and documented."
     id="process"
+    effect="wave"
   >
     <div className="network-support-timeline">
       {processSteps.map((step, index) => (
-        <article key={step.title}>
+        <article key={step.title} className="anim_div_ShowDowns">
           <span>{String(index + 1).padStart(2, "0")}</span>
           <h3>{step.title}</h3>
           <p>{step.description}</p>
@@ -317,6 +326,7 @@ const WhySection = () => (
     title="Engineering Discipline for Your Network Operations"
     description="Practical troubleshooting, clear handover, and support for urgent incidents and planned projects."
     className="network-support-section--dark"
+    effect="radar"
   >
     <div className="network-support-why">
       <div>
@@ -325,7 +335,7 @@ const WhySection = () => (
       </div>
       <div className="network-support-why__principles">
         {whyPrinciples.map((principle, index) => (
-          <article key={principle.title}>
+          <article key={principle.title} className="anim_div_ShowDowns">
             <span>{String(index + 1).padStart(2, "0")}</span>
             <h3>{principle.title}</h3>
             <p>{principle.description}</p>
@@ -337,12 +347,12 @@ const WhySection = () => (
 );
 
 const CtaSection = () => (
-  <section className="network-support-cta">
+  <section className="network-support-cta anim_div_ShowDowns">
     <p className="network-support-eyebrow">Ready for stable operations?</p>
     <h2>Need Reliable Network Support Today?</h2>
     <p>
-      Whether you need a freelance network engineer, a firewall specialist, FortiGate or Cisco configuration support,
-      SD-WAN troubleshooting, cloud networking assistance, or 24x7 SLA-based managed network support, QCS can help.
+      Need a freelance network engineer, firewall specialist, FortiGate or Cisco support, SD-WAN troubleshooting,
+      cloud networking assistance, or 24x7 managed support? QCS can help.
     </p>
     <div className="network-support-hero__actions network-support-cta__actions">
       <Link href="/contact?intent=network-support" className="cs_btn cs_style_1">
@@ -373,15 +383,16 @@ export default function NetworkSupportServicesPage({ children }: { children?: Re
 
               <SectionShell
                 eyebrow="Reliable infrastructure for predictable operations"
+                effect="radar"
                 title="A Governed Network Support System, Not Just Break-Fix Assistance"
-                description="QCS brings a structured support model to your network environment: diagnose the issue, stabilise the service, harden the configuration, document the change, and support the infrastructure through SLA-led operations."
+                description="QCS brings a structured model to your network. We diagnose the issue, stabilise service, harden the configuration, document the change, and support the environment through SLA-led operations."
               >
                 <InsightGrid items={architecturePillars} />
               </SectionShell>
 
               <Spacer />
 
-              <SectionShell title="Your Network Should Not Become a Business Risk" headerClassName="network-support-section__header--compact">
+              <SectionShell effect="pulse" title="Your Network Should Not Become a Business Risk" headerClassName="network-support-section__header--compact">
                 <InsightGrid items={painCards} tone="warning" />
               </SectionShell>
 
@@ -403,16 +414,16 @@ export default function NetworkSupportServicesPage({ children }: { children?: Re
 
               <Spacer />
 
-              <SectionShell title="Network Support for Real Business Scenarios" headerClassName="network-support-section__header--compact">
+              <SectionShell effect="orbit" title="Network Support for Real Business Scenarios" headerClassName="network-support-section__header--compact">
                 <InsightGrid items={useCases} columns="network-support-grid--3" />
               </SectionShell>
 
               <Spacer />
 
-              <SectionShell title="Network Support for Offices, Branches, Plants & Cloud-First Teams" headerClassName="network-support-section__header--compact">
+              <SectionShell effect="grid" title="Network Support for Offices, Branches, Plants & Cloud-First Teams" headerClassName="network-support-section__header--compact">
                 <div className="network-support-pill-cloud network-support-pill-cloud--muted">
                   {industries.map((industry) => (
-                    <span key={industry}>{industry}</span>
+                    <span key={industry} className="anim_div_ShowZoom">{industry}</span>
                   ))}
                 </div>
               </SectionShell>
@@ -427,7 +438,9 @@ export default function NetworkSupportServicesPage({ children }: { children?: Re
 
               <Spacer />
 
-              <SectionShell id="faq" title="Frequently Asked Questions" headerClassName="network-support-section__header--compact">
+              <SectionShell id="faq"
+                effect="pulse"
+                title="Frequently Asked Questions" headerClassName="network-support-section__header--compact">
                 <FaqAccordion faqs={faqs} />
               </SectionShell>
 

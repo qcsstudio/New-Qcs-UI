@@ -320,7 +320,7 @@ export const differentiators: string[] = [
 export const faqs = [
   [
     "Do you provide 24x7 network support?",
-    "Yes. QCS provides 24x7 SLA-based support for critical network issues, firewall problems, VPN failures, SD-WAN issues, routing problems, Wi-Fi instability, and business-impacting incidents.",
+    "Yes. QCS provides 24x7 SLA-based support for critical network issues. We cover firewall problems, VPN failures, SD-WAN issues, routing faults, Wi-Fi instability, and business-impacting incidents.",
   ],
   [
     "Do you provide freelance network engineers?",
@@ -344,7 +344,7 @@ export const faqs = [
   ],
   [
     "Can you support cloud networking?",
-    "Yes. We support cloud networking across AWS, Azure, and Google Cloud, including VPC/VNet, routing, VPN, firewall rules, security groups, NAT, and hybrid connectivity.",
+    "Yes. We support cloud networking across AWS, Azure, and Google Cloud. This includes VPC/VNet, routing, VPN, firewall rules, security groups, NAT, and hybrid connectivity.",
   ],
   [
     "Do you provide remote support?",
