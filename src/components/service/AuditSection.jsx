@@ -4,6 +4,65 @@ import Link from "next/link";
 import React, { useEffect, useState, useRef } from "react";
 import { PulseLoader } from "react-spinners";
 
+const ROLE_SCORE_WEIGHTS = {
+  "Job Seeker": { headline: 20, about: 18, experience: 22, skills: 16, proof: 12, activity: 12 },
+  "Founder / CEO": { headline: 22, about: 18, experience: 16, skills: 10, proof: 16, activity: 18 },
+  "Sales / SDR / AE": { headline: 20, about: 16, experience: 18, skills: 12, proof: 16, activity: 18 },
+  "Consultant / Coach": { headline: 22, about: 20, experience: 14, skills: 10, proof: 18, activity: 16 },
+  "Recruiter / Talent": { headline: 18, about: 16, experience: 18, skills: 16, proof: 12, activity: 20 },
+};
+
+const clampScore = (score) => Math.max(0, Math.min(100, Math.round(Number(score) || 0)));
+
+const countWords = (value) => {
+  if (!value) return 0;
+  const text = Array.isArray(value) ? value.join(" ") : String(value);
+  return text.trim().split(/\s+/).filter(Boolean).length;
+};
+
+const getProfile = (payload) => payload?.profile || payload?.original?.profile || payload || {};
+
+const scoreText = (text, minWords, maxWords) => {
+  const words = countWords(text);
+  if (!words) return 0;
+  if (words >= minWords && words <= maxWords) return 1;
+  if (words > maxWords) return 0.85;
+  return Math.min(0.85, words / minWords);
+};
+
+const calculateLinkedInScore = (payload, selectedRole) => {
+  const explicitScore = payload?.baseScore || payload?.score?.total || payload?.original?.score?.total;
+  if (explicitScore) return clampScore(String(explicitScore).replace("%", ""));
+
+  const profile = getProfile(payload);
+  const weights = ROLE_SCORE_WEIGHTS[selectedRole] || ROLE_SCORE_WEIGHTS["Job Seeker"];
+  const headlineScore = scoreText(profile.headline, 8, 28);
+  const aboutScore = scoreText(profile.about, selectedRole === "Founder / CEO" ? 55 : 45, 180);
+  const experienceCount = Array.isArray(profile.experience) ? profile.experience.length : profile.experience ? 1 : 0;
+  const experienceScore = Math.min(1, experienceCount / 2);
+  const skillsCount = Array.isArray(profile.skills) ? profile.skills.length : countWords(profile.skills);
+  const skillsScore = Math.min(1, skillsCount / 12);
+  const proofSignals = [profile.connections, profile.education, profile.certifications, profile.recommendations, profile.featured].filter(Boolean).length;
+  const proofScore = Math.min(1, proofSignals / 3);
+  const activitySignals = [profile.posts, profile.activity, profile.creator_mode, profile.followers].filter(Boolean).length;
+  const activityScore = Math.min(1, activitySignals / 2);
+
+  return clampScore(
+    headlineScore * weights.headline +
+    aboutScore * weights.about +
+    experienceScore * weights.experience +
+    skillsScore * weights.skills +
+    proofScore * weights.proof +
+    activityScore * weights.activity
+  );
+};
+
+const getScoreTone = (score) => {
+  if (score >= 90) return { label: "Green", color: "#16a34a", status: "Excellent" };
+  if (score >= 60) return { label: "Yellow", color: "#f59e0b", status: "Needs Optimization" };
+  return { label: "Red", color: "#dc2626", status: "Revenue Leak" };
+};
+
 export default function AuditSection() {
   // ================= STATES =================
   const [url, setUrl] = useState("");
@@ -117,7 +176,6 @@ useEffect(() => {
 }, []);
 
 
-  console.log("result: ", result);
   
 
   useEffect(() => {
@@ -195,6 +253,8 @@ useEffect(() => {
         url: finalUrl,
         role,
         accepted,
+        sameTab: true,
+        scoringModel: "QCS role-based LinkedIn profile audit",
       },
       "*"
     );
@@ -209,6 +269,16 @@ useEffect(() => {
     setShowExtensionPopup(true);
   }
 
+
+  const auditScore = result ? calculateLinkedInScore(result, role) : 0;
+  const scoreTone = getScoreTone(auditScore);
+
+  const startRewritePayment = () => {
+    localStorage.setItem("linkedin_audit_score", String(auditScore));
+    localStorage.setItem("linkedin_paid_service", "profile-rewrite-100-score");
+    localStorage.setItem("linkedin_paid_amount", "49");
+    window.location.href = "/payment";
+  };
 
   // ================= UI =================
   return (
@@ -231,19 +301,19 @@ useEffect(() => {
 
         {/* HEADING */}
         <h2 className="audit-heading">
-          Audit Your LinkedIn <span>{`{Profile}`}</span> to Unlock <br />
-          <strong>Your Full Potential</strong>
+          Audit Your LinkedIn <span>{`{Profile}`}</span> Score <br />
+          <strong>Before We Rewrite It to 100%</strong>
         </h2>
 
         <p className="audit-desc">
-          See how decision-makers truly perceive your profile and unlock actions
-          that turn visibility into business.
+          Enter your LinkedIn profile URL in this Chrome tab, stay logged in to LinkedIn,
+          choose your profile type, and get a role-based audit score.
         </p>
 
         {/* INPUTS */}
         <div className="audit-input-row">
           <input
-            placeholder="LINKEDIN PROFILE"
+            placeholder="LINKEDIN PROFILE URL"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             onFocus={handleextensionInstall}
@@ -284,11 +354,11 @@ useEffect(() => {
         </label>
 
         <p className="audit-note">
-          We only analyze what’s already publicly visible on your profile.
+          Keep LinkedIn logged in on this same Chrome browser tab. The extension reads visible profile data and sends it to our role-based scoring model.
         </p>
 
         <p className="audit-secure">
-          No passwords · No contacts · No messages · Ever
+          No passwords · No contacts · No messages · ₹49 paid rewrite available after score
         </p>
 
         {/* ================= EXTENSION POPUP ================= */}
@@ -300,8 +370,7 @@ useEffect(() => {
               </h2>
 
               <p style={{ textAlign: "center", marginBottom: 20 }}>
-                To audit your LinkedIn profile, please install our secure Chrome
-                extension. It only reads public profile data.
+                To audit your LinkedIn profile, install our secure Chrome extension and stay logged in to LinkedIn in this same Chrome browser. It only reads visible profile data needed for scoring.
               </p>
               <p style={{ textAlign: "center", marginBottom: "40px" }}>
                  Please make sure you are logged in to LinkedIn on this Chrome browser.
@@ -339,16 +408,25 @@ useEffect(() => {
                 Your LinkedIn <span>Audit</span> Is Ready
               </h2>
 
-              <div className="progress-ring">
-                <div className="progress-text">
-                  {result.baseScore}
+              <div
+                className="progress-ring"
+                style={{ borderColor: scoreTone.color, boxShadow: `0 0 0 10px ${scoreTone.color}22` }}
+              >
+                <div className="progress-text" style={{ color: scoreTone.color }}>
+                  {auditScore}%
                 </div>
               </div>
 
-              <Link href="/linkedin-login" className="audit-main-btn">
+              <p style={{ textAlign: "center", margin: "18px 0 8px", color: scoreTone.color, fontWeight: 700 }}>
+                {scoreTone.label} Score · {scoreTone.status}
+              </p>
+              <p style={{ textAlign: "center", marginBottom: 24 }}>
+                We can rewrite your headline, about, experience, and authority positioning to target a 100% QCS profile score for your selected profile type.
+              </p>
 
-                Access Full Audit →
-              </Link>
+              <button type="button" onClick={startRewritePayment} className="audit-main-btn">
+                Rewrite My Profile to 100% — Pay ₹49 →
+              </button>
 
               <button
                 className="audit-close"
