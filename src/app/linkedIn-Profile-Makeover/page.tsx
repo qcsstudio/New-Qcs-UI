@@ -1,20 +1,9 @@
-import AboutUs from '@/components/about/AboutUs';
-import BrandHomeOne from '@/components/brand/BrandHomeOne';
-import ServiceDetailsFaq from '@/components/faq/ServiceDetailsFaq';
-import FeatureHomeTwo from '@/components/feature/FeatureHomeTwo';
 import HeroServiceDetails from '@/components/hero/HeroServiceDetails';
-import InnovativeHomeTwo from '@/components/innovative/InnovativeHomeTwo';
-import PipelineSection from '@/components/service/PipelineSection';
-import ServiceAreaDetails from '@/components/service/ServiceAreaDetails';
-import Testimonial from '@/components/testimonial/Testimonial';
 import Wrapper from '@/layouts/Wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
-import { featureDataservice } from "@/data/featureData";
 import HeroHomeThree from '@/components/hero/HeroHomeThree';
-import {  innovative_data_linkedin } from '@/data/innovation_homeTwo';
-import img from "@/assets/img/Images/linkedin_innovation.png";
-import { service_data } from '@/data/serviceArea_detail';
+import LinkedInSalesEngineLanding from '@/components/service/LinkedInSalesEngineLanding';
 
 export const metadata = {
   title: "Done-for-You LinkedIn Sales & Outbound Engine | QCS",
@@ -30,16 +19,9 @@ const index = () => {
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <main>
-            <HeroHomeThree/>
+            <HeroHomeThree />
             <HeroServiceDetails />
-            <InnovativeHomeTwo  data={innovative_data_linkedin} image={img}/>
-            <PipelineSection />
-            <ServiceDetailsFaq />
-            <Testimonial />
-            <ServiceAreaDetails data={service_data} para={true} heading={null}/>
-            <BrandHomeOne style_2={false} />
-            <FeatureHomeTwo feature_data={featureDataservice} />
-            <AboutUs />
+            <LinkedInSalesEngineLanding />
           </main>
           <FooterOne />
         </div>
