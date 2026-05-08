@@ -60,6 +60,7 @@ export default function AuditSection() {
   const [isExtensionReady, setIsExtensionReady] = useState(false);
 
   const extensionDetectedRef = useRef(false);
+  const pendingAuditRequestRef = useRef(null);
   const scrapePendingRef = useRef(false);
 
   const markExtensionReady = useCallback(() => {
@@ -71,6 +72,12 @@ export default function AuditSection() {
     setShowExtensionPopup(false);
     localStorage.removeItem("audit_waiting_for_extension");
     localStorage.removeItem("audit_auto_reloaded");
+
+    const pendingAuditRequest = pendingAuditRequestRef.current;
+    if (pendingAuditRequest) {
+      pendingAuditRequestRef.current = null;
+      beginScrape(pendingAuditRequest);
+    }
   }, []);
 
   // ================= EXTENSION CHECK =================
@@ -174,24 +181,7 @@ export default function AuditSection() {
     return finalUrl;
   };
 
-  // ================= START AUDIT =================
-  const startAudit = () => {
-    if (!url) return alert("Enter LinkedIn profile URL");
-    if (!accepted) return alert("Please accept Terms & Privacy Policy");
-
-    if (checkingExtension) {
-      postExtensionPing();
-    }
-
-    const finalUrl = normalizeLinkedInUrl(url);
-
-    if (!finalUrl.includes("linkedin.com/")) {
-      return alert("Please enter a valid LinkedIn profile URL");
-    }
-
-    localStorage.setItem("linkedin_audit_url", finalUrl);
-    localStorage.setItem("linkedin_audit_role", role);
-
+  const beginScrape = ({ finalUrl, selectedRole, termsAccepted }) => {
     scrapePendingRef.current = true;
     setLoading(true);
     setShowExtensionPopup(false);
@@ -199,10 +189,9 @@ export default function AuditSection() {
     window.postMessage(
       {
         type: "START_SCRAPE",
-        from: "QCS_LINKEDIN_AUDIT_PAGE",
         url: finalUrl,
-        role,
-        accepted,
+        role: selectedRole,
+        accepted: termsAccepted,
         sameTab: true,
         scoringModel: "QCS role-based LinkedIn profile audit",
       },
@@ -216,6 +205,45 @@ export default function AuditSection() {
         setShowExtensionPopup(true);
       }
     }, SCRAPE_RESPONSE_TIMEOUT_MS);
+  };
+
+  const waitForExtensionThenScrape = (auditRequest) => {
+    pendingAuditRequestRef.current = auditRequest;
+    setLoading(true);
+    setShowExtensionPopup(false);
+    postExtensionPing();
+
+    window.setTimeout(() => {
+      if (pendingAuditRequestRef.current) {
+        pendingAuditRequestRef.current = null;
+        setLoading(false);
+        setShowExtensionPopup(true);
+      }
+    }, EXTENSION_DETECTION_WINDOW_MS);
+  };
+
+  // ================= START AUDIT =================
+  const startAudit = () => {
+    if (!url) return alert("Enter LinkedIn profile URL");
+    if (!accepted) return alert("Please accept Terms & Privacy Policy");
+
+    const finalUrl = normalizeLinkedInUrl(url);
+
+    if (!finalUrl.includes("linkedin.com/")) {
+      return alert("Please enter a valid LinkedIn profile URL");
+    }
+
+    localStorage.setItem("linkedin_audit_url", finalUrl);
+    localStorage.setItem("linkedin_audit_role", role);
+
+    const auditRequest = { finalUrl, selectedRole: role, termsAccepted: accepted };
+
+    if (!extensionDetectedRef.current) {
+      waitForExtensionThenScrape(auditRequest);
+      return;
+    }
+
+    beginScrape(auditRequest);
   };
 
   const auditSummary = useMemo(() => {
@@ -300,8 +328,8 @@ export default function AuditSection() {
           {isExtensionReady
             ? "Extension detected. You can run the audit now."
             : checkingExtension
-              ? "Checking for the extension in the background. You can still click Audit My Profile."
-              : "If the extension is installed, click Audit My Profile. We will only show setup help if it does not respond."}
+              ? "Checking for the extension in the background. If you click Audit My Profile now, we will wait for the extension before scraping."
+              : "If the extension is installed, click Audit My Profile. We will wait for it to respond before showing setup help."}
         </p>
 
         {/* TERMS */}
