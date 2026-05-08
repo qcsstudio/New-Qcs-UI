@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import { scoreLinkedInProfilePayload } from "@/scoring/linkedinProfileScoring";
 
@@ -158,31 +158,25 @@ export default function AuditSection() {
     );
   };
 
-  const scoreResult = result ? scoreLinkedInProfilePayload(result, role) : null;
-  const auditScore = scoreResult?.overallScore || 0;
-  const scoreTone = getScoreTone(auditScore);
-  const topSuggestions = scoreResult?.suggestions?.slice(0, 3) || [];
+  const auditSummary = useMemo(() => {
+    const report = result ? scoreLinkedInProfilePayload(result, role) : null;
+    const overallScore = report?.overallScore || 0;
 
-  const startRewritePayment = () => {
-    localStorage.setItem("linkedin_audit_score", String(auditScore));
-    localStorage.setItem("linkedin_audit_report", JSON.stringify(scoreResult));
+    return {
+      report,
+      overallScore,
+      tone: getScoreTone(overallScore),
+      suggestions: report?.suggestions?.slice(0, 3) || [],
+    };
+  }, [result, role]);
+
+  const handleRewritePayment = useCallback(() => {
+    localStorage.setItem("linkedin_audit_score", String(auditSummary.overallScore));
+    localStorage.setItem("linkedin_audit_report", JSON.stringify(auditSummary.report));
     localStorage.setItem("linkedin_paid_service", "profile-rewrite-100-score");
     localStorage.setItem("linkedin_paid_amount", "49");
     window.location.href = "/payment";
-  };
-
-  const scoreResult = result ? scoreLinkedInProfilePayload(result, role) : null;
-  const auditScore = scoreResult?.overallScore || 0;
-  const scoreTone = getScoreTone(auditScore);
-  const topSuggestions = scoreResult?.suggestions?.slice(0, 3) || [];
-
-  const startRewritePayment = () => {
-    localStorage.setItem("linkedin_audit_score", String(auditScore));
-    localStorage.setItem("linkedin_audit_report", JSON.stringify(scoreResult));
-    localStorage.setItem("linkedin_paid_service", "profile-rewrite-100-score");
-    localStorage.setItem("linkedin_paid_amount", "49");
-    window.location.href = "/payment";
-  };
+  }, [auditSummary]);
 
   // ================= UI =================
   return (
@@ -312,15 +306,15 @@ export default function AuditSection() {
 
               <div
                 className="progress-ring"
-                style={{ borderColor: scoreTone.color, boxShadow: `0 0 0 10px ${scoreTone.color}22` }}
+                style={{ borderColor: auditSummary.tone.color, boxShadow: `0 0 0 10px ${auditSummary.tone.color}22` }}
               >
-                <div className="progress-text" style={{ color: scoreTone.color }}>
-                  {auditScore}%
+                <div className="progress-text" style={{ color: auditSummary.tone.color }}>
+                  {auditSummary.overallScore}%
                 </div>
               </div>
 
-              <p style={{ textAlign: "center", margin: "18px 0 8px", color: scoreTone.color, fontWeight: 700 }}>
-                {scoreTone.label} · {scoreTone.status} · {scoreResult?.persona?.replaceAll("_", " ")}
+              <p style={{ textAlign: "center", margin: "18px 0 8px", color: auditSummary.tone.color, fontWeight: 700 }}>
+                {auditSummary.tone.label} · {auditSummary.tone.status} · {auditSummary.report?.persona?.replaceAll("_", " ")}
               </p>
               <p style={{ textAlign: "center", marginBottom: 18 }}>
                 This score is aligned with known LinkedIn profile best practices. It is designed to improve clarity, trust, search visibility, and post-click conversion — not to guarantee rankings, jobs, or leads.
@@ -328,24 +322,24 @@ export default function AuditSection() {
 
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginBottom: 18 }}>
                 <div className="rounded-3 p-2" style={{ background: "#f7f8fb" }}>
-                  <strong>{scoreResult?.searchVisibilityScore || 0}%</strong>
+                  <strong>{auditSummary.report?.searchVisibilityScore || 0}%</strong>
                   <p className="mb-0" style={{ fontSize: 12 }}>Search Visibility</p>
                 </div>
                 <div className="rounded-3 p-2" style={{ background: "#f7f8fb" }}>
-                  <strong>{scoreResult?.postClickConversionScore || 0}%</strong>
+                  <strong>{auditSummary.report?.postClickConversionScore || 0}%</strong>
                   <p className="mb-0" style={{ fontSize: 12 }}>Post-Click Conversion</p>
                 </div>
                 <div className="rounded-3 p-2" style={{ background: "#f7f8fb" }}>
-                  <strong>{scoreResult?.trustScore || 0}%</strong>
+                  <strong>{auditSummary.report?.trustScore || 0}%</strong>
                   <p className="mb-0" style={{ fontSize: 12 }}>Trust & Proof</p>
                 </div>
               </div>
 
-              {scoreResult?.subScores && (
+              {auditSummary.report?.subScores && (
                 <div style={{ textAlign: "left", marginBottom: 20 }}>
                   <strong>Section scores</strong>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8, marginTop: 8 }}>
-                    {Object.entries(scoreResult.subScores).slice(0, 6).map(([key, item]) => (
+                    {Object.entries(auditSummary.report.subScores).slice(0, 6).map(([key, item]) => (
                       <div key={key} className="rounded-3 p-2" style={{ background: "#fff", border: "1px solid #eee" }}>
                         <span style={{ fontSize: 12 }}>{item.label}</span>
                         <strong style={{ float: "right" }}>{item.score}%</strong>
@@ -355,11 +349,11 @@ export default function AuditSection() {
                 </div>
               )}
 
-              {topSuggestions.length > 0 && (
+              {auditSummary.suggestions.length > 0 && (
                 <div style={{ textAlign: "left", marginBottom: 20 }}>
                   <strong>Top priority fixes</strong>
                   <ul style={{ paddingLeft: 18, marginTop: 8 }}>
-                    {topSuggestions.map((item) => (
+                    {auditSummary.suggestions.map((item) => (
                       <li key={item.id} style={{ marginBottom: 6 }}>
                         <span style={{ fontWeight: 700 }}>{item.priority}:</span> {item.reason}
                       </li>
@@ -368,13 +362,13 @@ export default function AuditSection() {
                 </div>
               )}
 
-              {scoreResult?.makeover?.headlineOptions?.[0] && (
+              {auditSummary.report?.makeover?.headlineOptions?.[0] && (
                 <p style={{ textAlign: "left", fontSize: 13, background: "#f7f8fb", padding: 12, borderRadius: 12 }}>
-                  <strong>Makeover preview:</strong> {scoreResult.makeover.headlineOptions[0]}
+                  <strong>Makeover preview:</strong> {auditSummary.report.makeover.headlineOptions[0]}
                 </p>
               )}
 
-              <button type="button" onClick={startRewritePayment} className="audit-main-btn">
+              <button type="button" onClick={handleRewritePayment} className="audit-main-btn">
                 Rewrite My Profile With Makeover Plan — Pay ₹49 →
               </button>
 
