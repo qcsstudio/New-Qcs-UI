@@ -23,7 +23,8 @@ const footer_data: DataType = {
   links: [
     { title: `HOME`, link: "/" },
     { title: `ABOUT`, link: "/about" },
-    { title: `SERVICES`, link: "/linkedIn-Profile-Makeover" },
+    { title: `LINKEDIN SALES ENGINE`, link: "/linkedIn-Profile-Makeover" },
+    { title: `LINKEDIN PROFILE AUDIT`, link: "/linkedin-profile-audit" },
     // { title: `PORTFOLIO`, link: "/portfolio" },
     // { title: `BLOG`, link: "/blog" },
     { title: `CONTACT US`, link: "/contact" },
