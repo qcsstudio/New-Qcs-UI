@@ -6,15 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "vercel-build": "npm run lint && next build"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "@heroicons/react": "^2.2.0",
     "@types/jquery": "^3.5.29",
     "aws-sdk": "^2.1693.0",
     "bcryptjs": "^3.0.3",
     "bootstrap": "^5.3.2",
-    "crypto": "^1.0.1",
     "framer-motion": "^12.23.26",
     "gsap": "^3.12.2",
     "jodit-react": "^5.2.38",
@@ -27,14 +28,13 @@
     "pdf-lib": "^1.17.1",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.7",
-    "react": "^19.2.0",
+    "react": "19.2.1",
     "react-countup": "^6.5.0",
-    "react-dom": "^19.2.0",
+    "react-dom": "19.2.1",
     "react-fast-marquee": "^1.6.5",
     "react-icons": "^5.5.0",
     "react-intersection-observer": "^10.0.0",
     "react-loader-spinner": "^8.0.0",
-    "react-responsive-modal": "^7.1.0",
     "react-spinners": "^0.17.0",
     "react-use": "^17.5.0",
     "sass": "^1.70.0",
@@ -47,5 +47,9 @@
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "typescript": "^5.9.3"
-  }
+  },
+  "engines": {
+    "node": "20.x"
+  },
+  "packageManager": "npm@10.8.2"
 }
