@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 interface FaqItemType {
   id: string;
@@ -155,6 +156,10 @@ const ServiceDetailsFaq = () => {
                   <li key={i}>{feature}</li>
                 ))}
               </ul>
+
+              <Link href="/linkedin-profile-audit" className="cs_btn cs_style_1 cs_color_1 mt-3 d-inline-flex">
+                <span>Check My Profile Score First</span>
+              </Link>
             </div>
 
             {/* <div className="cs_back_to_services_btn">
