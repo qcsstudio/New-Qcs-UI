@@ -60,6 +60,7 @@ export default function AuditSection() {
   const [isExtensionReady, setIsExtensionReady] = useState(false);
 
   const extensionDetectedRef = useRef(false);
+  const scrapePendingRef = useRef(false);
 
   const markExtensionReady = useCallback(() => {
     if (extensionDetectedRef.current) return;
@@ -69,12 +70,14 @@ export default function AuditSection() {
     setCheckingExtension(false);
     setShowExtensionPopup(false);
     localStorage.removeItem("audit_waiting_for_extension");
+    localStorage.removeItem("audit_auto_reloaded");
   }, []);
 
   // ================= EXTENSION CHECK =================
   useEffect(() => {
     let pingInterval;
     let detectionTimeout;
+    let reloadTimeout;
 
     const handler = (e) => {
       if (isExtensionReadyMessage(e.data)) {
@@ -92,6 +95,16 @@ export default function AuditSection() {
     pingExtension();
     pingInterval = setInterval(pingExtension, 700);
 
+    const hasReloaded = localStorage.getItem("audit_auto_reloaded");
+    if (!hasReloaded) {
+      localStorage.setItem("audit_auto_reloaded", "true");
+      reloadTimeout = setTimeout(() => {
+        if (!extensionDetectedRef.current) {
+          window.location.reload();
+        }
+      }, 1200);
+    }
+
     detectionTimeout = setTimeout(() => {
       if (!extensionDetectedRef.current) {
         setCheckingExtension(false);
@@ -101,6 +114,7 @@ export default function AuditSection() {
     return () => {
       clearInterval(pingInterval);
       clearTimeout(detectionTimeout);
+      clearTimeout(reloadTimeout);
       window.removeEventListener("message", handler);
     };
   }, [markExtensionReady]);
@@ -134,12 +148,14 @@ export default function AuditSection() {
       if (e.data.from !== "LINKEDIN_AUDIT_EXT") return;
 
       if (e.data.type === "SCRAPE_RESULT") {
+        scrapePendingRef.current = false;
         setLoading(false);
         setResult(e.data.payload);
         setShowResultModal(true);
       }
 
       if (e.data.type === "SCRAPE_ERROR") {
+        scrapePendingRef.current = false;
         setLoading(false);
         setShowExtensionPopup(true);
       }
@@ -176,6 +192,7 @@ export default function AuditSection() {
     localStorage.setItem("linkedin_audit_url", finalUrl);
     localStorage.setItem("linkedin_audit_role", role);
 
+    scrapePendingRef.current = true;
     setLoading(true);
     setShowExtensionPopup(false);
 
@@ -187,13 +204,14 @@ export default function AuditSection() {
         role,
         accepted,
         sameTab: true,
-        scoringModel: "QCS LinkedIn-aware persona scoring v2026-05",
+        scoringModel: "QCS role-based LinkedIn profile audit",
       },
       "*"
     );
 
     window.setTimeout(() => {
-      if (!extensionDetectedRef.current) {
+      if (scrapePendingRef.current) {
+        scrapePendingRef.current = false;
         setLoading(false);
         setShowExtensionPopup(true);
       }
