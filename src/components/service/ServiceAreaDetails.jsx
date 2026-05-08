@@ -56,9 +56,8 @@ const ServiceAreaDetails = ({data,para,heading}) => {
               Specialization & Working Process
             </h4>
             <p className="cs_mp0 anim_text">
-              Welcome to our digital agency! We specialize in helping businesses like yours succeed online.
-              From website design and development to digital marketing and advertising, we have the tools and
-              expertise to elevate your online presence.
+              We build the LinkedIn sales engine end-to-end: positioning, profile conversion, prospect intelligence,
+              outbound messaging, controlled manual execution, and weekly optimization until sales conversations become predictable.
             </p>
           </div>}
           {/* <div className="cs_work cs_work_text">
@@ -66,9 +65,8 @@ const ServiceAreaDetails = ({data,para,heading}) => {
               Specialization & Working Process
             </h4>
             <p className="cs_mp0 anim_text">
-              Welcome to our digital agency! We specialize in helping businesses like yours succeed online.
-              From website design and development to digital marketing and advertising, we have the tools and
-              expertise to elevate your online presence.
+              We build the LinkedIn sales engine end-to-end: positioning, profile conversion, prospect intelligence,
+              outbound messaging, controlled manual execution, and weekly optimization until sales conversations become predictable.
             </p>
           </div> */}
           <div className="cs_height_80 cs_height_lg_40"></div>
