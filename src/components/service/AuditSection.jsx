@@ -171,6 +171,19 @@ export default function AuditSection() {
     window.location.href = "/payment";
   };
 
+  const scoreResult = result ? scoreLinkedInProfilePayload(result, role) : null;
+  const auditScore = scoreResult?.overallScore || 0;
+  const scoreTone = getScoreTone(auditScore);
+  const topSuggestions = scoreResult?.suggestions?.slice(0, 3) || [];
+
+  const startRewritePayment = () => {
+    localStorage.setItem("linkedin_audit_score", String(auditScore));
+    localStorage.setItem("linkedin_audit_report", JSON.stringify(scoreResult));
+    localStorage.setItem("linkedin_paid_service", "profile-rewrite-100-score");
+    localStorage.setItem("linkedin_paid_amount", "49");
+    window.location.href = "/payment";
+  };
+
   // ================= UI =================
   return (
     <div className="audit-hero" id="linkedinaudit">
