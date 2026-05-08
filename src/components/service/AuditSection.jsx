@@ -5,6 +5,38 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { PulseLoader } from "react-spinners";
 import { scoreLinkedInProfilePayload } from "@/scoring/linkedinProfileScoring";
 
+
+const EXTENSION_DETECTION_WINDOW_MS = 6000;
+const SCRAPE_RESPONSE_TIMEOUT_MS = 12000;
+
+const isExtensionReadyMessage = (data) => {
+  if (!data) return false;
+  if (data === "EXTENSION_RUNNING" || data === "QCS_LINKEDIN_AUDIT_READY") return true;
+
+  if (typeof data !== "object") return false;
+
+  const type = String(data.type || data.event || "").toUpperCase();
+  const from = String(data.from || data.source || "").toUpperCase();
+
+  if (from === "QCS_LINKEDIN_AUDIT_PAGE") return false;
+
+  return (
+    from.includes("LINKEDIN_AUDIT_EXT") ||
+    from.includes("QCS_LINKEDIN_AUDIT_EXTENSION") ||
+    type === "EXTENSION_RUNNING" ||
+    type === "EXTENSION_READY" ||
+    type === "PONG_EXTENSION" ||
+    type === "PONG" ||
+    type === "QCS_LINKEDIN_AUDIT_READY"
+  );
+};
+
+const postExtensionPing = () => {
+  window.postMessage("PING_EXTENSION", "*");
+  window.postMessage({ type: "PING_EXTENSION", from: "QCS_LINKEDIN_AUDIT_PAGE" }, "*");
+  window.postMessage({ type: "QCS_LINKEDIN_AUDIT_PING", from: "QCS_LINKEDIN_AUDIT_PAGE" }, "*");
+};
+
 const getScoreTone = (score) => {
   if (score >= 85) return { label: "Excellent", color: "#16a34a", status: "Best-practice aligned" };
   if (score >= 70) return { label: "Strong", color: "#22c55e", status: "Good foundation" };
@@ -29,52 +61,49 @@ export default function AuditSection() {
 
   const extensionDetectedRef = useRef(false);
 
+  const markExtensionReady = useCallback(() => {
+    if (extensionDetectedRef.current) return;
+
+    extensionDetectedRef.current = true;
+    setIsExtensionReady(true);
+    setCheckingExtension(false);
+    setShowExtensionPopup(false);
+    localStorage.removeItem("audit_waiting_for_extension");
+  }, []);
+
   // ================= EXTENSION CHECK =================
   useEffect(() => {
     let pingInterval;
-    let missingExtensionTimeout;
-
-    const markExtensionReady = () => {
-      if (extensionDetectedRef.current) return;
-
-      extensionDetectedRef.current = true;
-      setIsExtensionReady(true);
-      setCheckingExtension(false);
-      setShowExtensionPopup(false);
-      clearInterval(pingInterval);
-      clearTimeout(missingExtensionTimeout);
-      localStorage.removeItem("audit_waiting_for_extension");
-    };
+    let detectionTimeout;
 
     const handler = (e) => {
-      if (e.data === "EXTENSION_RUNNING") {
+      if (isExtensionReadyMessage(e.data)) {
         markExtensionReady();
       }
     };
 
     const pingExtension = () => {
       if (!extensionDetectedRef.current) {
-        window.postMessage("PING_EXTENSION", "*");
+        postExtensionPing();
       }
     };
 
     window.addEventListener("message", handler);
     pingExtension();
-    pingInterval = setInterval(pingExtension, 400);
+    pingInterval = setInterval(pingExtension, 700);
 
-    missingExtensionTimeout = setTimeout(() => {
+    detectionTimeout = setTimeout(() => {
       if (!extensionDetectedRef.current) {
         setCheckingExtension(false);
-        setShowExtensionPopup(true);
       }
-    }, 1800);
+    }, EXTENSION_DETECTION_WINDOW_MS);
 
     return () => {
       clearInterval(pingInterval);
-      clearTimeout(missingExtensionTimeout);
+      clearTimeout(detectionTimeout);
       window.removeEventListener("message", handler);
     };
-  }, []);
+  }, [markExtensionReady]);
 
 
   useEffect(() => {
@@ -96,7 +125,12 @@ export default function AuditSection() {
   // ================= LISTEN SCRAPE RESULT =================
   useEffect(() => {
     const onMsg = (e) => {
-      if (!e.data) return;
+      if (!e.data || typeof e.data !== "object") return;
+
+      if (isExtensionReadyMessage(e.data)) {
+        markExtensionReady();
+      }
+
       if (e.data.from !== "LINKEDIN_AUDIT_EXT") return;
 
       if (e.data.type === "SCRAPE_RESULT") {
@@ -104,11 +138,16 @@ export default function AuditSection() {
         setResult(e.data.payload);
         setShowResultModal(true);
       }
+
+      if (e.data.type === "SCRAPE_ERROR") {
+        setLoading(false);
+        setShowExtensionPopup(true);
+      }
     };
 
     window.addEventListener("message", onMsg);
     return () => window.removeEventListener("message", onMsg);
-  }, []);
+  }, [markExtensionReady]);
 
   // ================= HELPERS =================
   const normalizeLinkedInUrl = (rawUrl) => {
@@ -125,13 +164,7 @@ export default function AuditSection() {
     if (!accepted) return alert("Please accept Terms & Privacy Policy");
 
     if (checkingExtension) {
-      return alert("Please wait while we check the Chrome extension.");
-    }
-
-    //  EXTENSION NOT INSTALLED
-    if (!isExtensionReady) {
-      setShowExtensionPopup(true);
-      return;
+      postExtensionPing();
     }
 
     const finalUrl = normalizeLinkedInUrl(url);
@@ -144,10 +177,12 @@ export default function AuditSection() {
     localStorage.setItem("linkedin_audit_role", role);
 
     setLoading(true);
+    setShowExtensionPopup(false);
 
     window.postMessage(
       {
         type: "START_SCRAPE",
+        from: "QCS_LINKEDIN_AUDIT_PAGE",
         url: finalUrl,
         role,
         accepted,
@@ -156,6 +191,13 @@ export default function AuditSection() {
       },
       "*"
     );
+
+    window.setTimeout(() => {
+      if (!extensionDetectedRef.current) {
+        setLoading(false);
+        setShowExtensionPopup(true);
+      }
+    }, SCRAPE_RESPONSE_TIMEOUT_MS);
   };
 
   const auditSummary = useMemo(() => {
@@ -236,6 +278,14 @@ export default function AuditSection() {
           {loading ? <PulseLoader size={10} color="#fff" /> : checkingExtension ? "Checking Extension..." : "Audit My Profile →"}
         </button>
 
+        <p className="audit-note" style={{ marginTop: 12 }}>
+          {isExtensionReady
+            ? "Extension detected. You can run the audit now."
+            : checkingExtension
+              ? "Checking for the extension in the background. You can still click Audit My Profile."
+              : "If the extension is installed, click Audit My Profile. We will only show setup help if it does not respond."}
+        </p>
+
         {/* TERMS */}
         <label className="terms">
           <input
@@ -267,7 +317,7 @@ export default function AuditSection() {
               </h2>
 
               <p style={{ textAlign: "center", marginBottom: 20 }}>
-                We checked this Chrome tab and could not detect the QCS LinkedIn Audit extension. Install it once, return to this tab, and the page will reload so you can enter the LinkedIn profile URL and continue.
+                We could not receive a response from the QCS LinkedIn Audit extension in this Chrome tab. If it is already installed, refresh this page, make sure the extension is enabled for qcsstudio.com, and try the audit again.
               </p>
               <p style={{ textAlign: "center", marginBottom: "40px" }}>
                 Please make sure you are logged in to LinkedIn on this Chrome browser.
