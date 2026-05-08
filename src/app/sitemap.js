@@ -33,6 +33,12 @@ export default function sitemap() {
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/linkedin-profile-audit`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/network-support-services`,
       lastModified: new Date(),
       changeFrequency: "weekly",

@@ -1,6 +1,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import banner_img from '@/assets/img/service_details_banner.jpg';
 
 
@@ -50,7 +51,7 @@ const HeroServiceDetails = () => {
                   ))} 
                 </ul>
               </div>
-              <button className='rounded-3 p-2 border-none outline-none'> Request a Private Strategy Consultation</button>
+              <Link href='/linkedin-profile-audit' className='rounded-3 p-2 border-none outline-none d-inline-block'>Start With a LinkedIn Profile Audit</Link>
             </div>
           </div>
         </div>
