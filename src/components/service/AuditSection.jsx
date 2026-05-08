@@ -439,7 +439,7 @@ export default function AuditSection() {
           onClick={startAudit}
           disabled={loading}
         >
-          {loading ? <PulseLoader size={10} color="#fff" /> : "Audit My Profile →"}
+          {loading ? <PulseLoader size={10} color="#fff" /> : checkingExtension ? "Checking Extension..." : "Audit My Profile →"}
         </button>
 
         <p className="audit-note" style={{ marginTop: 12 }}>
