@@ -23,6 +23,7 @@ export default function AuditSection() {
 
   const [showResultModal, setShowResultModal] = useState(false);
   const [showExtensionPopup, setShowExtensionPopup] = useState(false);
+  const [checkingExtension, setCheckingExtension] = useState(true);
 
   const [isExtensionReady, setIsExtensionReady] = useState(false);
 
@@ -31,41 +32,46 @@ export default function AuditSection() {
   // ================= EXTENSION CHECK =================
   useEffect(() => {
     let pingInterval;
+    let missingExtensionTimeout;
+
+    const markExtensionReady = () => {
+      if (extensionDetectedRef.current) return;
+
+      extensionDetectedRef.current = true;
+      setIsExtensionReady(true);
+      setCheckingExtension(false);
+      setShowExtensionPopup(false);
+      clearInterval(pingInterval);
+      clearTimeout(missingExtensionTimeout);
+      localStorage.removeItem("audit_waiting_for_extension");
+    };
 
     const handler = (e) => {
       if (e.data === "EXTENSION_RUNNING") {
-        if (extensionDetectedRef.current) return;
+        markExtensionReady();
+      }
+    };
 
-        extensionDetectedRef.current = true;
-        setIsExtensionReady(true);
-        setShowExtensionPopup(false);
-        clearInterval(pingInterval);
-        localStorage.removeItem("audit_auto_reloaded");
+    const pingExtension = () => {
+      if (!extensionDetectedRef.current) {
+        window.postMessage("PING_EXTENSION", "*");
       }
     };
 
     window.addEventListener("message", handler);
+    pingExtension();
+    pingInterval = setInterval(pingExtension, 400);
 
-    pingInterval = setInterval(() => {
+    missingExtensionTimeout = setTimeout(() => {
       if (!extensionDetectedRef.current) {
-        window.postMessage("PING_EXTENSION", "*");
+        setCheckingExtension(false);
+        setShowExtensionPopup(true);
       }
-    }, 700);
-
-    const hasReloaded = localStorage.getItem("audit_auto_reloaded");
-
-    if (!hasReloaded) {
-      localStorage.setItem("audit_auto_reloaded", "true");
-
-      setTimeout(() => {
-        if (!extensionDetectedRef.current) {
-          window.location.reload();
-        }
-      }, 1200);
-    }
+    }, 1800);
 
     return () => {
       clearInterval(pingInterval);
+      clearTimeout(missingExtensionTimeout);
       window.removeEventListener("message", handler);
     };
   }, []);
@@ -118,6 +124,10 @@ export default function AuditSection() {
     if (!url) return alert("Enter LinkedIn profile URL");
     if (!accepted) return alert("Please accept Terms & Privacy Policy");
 
+    if (checkingExtension) {
+      return alert("Please wait while we check the Chrome extension.");
+    }
+
     //  EXTENSION NOT INSTALLED
     if (!isExtensionReady) {
       setShowExtensionPopup(true);
@@ -148,15 +158,18 @@ export default function AuditSection() {
     );
   };
 
-  function handleextensionInstall() {
+  const scoreResult = result ? scoreLinkedInProfilePayload(result, role) : null;
+  const auditScore = scoreResult?.overallScore || 0;
+  const scoreTone = getScoreTone(auditScore);
+  const topSuggestions = scoreResult?.suggestions?.slice(0, 3) || [];
 
-    if (isExtensionReady || extensionDetectedRef.current) {
-      return;
-    }
-
-    setShowExtensionPopup(true);
-  }
-
+  const startRewritePayment = () => {
+    localStorage.setItem("linkedin_audit_score", String(auditScore));
+    localStorage.setItem("linkedin_audit_report", JSON.stringify(scoreResult));
+    localStorage.setItem("linkedin_paid_service", "profile-rewrite-100-score");
+    localStorage.setItem("linkedin_paid_amount", "49");
+    window.location.href = "/payment";
+  };
 
   const scoreResult = result ? scoreLinkedInProfilePayload(result, role) : null;
   const auditScore = scoreResult?.overallScore || 0;
@@ -207,7 +220,6 @@ export default function AuditSection() {
             placeholder="LINKEDIN PROFILE URL"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            onFocus={handleextensionInstall}
             // className="border"
             required
           />
@@ -227,7 +239,7 @@ export default function AuditSection() {
           onClick={startAudit}
           disabled={loading}
         >
-          {loading ? <PulseLoader size={10} color="#fff" /> : "Audit My Profile →"}
+          {loading ? <PulseLoader size={10} color="#fff" /> : checkingExtension ? "Checking Extension..." : "Audit My Profile →"}
         </button>
 
         {/* TERMS */}
@@ -261,11 +273,10 @@ export default function AuditSection() {
               </h2>
 
               <p style={{ textAlign: "center", marginBottom: 20 }}>
-                To audit your LinkedIn profile, install our secure Chrome extension and stay logged in to LinkedIn in this same Chrome browser. It only reads visible profile data needed for scoring.
+                We checked this Chrome tab and could not detect the QCS LinkedIn Audit extension. Install it once, return to this tab, and the page will reload so you can enter the LinkedIn profile URL and continue.
               </p>
               <p style={{ textAlign: "center", marginBottom: "40px" }}>
-                 Please make sure you are logged in to LinkedIn on this Chrome browser.
-
+                Please make sure you are logged in to LinkedIn on this Chrome browser.
               </p>
 
               <Link
