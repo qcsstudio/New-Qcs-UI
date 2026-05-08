@@ -7,6 +7,7 @@ import { scoreLinkedInProfilePayload } from "@/scoring/linkedinProfileScoring";
 
 
 const QCS_EXTENSION_ID = "fongccbjkdphnmdigpkbphnjaiodmlek";
+const PENDING_AUDIT_REQUEST_KEY = "qcs_pending_linkedin_audit_request";
 const EXTENSION_DETECTION_WINDOW_MS = 6000;
 const EXACT_EXTENSION_CHECK_TIMEOUT_MS = 3000;
 const SCRAPE_RESPONSE_TIMEOUT_MS = 12000;
@@ -37,6 +38,28 @@ const postExtensionPing = () => {
   window.postMessage("PING_EXTENSION", "*");
   window.postMessage({ type: "PING_EXTENSION", from: "QCS_LINKEDIN_AUDIT_PAGE" }, "*");
   window.postMessage({ type: "QCS_LINKEDIN_AUDIT_PING", from: "QCS_LINKEDIN_AUDIT_PAGE" }, "*");
+};
+
+const readPendingAuditRequest = () => {
+  if (typeof window === "undefined") return null;
+
+  try {
+    const value = window.localStorage.getItem(PENDING_AUDIT_REQUEST_KEY);
+    return value ? JSON.parse(value) : null;
+  } catch {
+    window.localStorage.removeItem(PENDING_AUDIT_REQUEST_KEY);
+    return null;
+  }
+};
+
+const persistPendingAuditRequest = (auditRequest) => {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(PENDING_AUDIT_REQUEST_KEY, JSON.stringify(auditRequest));
+};
+
+const clearPendingAuditRequest = () => {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(PENDING_AUDIT_REQUEST_KEY);
 };
 
 const getChromeRuntime = () => {
@@ -144,9 +167,10 @@ export default function AuditSection() {
 
     if (extensionIdentityVerifiedRef.current) {
       setShowExtensionPopup(false);
-      const pendingAuditRequest = pendingAuditRequestRef.current;
+      const pendingAuditRequest = pendingAuditRequestRef.current || readPendingAuditRequest();
       if (pendingAuditRequest) {
         pendingAuditRequestRef.current = null;
+        clearPendingAuditRequest();
         beginScrape(pendingAuditRequest);
       }
     }
@@ -180,9 +204,10 @@ export default function AuditSection() {
     setShowExtensionPopup(false);
     postExtensionPing();
 
-    if (extensionDetectedRef.current && pendingAuditRequestRef.current) {
-      const pendingAuditRequest = pendingAuditRequestRef.current;
+    const pendingAuditRequest = pendingAuditRequestRef.current || readPendingAuditRequest();
+    if (extensionDetectedRef.current && pendingAuditRequest) {
       pendingAuditRequestRef.current = null;
+      clearPendingAuditRequest();
       beginScrape(pendingAuditRequest);
     }
 
@@ -241,18 +266,27 @@ export default function AuditSection() {
 
 
   useEffect(() => {
-    const onFocus = () => {
+    const onFocus = async () => {
       const waiting = localStorage.getItem("audit_waiting_for_extension");
 
-      if (waiting && !extensionDetectedRef.current) {
+      if (waiting) {
         localStorage.removeItem("audit_waiting_for_extension");
-        window.location.reload();
+        const verified = await checkOfficialExtension({ showInstallPrompt: true });
+
+        if (verified && !extensionDetectedRef.current) {
+          postExtensionPing();
+          window.setTimeout(() => {
+            if (!extensionDetectedRef.current) {
+              window.location.reload();
+            }
+          }, 1200);
+        }
       }
     };
 
     window.addEventListener("focus", onFocus);
     return () => window.removeEventListener("focus", onFocus);
-  }, []);
+  }, [checkOfficialExtension]);
 
 
 
@@ -295,6 +329,7 @@ export default function AuditSection() {
   };
 
   const beginScrape = ({ finalUrl, selectedRole, termsAccepted }) => {
+    clearPendingAuditRequest();
     scrapePendingRef.current = true;
     setLoading(true);
     setShowExtensionPopup(false);
@@ -322,6 +357,7 @@ export default function AuditSection() {
 
   const waitForExtensionThenScrape = (auditRequest) => {
     pendingAuditRequestRef.current = auditRequest;
+    persistPendingAuditRequest(auditRequest);
     setLoading(true);
     setShowExtensionPopup(false);
     postExtensionPing();
@@ -350,10 +386,15 @@ export default function AuditSection() {
     localStorage.setItem("linkedin_audit_role", role);
 
     const auditRequest = { finalUrl, selectedRole: role, termsAccepted: accepted };
+    pendingAuditRequestRef.current = auditRequest;
+    persistPendingAuditRequest(auditRequest);
 
     if (!extensionIdentityVerifiedRef.current) {
       const verified = await checkOfficialExtension({ showInstallPrompt: true });
-      if (!verified) return;
+      if (!verified) {
+        setLoading(false);
+        return;
+      }
     }
 
     if (!extensionDetectedRef.current) {
@@ -483,7 +524,7 @@ export default function AuditSection() {
               </h2>
 
               <p style={{ textAlign: "center", marginBottom: 20 }}>
-                We first check for the official QCS Chrome extension ID ({QCS_EXTENSION_ID}). Then we wait for that extension to load its content script in this tab. {extensionIdentity.message || "Please install or enable the QCS LinkedIn Audit extension for qcsstudio.com and try again."}
+                We first check for the official QCS Chrome extension ID ({QCS_EXTENSION_ID}). If it is not installed, install it and return to this tab; we will re-check it and continue the pending audit. Then we wait for that extension to load its content script in this tab. {extensionIdentity.message || "Please install or enable the QCS LinkedIn Audit extension for qcsstudio.com and try again."}
               </p>
               <p style={{ textAlign: "center", marginBottom: "40px" }}>
                 Please make sure you are logged in to LinkedIn on this Chrome browser.
