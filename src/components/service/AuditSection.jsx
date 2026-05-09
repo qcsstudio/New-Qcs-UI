@@ -170,17 +170,20 @@ export default function AuditSection() {
     extensionDetectedRef.current = true;
     setIsExtensionReady(true);
     setCheckingExtension(false);
+    setShowExtensionPopup(false);
+    setExtensionIdentity((current) => ({
+      ...current,
+      status: current.status === "verified" ? "verified" : "content-script-connected",
+      message: "QCS extension is connected in this tab.",
+    }));
     localStorage.removeItem("audit_waiting_for_extension");
     localStorage.removeItem("audit_auto_reloaded");
 
-    if (extensionIdentityVerifiedRef.current) {
-      setShowExtensionPopup(false);
-      const pendingAuditRequest = pendingAuditRequestRef.current || readPendingAuditRequest();
-      if (pendingAuditRequest) {
-        pendingAuditRequestRef.current = null;
-        clearPendingAuditRequest();
-        beginScrape(pendingAuditRequest);
-      }
+    const pendingAuditRequest = pendingAuditRequestRef.current || readPendingAuditRequest();
+    if (pendingAuditRequest) {
+      pendingAuditRequestRef.current = null;
+      clearPendingAuditRequest();
+      beginScrape(pendingAuditRequest);
     }
   }, []);
 
