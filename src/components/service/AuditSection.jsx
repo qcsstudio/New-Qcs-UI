@@ -7,6 +7,7 @@ import { scoreLinkedInProfilePayload } from "@/scoring/linkedinProfileScoring";
 
 
 const QCS_EXTENSION_ID = "fongccbjkdphnmdigpkbphnjaiodmlek";
+const PENDING_AUDIT_REQUEST_KEY = "qcs_pending_linkedin_audit_request";
 const EXTENSION_DETECTION_WINDOW_MS = 6000;
 const EXACT_EXTENSION_CHECK_TIMEOUT_MS = 3000;
 const SCRAPE_RESPONSE_TIMEOUT_MS = 12000;
@@ -39,6 +40,28 @@ const postExtensionPing = () => {
   window.postMessage({ type: "QCS_LINKEDIN_AUDIT_PING", from: "QCS_LINKEDIN_AUDIT_PAGE" }, "*");
 };
 
+const readPendingAuditRequest = () => {
+  if (typeof window === "undefined") return null;
+
+  try {
+    const value = window.localStorage.getItem(PENDING_AUDIT_REQUEST_KEY);
+    return value ? JSON.parse(value) : null;
+  } catch {
+    window.localStorage.removeItem(PENDING_AUDIT_REQUEST_KEY);
+    return null;
+  }
+};
+
+const persistPendingAuditRequest = (auditRequest) => {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(PENDING_AUDIT_REQUEST_KEY, JSON.stringify(auditRequest));
+};
+
+const clearPendingAuditRequest = () => {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(PENDING_AUDIT_REQUEST_KEY);
+};
+
 const getChromeRuntime = () => {
   if (typeof window === "undefined") return null;
   return window.chrome?.runtime?.sendMessage ? window.chrome.runtime : null;
@@ -50,7 +73,8 @@ const verifyExactQcsExtension = () => {
   if (!runtime) {
     return Promise.resolve({
       installed: false,
-      reason: "Chrome runtime external messaging is not available on this browser.",
+      exactCheckAvailable: false,
+      reason: "Exact extension ID check is not available from this tab, so we will connect using the extension content script.",
     });
   }
 
@@ -67,7 +91,8 @@ const verifyExactQcsExtension = () => {
     const timeout = window.setTimeout(() => {
       finish({
         installed: false,
-        reason: "The QCS extension did not answer the exact-extension health check.",
+        exactCheckAvailable: true,
+        reason: "The official QCS extension did not answer yet. We will also try to connect to its content script in this tab.",
       });
     }, EXACT_EXTENSION_CHECK_TIMEOUT_MS);
 
@@ -83,12 +108,17 @@ const verifyExactQcsExtension = () => {
           const lastError = runtime.lastError;
 
           if (lastError) {
-            finish({ installed: false, reason: lastError.message });
+            finish({
+              installed: false,
+              exactCheckAvailable: true,
+              reason: "The official QCS extension could not be verified by ID yet. We will also try to connect to its content script in this tab.",
+            });
             return;
           }
 
           finish({
             installed: true,
+            exactCheckAvailable: true,
             response,
           });
         }
@@ -96,7 +126,8 @@ const verifyExactQcsExtension = () => {
     } catch (error) {
       finish({
         installed: false,
-        reason: error?.message || "Unable to contact the QCS extension.",
+        exactCheckAvailable: false,
+        reason: "We could not verify the extension by ID, so we will try to connect to the extension content script in this tab.",
       });
     }
   });
@@ -144,9 +175,10 @@ export default function AuditSection() {
 
     if (extensionIdentityVerifiedRef.current) {
       setShowExtensionPopup(false);
-      const pendingAuditRequest = pendingAuditRequestRef.current;
+      const pendingAuditRequest = pendingAuditRequestRef.current || readPendingAuditRequest();
       if (pendingAuditRequest) {
         pendingAuditRequestRef.current = null;
+        clearPendingAuditRequest();
         beginScrape(pendingAuditRequest);
       }
     }
@@ -163,26 +195,26 @@ export default function AuditSection() {
     if (!result.installed) {
       extensionIdentityVerifiedRef.current = false;
       setExtensionIdentity({
-        status: "missing",
-        message: result.reason || "The official QCS Chrome extension was not found.",
+        status: "content-script-check",
+        message: result.reason || "Checking whether the QCS extension is loaded in this tab...",
       });
-      setCheckingExtension(false);
-      if (showInstallPrompt) setShowExtensionPopup(true);
-      return false;
+      postExtensionPing();
+      return true;
     }
 
     extensionIdentityVerifiedRef.current = true;
     setExtensionIdentity({
       status: "verified",
-      message: "Official QCS Chrome extension is installed. Waiting for its content script in this tab...",
+      message: "Official QCS Chrome extension is installed. Waiting for it to load in this tab...",
       response: result.response,
     });
     setShowExtensionPopup(false);
     postExtensionPing();
 
-    if (extensionDetectedRef.current && pendingAuditRequestRef.current) {
-      const pendingAuditRequest = pendingAuditRequestRef.current;
+    const pendingAuditRequest = pendingAuditRequestRef.current || readPendingAuditRequest();
+    if (extensionDetectedRef.current && pendingAuditRequest) {
       pendingAuditRequestRef.current = null;
+      clearPendingAuditRequest();
       beginScrape(pendingAuditRequest);
     }
 
@@ -241,18 +273,27 @@ export default function AuditSection() {
 
 
   useEffect(() => {
-    const onFocus = () => {
+    const onFocus = async () => {
       const waiting = localStorage.getItem("audit_waiting_for_extension");
 
-      if (waiting && !extensionDetectedRef.current) {
+      if (waiting) {
         localStorage.removeItem("audit_waiting_for_extension");
-        window.location.reload();
+        const verified = await checkOfficialExtension({ showInstallPrompt: true });
+
+        if (verified && !extensionDetectedRef.current) {
+          postExtensionPing();
+          window.setTimeout(() => {
+            if (!extensionDetectedRef.current) {
+              window.location.reload();
+            }
+          }, 1200);
+        }
       }
     };
 
     window.addEventListener("focus", onFocus);
     return () => window.removeEventListener("focus", onFocus);
-  }, []);
+  }, [checkOfficialExtension]);
 
 
 
@@ -295,6 +336,7 @@ export default function AuditSection() {
   };
 
   const beginScrape = ({ finalUrl, selectedRole, termsAccepted }) => {
+    clearPendingAuditRequest();
     scrapePendingRef.current = true;
     setLoading(true);
     setShowExtensionPopup(false);
@@ -322,6 +364,7 @@ export default function AuditSection() {
 
   const waitForExtensionThenScrape = (auditRequest) => {
     pendingAuditRequestRef.current = auditRequest;
+    persistPendingAuditRequest(auditRequest);
     setLoading(true);
     setShowExtensionPopup(false);
     postExtensionPing();
@@ -329,6 +372,13 @@ export default function AuditSection() {
     window.setTimeout(() => {
       if (pendingAuditRequestRef.current) {
         pendingAuditRequestRef.current = null;
+        setExtensionIdentity((current) => ({
+          status: "missing",
+          message:
+            current.status === "verified"
+              ? "The QCS extension is installed, but it is not enabled on this page yet. Please refresh this page or enable site access for qcsstudio.com."
+              : "We could not connect to the QCS LinkedIn Audit extension in this tab. Please install it or enable site access for qcsstudio.com.",
+        }));
         setLoading(false);
         setShowExtensionPopup(true);
       }
@@ -350,10 +400,15 @@ export default function AuditSection() {
     localStorage.setItem("linkedin_audit_role", role);
 
     const auditRequest = { finalUrl, selectedRole: role, termsAccepted: accepted };
+    pendingAuditRequestRef.current = auditRequest;
+    persistPendingAuditRequest(auditRequest);
 
     if (!extensionIdentityVerifiedRef.current) {
       const verified = await checkOfficialExtension({ showInstallPrompt: true });
-      if (!verified) return;
+      if (!verified) {
+        setLoading(false);
+        return;
+      }
     }
 
     if (!extensionDetectedRef.current) {
@@ -444,12 +499,12 @@ export default function AuditSection() {
 
         <p className="audit-note" style={{ marginTop: 12 }}>
           {extensionIdentity.status === "missing"
-            ? "Official QCS Chrome extension is not verified in this browser. Please install or enable it for qcsstudio.com."
+            ? extensionIdentity.message
             : isExtensionReady
-              ? "Official QCS extension verified and loaded in this tab. You can run the audit now."
+              ? "QCS extension is connected in this tab. You can run the audit now."
               : checkingExtension
-                ? "Checking the official extension and waiting for it to load in this tab."
-                : "Official extension check completed. Click Audit My Profile and we will wait for the content script before scraping."}
+                ? "Checking the QCS extension and waiting for it to load in this tab."
+                : "Click Audit My Profile and we will connect to the QCS extension before scraping."}
         </p>
 
         {/* TERMS */}
@@ -483,7 +538,7 @@ export default function AuditSection() {
               </h2>
 
               <p style={{ textAlign: "center", marginBottom: 20 }}>
-                We first check for the official QCS Chrome extension ID ({QCS_EXTENSION_ID}). Then we wait for that extension to load its content script in this tab. {extensionIdentity.message || "Please install or enable the QCS LinkedIn Audit extension for qcsstudio.com and try again."}
+                We could not connect to the QCS LinkedIn Audit extension in this tab. Please install the extension, or if it is already installed, enable it for qcsstudio.com and refresh this page. Your audit request is saved and will continue after the extension connects.
               </p>
               <p style={{ textAlign: "center", marginBottom: "40px" }}>
                 Please make sure you are logged in to LinkedIn on this Chrome browser.
