@@ -1,8 +1,10 @@
 const DETAILS_PAGES = ["experience", "education", "skills"];
 const EXTENSION_NAME = "QCS_LINKEDIN_AUDIT";
-const ALLOWED_PAGE_ORIGINS = new Set([
-  "https://www.qcsstudio.com",
-  "https://qcsstudio.com"
+const ALLOWED_PAGE_HOSTNAMES = new Set([
+  "www.qcsstudio.com",
+  "qcsstudio.com",
+  "localhost",
+  "127.0.0.1"
 ]);
 const ALLOWED_ROLES = new Set([
   "Job Seeker",
@@ -48,6 +50,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       const profileUrl = normalizeLinkedInProfileUrl(msg.url);
       const role = msg.role;
 
+      await sendStatusToAuditTab(targetTabId, "EXTENSION_FOUND", "Extension found and connected to the QCS audit page.");
+      await sendStatusToAuditTab(targetTabId, "SCRAPING_PROFILE", "Extension is scraping the main LinkedIn profile.");
+
       const profileTab = await chrome.tabs.create({ url: profileUrl, active: false });
       openedTabIds.push(profileTab.id);
       await waitForTab(profileTab.id);
@@ -61,6 +66,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       };
 
       for (const page of DETAILS_PAGES) {
+        await sendStatusToAuditTab(targetTabId, "SCRAPING_DETAILS", `Extension is scraping LinkedIn ${page} data.`);
         const detailsUrl = `${profileUrl.replace(/\/$/, "")}/details/${page}/`;
         const tab = await chrome.tabs.create({ url: detailsUrl, active: false });
         openedTabIds.push(tab.id);
@@ -72,6 +78,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         if (page === "skills") finalData.skills = detailResult.skills || [];
       }
 
+      await sendStatusToAuditTab(targetTabId, "SCRAPING_ACTIVITY", "Extension is scraping recent LinkedIn activity.");
+
       const activityUrl = `${profileUrl.replace(/\/$/, "")}/recent-activity/all/`;
       const activityTab = await chrome.tabs.create({ url: activityUrl, active: false });
       openedTabIds.push(activityTab.id);
@@ -79,6 +87,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
       const activityResult = await runScraper(activityTab.id);
       finalData.activity = Array.isArray(activityResult.activity) ? activityResult.activity : [];
+
+      await sendStatusToAuditTab(targetTabId, "DATA_READY", "Extension finished scraping and is sending raw data to QCS website.");
 
       await sendToAuditTab(targetTabId, {
         type: "SCRAPE_RESULT",
@@ -113,18 +123,18 @@ function buildHealthCheckResponse() {
 }
 
 function isAllowedExternalSender(sender) {
-  const origin = sender.origin || safeOrigin(sender.url);
-  return ALLOWED_PAGE_ORIGINS.has(origin);
+  const hostname = sender.origin ? safeHostname(sender.origin) : safeHostname(sender.url);
+  return ALLOWED_PAGE_HOSTNAMES.has(hostname);
 }
 
 function isAllowedContentScriptSender(sender) {
-  const origin = sender.origin || safeOrigin(sender.url);
-  return ALLOWED_PAGE_ORIGINS.has(origin);
+  const hostname = sender.origin ? safeHostname(sender.origin) : safeHostname(sender.url);
+  return ALLOWED_PAGE_HOSTNAMES.has(hostname);
 }
 
-function safeOrigin(rawUrl) {
+function safeHostname(rawUrl) {
   try {
-    return rawUrl ? new URL(rawUrl).origin : "";
+    return rawUrl ? new URL(rawUrl).hostname : "";
   } catch {
     return "";
   }
@@ -176,6 +186,14 @@ async function runScraper(tabId) {
   });
 
   return result?.[0]?.result || {};
+}
+
+async function sendStatusToAuditTab(tabId, status, message) {
+  await sendToAuditTab(tabId, {
+    type: "QCS_LINKEDIN_AUDIT_STATUS",
+    status,
+    message
+  });
 }
 
 async function sendToAuditTab(tabId, message) {

@@ -194,11 +194,23 @@ export default function AuditSection() {
   });
 
   const [isExtensionReady, setIsExtensionReady] = useState(false);
+  const [auditSteps, setAuditSteps] = useState([]);
 
   const extensionIdentityVerifiedRef = useRef(false);
   const extensionDetectedRef = useRef(false);
   const pendingAuditRequestRef = useRef(null);
   const scrapePendingRef = useRef(false);
+
+  const addAuditStep = useCallback((label, detail = "") => {
+    setAuditSteps((current) => [
+      ...current.slice(-7),
+      {
+        id: `${Date.now()}-${current.length}`,
+        label,
+        detail,
+      },
+    ]);
+  }, []);
 
   const markExtensionReady = useCallback(() => {
     if (extensionDetectedRef.current) return;
@@ -212,6 +224,7 @@ export default function AuditSection() {
       status: current.status === "verified" ? "verified" : "content-script-connected",
       message: "QCS extension is connected in this tab.",
     }));
+    addAuditStep("Extension loaded", "QCS extension content script is communicating with this page.");
     localStorage.removeItem("audit_waiting_for_extension");
     localStorage.removeItem("audit_auto_reloaded");
 
@@ -221,13 +234,14 @@ export default function AuditSection() {
       clearPendingAuditRequest();
       beginScrape(pendingAuditRequest);
     }
-  }, []);
+  }, [addAuditStep]);
 
   const checkOfficialExtension = useCallback(async ({ showInstallPrompt = false } = {}) => {
     setExtensionIdentity({
       status: "checking",
       message: "Checking the official QCS Chrome extension...",
     });
+    addAuditStep("Checking extension", "Looking for the local test extension and the store extension.");
 
     const result = await verifyExactQcsExtension();
 
@@ -242,6 +256,7 @@ export default function AuditSection() {
     }
 
     extensionIdentityVerifiedRef.current = true;
+    addAuditStep("Extension found", `${result.extensionLabel || "QCS Chrome extension"} answered the health check.`);
     setExtensionIdentity({
       status: "verified",
       message: `${result.extensionLabel || "QCS Chrome extension"} is installed. Waiting for it to load in this tab...`,
@@ -258,7 +273,7 @@ export default function AuditSection() {
     }
 
     return true;
-  }, []);
+  }, [addAuditStep]);
 
   useEffect(() => {
     checkOfficialExtension({ showInstallPrompt: false });
@@ -347,14 +362,24 @@ export default function AuditSection() {
 
       if (e.data.from !== "LINKEDIN_AUDIT_EXT") return;
 
+      if (e.data.type === "QCS_LINKEDIN_AUDIT_STATUS") {
+        addAuditStep(e.data.status || "Extension update", e.data.message || "");
+      }
+
+      if (e.data.from !== "LINKEDIN_AUDIT_EXT") return;
+
       if (e.data.type === "SCRAPE_RESULT") {
         const rawProfilePayload = e.data.payload;
         scrapePendingRef.current = false;
+        addAuditStep("Data received from extension", "Raw LinkedIn profile data reached the QCS website.");
 
         try {
+          addAuditStep("Analysing data", "Sending raw profile data from QCS website to analyzer.");
           const analysis = await requestAnalyzerReport(rawProfilePayload);
+          addAuditStep("Analysis complete", "Analyzer returned the profile audit result.");
           setResult({ ...rawProfilePayload, analysis });
         } catch (error) {
+          addAuditStep("Analyzer warning", error instanceof Error ? error.message : "Analyzer request failed");
           setResult({
             ...rawProfilePayload,
             analyzerError: error instanceof Error ? error.message : "Analyzer request failed",
@@ -367,12 +392,7 @@ export default function AuditSection() {
 
       if (e.data.type === "SCRAPE_ERROR") {
         scrapePendingRef.current = false;
-        setLoading(false);
-        setShowExtensionPopup(true);
-      }
-
-      if (e.data.type === "SCRAPE_ERROR") {
-        scrapePendingRef.current = false;
+        addAuditStep("Extension not found", "Install, reload, or enable site access for the QCS extension.");
         setLoading(false);
         setShowExtensionPopup(true);
       }
@@ -380,7 +400,7 @@ export default function AuditSection() {
 
     window.addEventListener("message", onMsg);
     return () => window.removeEventListener("message", onMsg);
-  }, [markExtensionReady]);
+  }, [markExtensionReady, addAuditStep]);
 
   // ================= HELPERS =================
   const normalizeLinkedInUrl = (rawUrl) => {
@@ -394,6 +414,8 @@ export default function AuditSection() {
   const beginScrape = ({ finalUrl, selectedRole, termsAccepted }) => {
     clearPendingAuditRequest();
     scrapePendingRef.current = true;
+    setAuditSteps([]);
+    addAuditStep("Scrape started", "Sending the LinkedIn profile URL to the extension.");
     setLoading(true);
     setShowExtensionPopup(false);
 
@@ -412,6 +434,7 @@ export default function AuditSection() {
     window.setTimeout(() => {
       if (scrapePendingRef.current) {
         scrapePendingRef.current = false;
+        addAuditStep("Extension timeout", "The extension did not return data before the timeout window.");
         setLoading(false);
         setShowExtensionPopup(true);
       }
@@ -421,6 +444,7 @@ export default function AuditSection() {
   const waitForExtensionThenScrape = (auditRequest) => {
     pendingAuditRequestRef.current = auditRequest;
     persistPendingAuditRequest(auditRequest);
+    addAuditStep("Waiting for extension", "The audit request is saved while we connect to the extension.");
     setLoading(true);
     setShowExtensionPopup(false);
     postExtensionPing();
@@ -562,6 +586,16 @@ export default function AuditSection() {
                 ? "Checking the QCS extension and waiting for it to load in this tab."
                 : "Click Audit My Profile and we will connect to the QCS extension before scraping."}
         </p>
+
+        {auditSteps.length > 0 && (
+          <div className="audit-status-list" style={{ marginTop: 14, textAlign: "left" }}>
+            {auditSteps.map((step) => (
+              <div key={step.id} style={{ fontSize: 13, lineHeight: 1.5, color: "#d1d5db" }}>
+                ✅ <strong>{step.label}</strong>{step.detail ? ` — ${step.detail}` : ""}
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* TERMS */}
         <label className="terms">
