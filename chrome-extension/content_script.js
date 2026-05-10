@@ -68,7 +68,7 @@ window.addEventListener("message", (event) => {
             from: EXTENSION_SOURCE,
             type: "QCS_LINKEDIN_AUDIT_STATUS",
             status: "SCRAPE_COMPLETED",
-            message: "Extension completed scraping and returned data."
+            message: `Extension completed scraping and returned data via ${response.delivery?.via || "unknown delivery"}.`
           },
           event.origin
         );

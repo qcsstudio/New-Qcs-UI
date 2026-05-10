@@ -90,12 +90,16 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
       await sendStatusToAuditTab(targetTabId, "DATA_READY", "Extension finished scraping and is sending raw data to QCS website.");
 
-      await sendToAuditTab(targetTabId, {
+      const delivery = await sendToAuditTab(targetTabId, {
         type: "SCRAPE_RESULT",
         payload: finalData
       });
 
-      sendResponse({ ok: true });
+      sendResponse({
+        ok: true,
+        delivery,
+        summary: summarizeScrape(finalData)
+      });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unable to complete LinkedIn audit.";
       if (targetTabId) {
@@ -189,7 +193,7 @@ async function runScraper(tabId) {
 }
 
 async function sendStatusToAuditTab(tabId, status, message) {
-  await sendToAuditTab(tabId, {
+  return sendToAuditTab(tabId, {
     type: "QCS_LINKEDIN_AUDIT_STATUS",
     status,
     message
@@ -197,7 +201,43 @@ async function sendStatusToAuditTab(tabId, status, message) {
 }
 
 async function sendToAuditTab(tabId, message) {
-  await chrome.tabs.sendMessage(tabId, message);
+  try {
+    await chrome.tabs.sendMessage(tabId, message);
+    return { delivered: true, via: "tabs.sendMessage" };
+  } catch (error) {
+    return deliverToAuditPage(tabId, message, error);
+  }
+}
+
+async function deliverToAuditPage(tabId, message, originalError) {
+  const results = await chrome.scripting.executeScript({
+    target: { tabId },
+    func: (payload) => {
+      window.postMessage({
+        from: "LINKEDIN_AUDIT_EXT",
+        ...payload
+      }, window.location.origin);
+    },
+    args: [message]
+  });
+
+  return {
+    delivered: true,
+    via: "scripting.executeScript",
+    originalError: originalError?.message || "tabs.sendMessage failed",
+    injectionResult: results?.[0]?.result
+  };
+}
+
+function summarizeScrape(data) {
+  return {
+    hasName: Boolean(data.name),
+    hasHeadline: Boolean(data.headline),
+    experienceCount: Array.isArray(data.experience) ? data.experience.length : 0,
+    educationCount: Array.isArray(data.education) ? data.education.length : 0,
+    skillsCount: Array.isArray(data.skills) ? data.skills.length : 0,
+    activityCount: Array.isArray(data.activity) ? data.activity.length : 0
+  };
 }
 
 async function closeOpenedTabs(tabIds) {
