@@ -13,7 +13,7 @@ const QCS_EXTENSION_IDS = [
 const PENDING_AUDIT_REQUEST_KEY = "qcs_pending_linkedin_audit_request";
 const EXTENSION_DETECTION_WINDOW_MS = 6000;
 const EXACT_EXTENSION_CHECK_TIMEOUT_MS = 3000;
-const SCRAPE_RESPONSE_TIMEOUT_MS = 180000;
+const SCRAPE_RESPONSE_TIMEOUT_MS = 600000;
 
 const isExtensionReadyMessage = (data) => {
   if (!data) return false;
