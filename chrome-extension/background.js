@@ -154,7 +154,7 @@ function normalizeLinkedInProfileUrl(rawUrl) {
   return parsed.toString();
 }
 
-async function waitForTab(tabId, timeoutMs = 20000) {
+async function waitForTab(tabId, timeoutMs = 600000) {
   const currentTab = await chrome.tabs.get(tabId);
   if (currentTab.status === "complete") {
     await sleep(1500);
@@ -164,7 +164,7 @@ async function waitForTab(tabId, timeoutMs = 20000) {
   await new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
       chrome.tabs.onUpdated.removeListener(listener);
-      reject(new Error("LinkedIn page took too long to load."));
+      reject(new Error("LinkedIn page took too long to load within the 10-minute audit window."));
     }, timeoutMs);
 
     const listener = (id, info) => {

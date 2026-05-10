@@ -462,7 +462,7 @@ export default function AuditSection() {
         setLoading(false);
         setShowExtensionPopup(true);
       }
-    }, EXTENSION_DETECTION_WINDOW_MS);
+    }, SCRAPE_RESPONSE_TIMEOUT_MS);
   };
 
   // ================= START AUDIT =================
