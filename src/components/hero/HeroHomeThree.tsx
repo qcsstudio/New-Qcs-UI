@@ -14,7 +14,7 @@ type DataType = {
 const hero_data: DataType = {
   title_1: `QCS`,
   title_2: `LinkedIn Sales Engine`,
-  des: `Turn LinkedIn into your high-ticket deal pipeline. We help B2B founders build outbound that books premium sales calls. From profile and copy to follow-ups, every touchpoint is built to convert.`,
+  des: `A done-for-you LinkedIn sales and outbound engine for high-ticket B2B founders. QCS builds the positioning, profile, prospect lists, message flows, manual outreach, follow-ups, and optimization loops that turn LinkedIn into qualified sales conversations.`,
   links: [
     { title: 'Facebook'},
     { title: 'LinkedIn'},
@@ -59,8 +59,8 @@ const HeroHomeThree = () => {
                   </p>
                 </div>
                 <div className="cs_section_heading_right cs_btn_anim">
-                  <Link href="#linkedinaudit" className="cs_btn cs_style_1 cs_color_1">
-                    <span>Audit Your Profile</span>
+                  <Link href="/linkedin-profile-audit" className="cs_btn cs_style_1 cs_color_1">
+                    <span>Start Free Profile Audit</span>
                     <svg width="19" height="13" viewBox="0 0 19 13" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path
