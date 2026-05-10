@@ -6,7 +6,10 @@ import { PulseLoader } from "react-spinners";
 import { scoreLinkedInProfilePayload } from "@/scoring/linkedinProfileScoring";
 
 
-const QCS_EXTENSION_ID = "fongccbjkdphnmdigpkbphnjaiodmlek";
+const QCS_EXTENSION_IDS = [
+  { id: "fjaidibhjogjhbpdnljpbchhpcdcocaf", label: "Local QCS development extension" },
+  { id: "fongccbjkdphnmdigpkbphnjaiodmlek", label: "QCS Chrome Web Store extension" },
+];
 const PENDING_AUDIT_REQUEST_KEY = "qcs_pending_linkedin_audit_request";
 const EXTENSION_DETECTION_WINDOW_MS = 6000;
 const EXACT_EXTENSION_CHECK_TIMEOUT_MS = 3000;
@@ -67,17 +70,7 @@ const getChromeRuntime = () => {
   return window.chrome?.runtime?.sendMessage ? window.chrome.runtime : null;
 };
 
-const verifyExactQcsExtension = () => {
-  const runtime = getChromeRuntime();
-
-  if (!runtime) {
-    return Promise.resolve({
-      installed: false,
-      exactCheckAvailable: false,
-      reason: "Exact extension ID check is not available from this tab, so we will connect using the extension content script.",
-    });
-  }
-
+const sendExtensionHealthCheck = (runtime, extension) => {
   return new Promise((resolve) => {
     let settled = false;
 
@@ -91,14 +84,15 @@ const verifyExactQcsExtension = () => {
     const timeout = window.setTimeout(() => {
       finish({
         installed: false,
-        exactCheckAvailable: true,
-        reason: "The official QCS extension did not answer yet. We will also try to connect to its content script in this tab.",
+        extensionId: extension.id,
+        extensionLabel: extension.label,
+        reason: `${extension.label} did not answer yet.`,
       });
     }, EXACT_EXTENSION_CHECK_TIMEOUT_MS);
 
     try {
       runtime.sendMessage(
-        QCS_EXTENSION_ID,
+        extension.id,
         {
           type: "QCS_LINKEDIN_AUDIT_HEALTH_CHECK",
           source: "QCS_WEBSITE",
@@ -110,8 +104,9 @@ const verifyExactQcsExtension = () => {
           if (lastError) {
             finish({
               installed: false,
-              exactCheckAvailable: true,
-              reason: "The official QCS extension could not be verified by ID yet. We will also try to connect to its content script in this tab.",
+              extensionId: extension.id,
+              extensionLabel: extension.label,
+              reason: `${extension.label} could not be verified by ID yet.`,
             });
             return;
           }
@@ -119,6 +114,8 @@ const verifyExactQcsExtension = () => {
           finish({
             installed: true,
             exactCheckAvailable: true,
+            extensionId: extension.id,
+            extensionLabel: extension.label,
             response,
           });
         }
@@ -126,11 +123,50 @@ const verifyExactQcsExtension = () => {
     } catch (error) {
       finish({
         installed: false,
-        exactCheckAvailable: false,
-        reason: "We could not verify the extension by ID, so we will try to connect to the extension content script in this tab.",
+        extensionId: extension.id,
+        extensionLabel: extension.label,
+        reason: `${extension.label} could not be checked by ID.`,
       });
     }
   });
+};
+
+const verifyExactQcsExtension = async () => {
+  const runtime = getChromeRuntime();
+
+  if (!runtime) {
+    return {
+      installed: false,
+      exactCheckAvailable: false,
+      reason: "Exact extension ID check is not available from this tab, so we will connect using the extension content script.",
+    };
+  }
+
+  for (const extension of QCS_EXTENSION_IDS) {
+    const result = await sendExtensionHealthCheck(runtime, extension);
+    if (result.installed) return result;
+  }
+
+  return {
+    installed: false,
+    exactCheckAvailable: true,
+    reason: "Neither the local QCS test extension nor the Chrome Web Store extension could be verified by ID yet. We will also try to connect to the extension content script in this tab.",
+  };
+};
+
+
+const requestAnalyzerReport = async (profilePayload) => {
+  const response = await fetch("/api/analyze/url", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(profilePayload),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Analyzer request failed with status ${response.status}`);
+  }
+
+  return response.json();
 };
 
 const getScoreTone = (score) => {
@@ -208,7 +244,7 @@ export default function AuditSection() {
     extensionIdentityVerifiedRef.current = true;
     setExtensionIdentity({
       status: "verified",
-      message: "Official QCS Chrome extension is installed. Waiting for it to load in this tab...",
+      message: `${result.extensionLabel || "QCS Chrome extension"} is installed. Waiting for it to load in this tab...`,
       response: result.response,
     });
     setShowExtensionPopup(false);
@@ -302,7 +338,7 @@ export default function AuditSection() {
 
   // ================= LISTEN SCRAPE RESULT =================
   useEffect(() => {
-    const onMsg = (e) => {
+    const onMsg = async (e) => {
       if (!e.data || typeof e.data !== "object") return;
 
       if (isExtensionReadyMessage(e.data)) {
@@ -312,10 +348,27 @@ export default function AuditSection() {
       if (e.data.from !== "LINKEDIN_AUDIT_EXT") return;
 
       if (e.data.type === "SCRAPE_RESULT") {
+        const rawProfilePayload = e.data.payload;
+        scrapePendingRef.current = false;
+
+        try {
+          const analysis = await requestAnalyzerReport(rawProfilePayload);
+          setResult({ ...rawProfilePayload, analysis });
+        } catch (error) {
+          setResult({
+            ...rawProfilePayload,
+            analyzerError: error instanceof Error ? error.message : "Analyzer request failed",
+          });
+        } finally {
+          setLoading(false);
+          setShowResultModal(true);
+        }
+      }
+
+      if (e.data.type === "SCRAPE_ERROR") {
         scrapePendingRef.current = false;
         setLoading(false);
-        setResult(e.data.payload);
-        setShowResultModal(true);
+        setShowExtensionPopup(true);
       }
 
       if (e.data.type === "SCRAPE_ERROR") {
