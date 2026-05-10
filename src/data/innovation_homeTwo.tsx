@@ -35,7 +35,7 @@ export const innovative_data_home: DataType = {
 };
 export const innovative_data_linkedin: DataType = {
 	title_1: `Your Pipeline Is Underperforming.<br/>You Know It`,
-	des_1: `And LinkedIn the platform with the highest B2B purchasing power on earth is not delivering what it should.`,
+	des_1: `LinkedIn, the platform with the highest B2B purchasing power on earth, is not delivering what it should.`,
 	title_2: ` Unified Growth Engine`,
 	des_2: `A unified operating model of agentic systems, reusable playbooks, and AI-first UX. It aligns messaging, automates follow-ups, and delivers predictable pipeline with transparent, board-ready metrics leaders trust.`,
 	features: [
