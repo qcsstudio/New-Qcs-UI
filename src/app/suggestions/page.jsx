@@ -1,508 +1,130 @@
 "use client";
-import { useEffect, useState } from "react";
-import LinkedInProfileHeader from "../../components/suggestion/LinkedInProfileHeader/LinkedInProfileHeader";
-import ExperienceSection from "../../components/suggestion/ExperienceSection";
-import ProfileSection from "../../components/suggestion/ProfileSection";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { DNA } from "react-loader-spinner";
+
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Suggestions() {
-  const [resData, setResData] = useState(null);
-
-  const [showFullAboutUpdated, setShowFullAboutUpdated] = useState(false);
-    const [showAllExperience, setShowAllExperience] = useState(false);
-    const [showAllSkills, setShowAllSkills] = useState(false);
-  
-    const router = useRouter();
-
-     useEffect(() => {
-        if (resData) {
-          document.body.style.overflow = "auto";
-        }
-      }, [resData]);
+  const [report, setReport] = useState(null);
+  const [isPaid, setIsPaid] = useState(false);
 
   useEffect(() => {
-    const fetchSuggestions = async () => {
-      try {
+    setIsPaid(localStorage.getItem("linkedin_rewrite_paid") === "true");
 
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          console.log(" Token not found in localStorage");
-             router.push("/login");
-          return;
-        }
-
-        // API call
-        const response = await fetch(
-          "https://analyzer.qcsstudio.com/api/analyze/suggestions",
-          {
-            method: "POST", // API POST expect karti hai
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        //    if (response.status === 403) {
-        //   console.log("⚠️ Payment required");
-        //   router.push("/payment");
-        //   return;
-        // }
-
-         if (!response.ok) {
-        console.error("API Error:", response.status);
-        return;
-      }
-
-        const data = await response.json();
-        setResData(data);
-
-        console.log("✅ API Response:", data);
-        localStorage.removeItem("linkedin_audit_url");
-        localStorage.removeItem("linkedin_audit_role");
-
-      } catch (error) {
-        console.error(" Network / JS Error:", error);
-      }
-    };
-
-    fetchSuggestions();
+    try {
+      const storedReport = localStorage.getItem("linkedin_audit_report");
+      setReport(storedReport ? JSON.parse(storedReport) : null);
+    } catch {
+      setReport(null);
+    }
   }, []);
 
-  const experienceData = resData?.original?.profile?.experience || [];
-  const profile_pic = resData?.original?.profile?.profile_picture || "";
-  const educationData = resData?.original?.profile?.education || [];
-  const skillsData = resData?.original?.profile?.skills || [];
-  const aboutData = resData?.original?.profile?.about || [];
-  const experienceDataUpdated = resData?.improved?.profile?.experience || [];
-  const profile_picvUpdated = resData?.improved?.profile?.profile_picture || [];
-  const educationDataUpdated = resData?.improved?.profile?.education || [];
-  const skillsDataUpdated = resData?.improved?.profile?.skills || [];
-  const aboutDataUpdated = resData?.improved?.profile?.about || [];
+  const topSuggestions = useMemo(() => report?.suggestions?.slice(0, 6) || [], [report]);
+  const subScores = useMemo(() => Object.entries(report?.subScores || {}), [report]);
 
-   const renderAboutText = (text, expanded, setExpanded) => {
-    if (!text) {
-      return <p className="text-muted">No about information available.</p>;
-    }
-
-    // ✅ Ensure string
-    const aboutString = Array.isArray(text)
-      ? text.join(" ")
-      : String(text);
-
-    const words = aboutString.split(" ");
-    const isLong = words.length > 20;
-    const shortText = words.slice(0, 20).join(" ");
-
+  if (!report) {
     return (
-      <p className="text-muted">
-        {expanded || !isLong ? aboutString : `${shortText}...`}
-
-        {isLong && (
-          <span
-            className="text-primary ms-2"
-            style={{ cursor: "pointer", fontWeight: 500 }}
-            onClick={() => setExpanded(!expanded)}
-          >
-            {expanded ? "See less" : "See more"}
-          </span>
-        )}
-      </p>
-    );
-  };
-
-  // experience
-  const visibleExperience = showAllExperience
-    ? experienceData
-    : experienceData.slice(0, 1);
-
-  //skills
-  const visibleSkills = showAllSkills
-    ? skillsData
-    : skillsData.slice(0, 5);
-
-  //updated skills
-  const Updated_visibleSkills = showAllSkills
-    ? skillsDataUpdated
-    : skillsDataUpdated.slice(0, 5);
-
- if (!resData) {
-    return (
-      <>
-
-
-        <div className="d-flex justify-content-center align-items-center min-vh-100">
-          <DNA
-            visible={true}
-            height="100"
-            width="100"
-            ariaLabel="dna-loading"
-            wrapperStyle={{}}
-            wrapperClass="dna-wrapper"
-          />
+      <main className="min-vh-100 d-flex align-items-center justify-content-center p-4">
+        <div className="text-center" style={{ maxWidth: 620 }}>
+          <h1 className="mb-3">No paid rewrite report found</h1>
+          <p className="text-muted mb-4">
+            Please run your LinkedIn profile audit first, then complete payment to unlock rewrite suggestions.
+          </p>
+          <Link href="/linkedin-profile-audit" className="cs_btn cs_style_1">
+            <span>Run LinkedIn Audit</span>
+          </Link>
         </div>
-        {/* <h1 className='text-black'>Please Wait...</h1> */}
-      </>
+      </main>
     );
   }
 
+  return (
+    <main className="min-vh-100 p-4" style={{ background: "#f8fafc" }}>
+      <div className="container py-5">
+        <div className="bg-white rounded-4 shadow-sm p-4 p-lg-5 mb-4">
+          <div className="d-flex flex-column flex-lg-row justify-content-between gap-4">
+            <div>
+              <p className="text-primary fw-semibold mb-2">QCS LinkedIn Profile Rewrite</p>
+              <h1 className="mb-3">Your paid rewrite workspace is ready.</h1>
+              <p className="text-muted mb-0">
+                We generated this from your latest role-based audit. Use the recommendations below to rewrite your profile toward a stronger QCS score.
+              </p>
+            </div>
+            <div className="text-lg-end">
+              <div className="display-5 fw-bold text-black">{report.overallScore || 0}</div>
+              <p className="text-muted mb-0">Current QCS score</p>
+              <span className={`badge ${isPaid ? "bg-success" : "bg-warning text-dark"}`}>
+                {isPaid ? "Payment verified" : "Payment not verified"}
+              </span>
+            </div>
+          </div>
+        </div>
 
- return (
-  <>
-  {/* <LinkedInProfileHeader data={resData}/> */}
-   {/* <ProfileSection data={resData}/> */}
-    <div className='container d-flex gap-1 '>
-   
-   
-           <div className='row'>
-   
-             {/* original ==================================  */}
-             <div className='col-lg-6 col-12'>
-   
-               <div className=" my-5">
-                 <div className="profile-card shadow-sm rounded-4 overflow-hidden">
-   
-                   {/* ===== Cover Section ===== */}
-                   <div className="cover-section position-relative">
-                     <div className="cover-overlay"></div>
-   
-                     {/* Badge */}
-                     {/* <span className="designer-badge">Designer</span> */}
-   
-                     {/* Profile Image */}
-                     <div className="profile-img-wrapper">
-                       <Image
-                         // src="/profile.jpg"   
-                         src={profile_pic}
-                         alt="Profile"
-                         width={120}
-                         height={120}
-                         className="profile-img border"
-                       />
-                     </div>
-   
-                     {/* Headline */}
-                     <div className="cover-text">
-   
-                     </div>
-                   </div>
-   
-                   {/* ===== Content Section ===== */}
-                   <div className="p-4 pt-5">
-                     <div className="row">
-                       <div className="col-md-8">
-                         <h3 className="fw-bold mb-1">{resData?.original?.profile?.name}</h3>
-                         <p className="text-muted mb-1 d-flex justify-content-between">{resData?.original?.profile?.headline} <span className='fw-normal text-black fs-1'>{resData?.original?.score?.sections?.headline}</span></p>
-                         <p className="text-muted">
-                           {resData?.original?.profile?.location} <span className="text-primary">Contact info</span>
-                         </p>
-   
-                         <p className="text-muted mt-2">{resData?.original?.profile?.connections}</p>
-   
-                         <div className="d-flex gap-2 mt-3">
-                           <button className="btn btn-primary rounded-pill px-4">Connect</button>
-                           <button className="btn btn-outline-primary rounded-pill px-4">Message</button>
-                           <button className="btn btn-outline-secondary rounded-pill px-4">More</button>
-                         </div>
-                       </div>
-   
-                       {/* <div className="col-md-4 mt-4 mt-md-0">
-                 <div className="d-flex align-items-center mb-3">
-                   <img src="/netflix.png" width="28" className="me-2" />
-                   <span className="fw-semibold">Netflix Inc</span>
-                 </div>
-                 <div className="d-flex align-items-center">
-                   <img src="/stanford.png" width="28" className="me-2" />
-                   <span className="fw-semibold">Stanford University</span>
-                 </div>
-               </div> */}
-                     </div>
-                   </div>
-   
-                 </div>
-               </div>
-   
-               {/* About */}
-   
-               <div className=" my-5">
-                 <div className="card shadow-sm rounded-4 p-4">
-                   <h3 className="fw-bold mb-4 d-flex justify-content-between">About <span className='fw-normal '>{resData?.original?.score?.sections?.about}</span></h3>
-                   {renderAboutText(
-                     aboutData,
-                     showFullAboutUpdated,
-                     setShowFullAboutUpdated
-                   )}
-   
-   
-                 </div>
-               </div>
-   
-               {/* ============Experience============ */}
-               <div className=" my-5">
-                 <div className="card shadow-sm rounded-4 p-4">
-                   <h3 className="fw-bold mb-4 d-flex justify-content-between">Experience <span className='fw-normal '>{resData?.original?.score?.sections?.experience}</span></h3>
-   
-                   {visibleExperience.map((item, index) => (
-                     <div key={index}>
-                       <div className="d-flex mb-3">
-                         <div className="ms-3">
-                           <h6 className="fw-bold mb-0">{item.company}</h6>
-                           <p className="mb-0">{item.employmentType}</p>
-   
-                           <small className="text-muted d-block">
-                             {item.duration}
-                           </small>
-   
-                           <small className="text-muted">
-                             {item.location}
-                           </small>
-                         </div>
-                       </div>
-   
-                       {index !== visibleExperience.length - 1 && <hr />}
-                     </div>
-                   ))}
-   
-                   {experienceData.length > 1 && (
-                     <div className="text-center mt-2">
-                       <span
-                         className="text-primary"
-                         style={{ cursor: "pointer", fontWeight: 500 }}
-                         onClick={() => setShowAllExperience(!showAllExperience)}
-                       >
-                         {showAllExperience ? "See less" : "See more"}
-                       </span>
-                     </div>
-                   )}
-                 </div>
-               </div>
-   
-               {/* ===============education section============== */}
-               <div className=" my-5">
-                 <div className="card shadow-sm rounded-4 p-4">
-                   <h3 className="fw-bold mb-4 d-flex justify-content-between">Education<span className='fw-normal '>{resData?.original?.score?.sections?.education}</span></h3>
-                   {educationData.map((item, index) => (
-                     <div key={index}>
-                       <div className="d-flex mb-3">
-                         <div className="ms-3">
-                           <h6 className="fw-bold mb-0">{item.institute}</h6>
-                           <p className="mb-0">{item.degree}</p>
-                           <p className="mb-0">{item.duration}</p>
-                           <p className="mb-0">{item.description}</p>
-                         </div>
-                       </div>
-                     </div>
-                   ))}
-                 </div>
-               </div>
-   
-               {/* Skills Section */}
-               <div className=" my-5">
-                 <div className="card shadow-sm rounded-4 p-4">
-                   <h3 className="fw-bold mb-4 d-flex justify-content-between">Skills<span className='fw-normal '>{resData?.original?.score?.sections?.skills}</span></h3>
-                   {visibleSkills.map((skill, index) => (
-                     <span
-                       key={index}
-                       className="pill me-2 mb-2"
-                     >
-                       {skill}
-                     </span>
-                   ))}
-   
-                   {skillsData.length > 5 && (
-                     <div className="mt-3">
-                       <span
-                         className="text-primary"
-                         style={{ cursor: "pointer", fontWeight: 500 }}
-                         onClick={() => setShowAllSkills(!showAllSkills)}
-                       >
-                         {showAllSkills ? "See less" : "See more"}
-                       </span>
-                     </div>
-                   )}
-                 </div>
-               </div>
-             </div>
-   
-             {/* updated profile section ================== */}
-             <div className='col-lg-6 col-12'>
-   
-               <div className=" my-5">
-                 <div className="profile-card shadow-sm rounded-4 overflow-hidden">
-   
-                   {/* ===== Cover Section ===== */}
-                   <div className="cover-section position-relative">
-                     <div className="cover-overlay"></div>
-   
-                     {/* Badge */}
-                     {/* <span className="designer-badge">Designer</span> */}
-   
-                     {/* Profile Image */}
-                     <div className="profile-img-wrapper">
-                       <Image
-                         // src="/profile.jpg"   
-                         src={profile_pic}
-                         alt="Profile"
-                         width={120}
-                         height={120}
-                         className="profile-img border"
-                       />
-                     </div>
-   
-                     {/* Headline */}
-                     <div className="cover-text">
-   
-                     </div>
-                   </div>
-   
-                   {/* ===== Content Section ===== */}
-                   <div className="p-4 pt-5">
-                     <div className="row">
-                       <div className="col-md-8">
-                         <h3 className="fw-bold mb-1">{resData?.original?.profile?.name}</h3>
-                         <p className="text-muted mb-1 d-flex justify-content-between">{resData?.improved?.profile?.headline}<span className='fw-normal text-black fs-1'>{resData?.original?.score?.sections?.headline}</span></p>
-                         <p className="text-muted">
-                           {resData?.original?.profile?.location} <span className="text-primary">Contact info</span>
-                         </p>
-   
-                         <p className="text-muted mt-2">{resData?.original?.profile?.connections}</p>
-   
-                         <div className="d-flex gap-2 mt-3">
-                           <button className="btn btn-primary rounded-pill px-4">Connect</button>
-                           <button className="btn btn-outline-primary rounded-pill px-4">Message</button>
-                           <button className="btn btn-outline-secondary rounded-pill px-4">More</button>
-                         </div>
-                       </div>
-   
-                       {/* <div className="col-md-4 mt-4 mt-md-0">
-                 <div className="d-flex align-items-center mb-3">
-                   <img src="/netflix.png" width="28" className="me-2" />
-                   <span className="fw-semibold">Netflix Inc</span>
-                 </div>
-                 <div className="d-flex align-items-center">
-                   <img src="/stanford.png" width="28" className="me-2" />
-                   <span className="fw-semibold">Stanford University</span>
-                 </div>
-               </div> */}
-                     </div>
-                   </div>
-   
-                 </div>
-               </div>
-   
-               {/* About */}
-   
-               <div className=" my-5">
-                 <div className="card shadow-sm rounded-4 p-4">
-                   <h3 className="fw-bold mb-4 d-flex justify-content-between">About <span className='fw-normal '>{resData?.improved?.score?.sections?.about}</span></h3>
-                   {renderAboutText(
-                     aboutDataUpdated,
-                     showFullAboutUpdated,
-                     setShowFullAboutUpdated
-                   )}
-   
-   
-                 </div>
-               </div>
-   
-               {/* ============Experience============ */}
-               <div className=" my-5">
-                 <div className="card shadow-sm rounded-4 p-4">
-                   <h3 className="fw-bold mb-4 d-flex justify-content-between">Experience <span className='fw-normal '>{resData?.improved?.score?.sections?.experience}</span></h3>
-   
-                   {visibleExperience.map((item, index) => (
-                     <div key={index}>
-                       <div className="d-flex mb-3">
-                         <div className="ms-3">
-                           <h6 className="fw-bold mb-0">{item.company}</h6>
-                           <p className="mb-0">{item.employmentType}</p>
-   
-                           <small className="text-muted d-block">
-                             {item.duration}
-                           </small>
-   
-                           <small className="text-muted">
-                             {item.location}
-                           </small>
-                         </div>
-                       </div>
-   
-                       {index !== visibleExperience.length - 1 && <hr />}
-                     </div>
-                   ))}
-   
-                   {experienceData.length > 1 && (
-                     <div className="text-center mt-2">
-                       <span
-                         className="text-primary"
-                         style={{ cursor: "pointer", fontWeight: 500 }}
-                         onClick={() => setShowAllExperience(!showAllExperience)}
-                       >
-                         {showAllExperience ? "See less" : "See more"}
-                       </span>
-                     </div>
-                   )}
-                 </div>
-               </div>
-   
-               {/* ===============education section============== */}
-               <div className=" my-5">
-                 <div className="card shadow-sm rounded-4 p-4">
-                   <h3 className="fw-bold mb-4 d-flex justify-content-between">Education <span className='fw-normal '>{resData?.improved?.score?.sections?.education}</span></h3>
-                   {educationData.map((item, index) => (
-                     <div key={index}>
-                       <div className="d-flex mb-3">
-                         <div className="ms-3">
-                           <h6 className="fw-bold mb-0">{item.institute}</h6>
-                           <p className="mb-0">{item.degree}</p>
-                           <p className="mb-0">{item.duration}</p>
-                           <p className="mb-0">{item.description}</p>
-                         </div>
-                       </div>
-                     </div>
-                   ))}
-                 </div>
-               </div>
-   
-               {/* Skills Section */}
-               <div className=" my-5">
-                 <div className="card shadow-sm rounded-4 p-4">
-                   <h3 className="fw-bold mb-4 d-flex justify-content-between">Skills<span className='fw-normal '>{resData?.improved?.score?.sections?.skills}</span></h3>
-                   {Updated_visibleSkills.map((skill, index) => (
-                     <span
-                       key={index}
-                       className="pill me-2 mb-2"
-                     >
-                       {skill}
-                     </span>
-                   ))}
-   
-                   {skillsDataUpdated.length > 5 && (
-                     <div className="mt-3">
-                       <span
-                         className="text-primary"
-                         style={{ cursor: "pointer", fontWeight: 500 }}
-                         onClick={() => setShowAllSkills(!showAllSkills)}
-                       >
-                         {showAllSkills ? "See less" : "See more"}
-                       </span>
-                     </div>
-                   )}
-                 </div>
-               </div>
-             </div>
-           </div>
-   
-   
-   
-   
-   
-   
-   
-         </div>
-  </>
+        {report.makeover && (
+          <div className="row g-4 mb-4">
+            <div className="col-lg-6">
+              <div className="bg-white rounded-4 shadow-sm p-4 h-100">
+                <h2 className="h4 mb-3">Headline rewrite</h2>
+                <p className="text-muted mb-0">{report.makeover.headline || "No headline rewrite was generated."}</p>
+              </div>
+            </div>
+            <div className="col-lg-6">
+              <div className="bg-white rounded-4 shadow-sm p-4 h-100">
+                <h2 className="h4 mb-3">About rewrite</h2>
+                <p className="text-muted mb-0" style={{ whiteSpace: "pre-line" }}>
+                  {report.makeover.about || "No about rewrite was generated."}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="row g-4">
+          <div className="col-lg-7">
+            <div className="bg-white rounded-4 shadow-sm p-4 h-100">
+              <h2 className="h4 mb-4">Priority fixes</h2>
+              {topSuggestions.length ? (
+                <div className="d-flex flex-column gap-3">
+                  {topSuggestions.map((item) => (
+                    <div key={item.id} className="border rounded-3 p-3">
+                      <div className="d-flex justify-content-between gap-3 mb-2">
+                        <strong>{item.finding}</strong>
+                        <span className="badge bg-primary">{item.impact}</span>
+                      </div>
+                      <p className="text-muted mb-0">{item.recommendation}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted mb-0">No priority suggestions were generated.</p>
+              )}
+            </div>
+          </div>
+
+          <div className="col-lg-5">
+            <div className="bg-white rounded-4 shadow-sm p-4 h-100">
+              <h2 className="h4 mb-4">Score breakdown</h2>
+              {subScores.length ? (
+                <div className="d-flex flex-column gap-3">
+                  {subScores.map(([key, value]) => (
+                    <div key={key}>
+                      <div className="d-flex justify-content-between mb-1">
+                        <span>{value.label || key}</span>
+                        <strong>{value.score || 0}</strong>
+                      </div>
+                      <div className="progress" role="progressbar" aria-valuenow={value.score || 0} aria-valuemin="0" aria-valuemax="100">
+                        <div className="progress-bar" style={{ width: `${value.score || 0}%` }}></div>
+                      </div>
+                      {value.description && <small className="text-muted">{value.description}</small>}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted mb-0">No score breakdown was generated.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
   );
-
 }

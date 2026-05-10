@@ -1,19 +1,22 @@
+import { scoreLinkedInProfilePayload } from "@/scoring/linkedinProfileScoring";
+
 export async function POST(request) {
   try {
     const body = await request.json();
+    const selectedRole = body?.role || body?.selectedRole || body?.persona;
+    const report = scoreLinkedInProfilePayload(body, selectedRole);
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/analyze/url`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+    return Response.json({
+      success: true,
+      profile: body,
+      report,
+      score: report.overallScore,
+      suggestions: report.suggestions,
+      makeover: report.makeover,
     });
-
-    const data = await response.json();
-    return Response.json(data);
-
   } catch (error) {
     return Response.json(
-      { success: false, message: error.message },
+      { success: false, message: error.message || "Unable to analyze profile" },
       { status: 500 }
     );
   }
