@@ -3,11 +3,11 @@ import crypto from "crypto";
 const RAZORPAY_PAYMENTS_URL = "https://api.razorpay.com/v1/payments";
 
 const getRazorpayCredentials = () => {
-  const keyId = process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_LIVE_RAZORPAY_KEY_ID;
+  const keyId = process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_LIVE_RAZORPAY_KEY_ID;
   const keySecret = process.env.RAZORPAY_KEY_SECRET || process.env.RAZORPAY_LIVE_KEY_SECRET;
 
   if (!keyId || !keySecret) {
-    throw new Error("Razorpay credentials are not configured.");
+    throw new Error("Razorpay credentials are not configured. Set RAZORPAY_KEY_ID (or NEXT_PUBLIC_RAZORPAY_KEY_ID) and RAZORPAY_KEY_SECRET in your deployment environment.");
   }
 
   return { keyId, keySecret };
