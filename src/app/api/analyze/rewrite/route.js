@@ -106,8 +106,12 @@ async function generateAiRewrite({ report, profile, fallback }) {
     body: JSON.stringify({
       model: process.env.OPENAI_REWRITE_MODEL || DEFAULT_MODEL,
       instructions: [
-        "You are a senior LinkedIn profile strategist for QCS Studio.",
-        "Rewrite only from provided facts. Do not invent exact numbers, employers, clients, certifications, degrees, or outcomes.",
+        "You are a senior LinkedIn profile strategist for QCS Studio. Your rewrite must be specific to the scraped profile, never generic.",
+        "Rewrite only from provided facts. Do not invent exact numbers, employers, clients, certifications, degrees, awards, or outcomes.",
+        "Use the current scraped About, headline, roles, companies, skills, activity themes, niche signals, and proof signals as source material. Preserve useful specific nouns and category language from the profile.",
+        "Rewrite against the QCS scoring engine: satisfy weak section scores for headline, About, experience, skills, proof, activity, trust, CTA, and persona-specific conversion signals.",
+        "Naturally weave relevant terms from keywordBank into headline, About, and bullets. Use 1-3 meaningful mentions across sections; never create a comma-separated keyword dump.",
+        "The output should be a 100% QCS implementation plan: rewritten copy plus priority fixes/actions needed so a later audit can score 100 after the user implements them.",
         "If proof is missing, use bracketed placeholders such as [insert verified metric] and explain the assumption.",
         `Hard limits: every headline <= ${LINKEDIN_LIMITS.headline} characters, About <= ${LINKEDIN_LIMITS.about} characters, each experience bullet <= ${LINKEDIN_LIMITS.experienceBullet} characters, each role's combined bullets <= ${LINKEDIN_LIMITS.experienceRoleDescription} characters.`,
         `Set projectedScore to ${PROJECTED_REWRITE_SCORE} because the paid rewrite is the target 100% QCS profile plan.`,
@@ -123,6 +127,7 @@ async function generateAiRewrite({ report, profile, fallback }) {
                 task: "Create a paid LinkedIn rewrite workspace output.",
                 profile: summarizeProfile(profile),
                 audit: summarizeReport(report),
+                rewriteIntelligence: buildRewriteIntelligence({ profile, report }),
                 deterministicFallback: fallback,
                 requiredCharacterLimits: LINKEDIN_LIMITS,
                 requiredProjectedScore: PROJECTED_REWRITE_SCORE,
@@ -139,7 +144,7 @@ async function generateAiRewrite({ report, profile, fallback }) {
           schema: REWRITE_SCHEMA,
         },
       },
-      max_output_tokens: 2500,
+      max_output_tokens: 4500,
     }),
   });
 
@@ -296,9 +301,12 @@ function summarizeProfile(profile) {
       company: clean(role?.company),
       description: truncate(clean(role?.description), 900),
     })),
-    skills: (profile?.skills || []).slice(0, 20).map((skill) => clean(skill?.name)).filter(Boolean),
-    featured: (profile?.featured || []).slice(0, 5).map((item) => clean(item?.title || item?.description)).filter(Boolean),
-    activity: (profile?.activity || []).slice(0, 5).map((item) => truncate(clean(item?.text), 400)).filter(Boolean),
+    skills: toArray(profile?.skills).slice(0, 35).map(skillName).filter(Boolean),
+    featured: toArray(profile?.featured).slice(0, 5).map((item) => clean(item?.title || item?.description || item)).filter(Boolean),
+    recommendations: toArray(profile?.recommendationsReceived || profile?.recommendations).slice(0, 5).map((item) => truncate(clean(item?.text || item?.description || item), 500)).filter(Boolean),
+    activity: toArray(profile?.activity).slice(0, 5).map((item) => truncate(clean(item?.text || item?.content || item), 500)).filter(Boolean),
+    contact: profile?.contact || {},
+    rawTextSignals: truncate(clean(profile?.rawText), 1200),
   };
 }
 
@@ -313,7 +321,140 @@ function summarizeReport(report) {
     suggestions: report?.suggestions?.slice(0, 8),
     detectedKeywords: report?.debug?.detectedKeywords,
     missingKeywords: report?.debug?.missingKeywords,
+    sectionScores: report?.debug?.sectionScores,
+    metrics: report?.debug?.metrics,
   };
+}
+
+function buildRewriteIntelligence({ profile, report }) {
+  const fullText = [
+    profile?.headline,
+    profile?.about,
+    ...(toArray(profile?.experience).map((role) => `${role?.title || ""} ${role?.company || ""} ${role?.description || ""} ${toArray(role?.skills).join(" ")}`)),
+    ...(toArray(profile?.education).map((item) => `${item?.school || ""} ${item?.degree || ""} ${item?.field || ""} ${item?.description || ""}`)),
+    ...toArray(profile?.skills).map(skillName),
+    ...toArray(profile?.featured).map((item) => `${item?.title || ""} ${item?.description || ""}`),
+    ...toArray(profile?.recommendationsReceived || profile?.recommendations).map((item) => item?.text || item?.description || item),
+    ...toArray(profile?.activity).map((item) => item?.text || item?.content || item),
+  ].map(clean).filter(Boolean).join("\n");
+  const keywordBank = buildKeywordBank({ profile, report, fullText });
+  const metrics = Array.from(new Set([...(toArray(report?.debug?.metrics)), ...((fullText.match(/(?:₹|\$)?\b\d+(?:[,.]\d+)*(?:%|x|k|m|cr|crore|lakh|\+)?\b/gi) || []))].map(clean).filter(Boolean))).slice(0, 12);
+  const currentRole = first(toArray(profile?.experience)) || {};
+  const sectionScores = report?.debug?.sectionScores || {};
+
+  return {
+    persona: report?.persona || profile?.role || "job_seeker",
+    selectedRole: profile?.role,
+    currentScore: report?.overallScore,
+    targetScore: PROJECTED_REWRITE_SCORE,
+    sectionScores,
+    weakSections: Object.entries(sectionScores)
+      .filter(([, score]) => Number(score) < 90)
+      .map(([section, score]) => ({ section, score }))
+      .slice(0, 12),
+    nicheSignals: deriveNicheSignals({ profile, keywordBank, fullText }),
+    aboutSection: {
+      currentText: truncate(clean(profile?.about), LINKEDIN_LIMITS.about),
+      wordCount: countWords(profile?.about),
+      hasCurrentAbout: Boolean(clean(profile?.about)),
+      instruction: "Use the current About as source material. Improve structure and scoring gaps, but keep useful specific facts and phrases.",
+    },
+    currentPosition: {
+      title: clean(currentRole?.title),
+      company: clean(currentRole?.company),
+      location: clean(currentRole?.location),
+      duration: clean(currentRole?.duration || currentRole?.startDateRaw || currentRole?.endDateRaw),
+      currentDescription: truncate(clean(currentRole?.description), 900),
+    },
+    keywordBank,
+    proofSignals: {
+      metrics,
+      featuredCount: toArray(profile?.featured).length,
+      recommendationCount: toArray(profile?.recommendationsReceived || profile?.recommendations).length,
+      proofInstruction: metrics.length ? "Use only these visible metrics if relevant." : "No verified metrics were scraped; keep proof as bracketed placeholders and request the user to fill them.",
+    },
+    scoringGaps: summarizeScoringGaps(report),
+    scoringRulesToSatisfy: [
+      "Headline: include persona/category, niche or ICP, outcome, and 1-2 high-value keywords within 220 characters.",
+      "About: open with who the person helps, name niche/problem, explain offer/value, include scraped proof or placeholders, and end with CTA within 2600 characters.",
+      "Experience: convert responsibilities into outcome-focused bullets using scraped roles/companies and bracketed metrics when proof is missing.",
+      "Skills/keywords: use relevant keywords naturally across headline, About, experience bullets, Featured plan, and activity plan; avoid dumps and unnatural repetition.",
+      "Proof/trust: add exact actions for missing proof, recommendations, verification, Featured alternatives, profile photo/banner, and contact path when scoring shows gaps.",
+      "Activity: include persona-specific weekly activity ideas if the activity section is weak or missing.",
+    ],
+  };
+}
+
+function buildKeywordBank({ profile, report, fullText }) {
+  const values = [
+    ...toArray(report?.debug?.detectedKeywords),
+    ...toArray(report?.debug?.missingKeywords),
+    ...toArray(profile?.skills).map(skillName),
+    ...splitHeadlineKeywords(profile?.headline),
+    ...toArray(profile?.experience).flatMap((role) => [role?.title, role?.company, ...toArray(role?.skills)]),
+    ...topRepeatedTerms(fullText).slice(0, 14),
+  ];
+  return Array.from(new Set(values.map(clean).filter((value) => value.length > 2 && value.length < 60)))
+    .filter((value) => !/^\d+$/.test(value))
+    .slice(0, 28);
+}
+
+function deriveNicheSignals({ profile, keywordBank, fullText }) {
+  const headlineParts = splitHeadlineKeywords(profile?.headline);
+  const about = clean(profile?.about);
+  return {
+    headlineCategories: headlineParts.slice(0, 8),
+    likelyNiche: headlineParts.find((part) => /founder|sales|recruit|talent|coach|consult|developer|designer|marketing|automation|ai|saas|b2b|growth|linkedin/i.test(part)) || keywordBank[0] || "",
+    repeatedAboutTerms: topRepeatedTerms(about).slice(0, 10),
+    repeatedProfileTerms: topRepeatedTerms(fullText).slice(0, 12),
+    activityThemes: toArray(profile?.activity).map((item) => clean(item?.text || item?.content)).filter(Boolean).slice(0, 3),
+  };
+}
+
+function summarizeScoringGaps(report) {
+  const subScores = report?.subScores || {};
+  const weakSubScores = Object.entries(subScores)
+    .filter(([, value]) => Number(value?.score) < 90)
+    .map(([key, value]) => ({ key, label: value?.label, score: value?.score, explanation: value?.explanation }))
+    .slice(0, 10);
+  return {
+    overallScore: report?.overallScore,
+    scoreBand: report?.scoreBand,
+    weakSubScores,
+    topSuggestions: toArray(report?.suggestions).slice(0, 10).map((item) => ({
+      id: item?.id,
+      section: item?.section,
+      priority: item?.priority,
+      reason: item?.reason,
+      recommendation: item?.suggestionText || item?.recommendation,
+    })),
+    risks: toArray(report?.risks).slice(0, 8),
+  };
+}
+
+function splitHeadlineKeywords(value) {
+  return clean(value).split(/\||•|,|–|—| - /).map(clean).filter(Boolean);
+}
+
+function topRepeatedTerms(text) {
+  const stop = new Set(["with", "from", "that", "this", "your", "have", "will", "help", "using", "about", "into", "and", "the", "for", "you", "our", "are", "was", "were"]);
+  const counts = new Map();
+  clean(text).toLowerCase().match(/[a-z][a-z0-9+#.-]{3,}/g)?.forEach((word) => {
+    if (!stop.has(word)) counts.set(word, (counts.get(word) || 0) + 1);
+  });
+  return Array.from(counts.entries()).sort((a, b) => b[1] - a[1]).map(([word]) => word);
+}
+
+function countWords(value) {
+  return clean(value).split(/\s+/).filter(Boolean).length;
+}
+
+function toArray(value) {
+  return Array.isArray(value) ? value : [];
+}
+
+function skillName(skill) {
+  return clean(typeof skill === "string" ? skill : skill?.name || skill?.title || skill?.skill);
 }
 
 function extractOutputText(data) {

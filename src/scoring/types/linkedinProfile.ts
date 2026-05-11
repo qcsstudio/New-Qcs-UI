@@ -171,6 +171,8 @@ export interface ProfileScoreResult {
     missingKeywords?: string[];
     keywordStuffingFlags?: Array<{ field: string; repeatedTerms?: string[]; reason?: string }>;
     missingSections?: string[];
+    sectionScores?: Record<string, number>;
+    metrics?: string[];
     standardsVersion?: string;
   };
 }

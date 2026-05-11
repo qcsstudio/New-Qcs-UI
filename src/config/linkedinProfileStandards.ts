@@ -8,7 +8,8 @@ export const LINKEDIN_PROFILE_STANDARDS = {
     "Open to Work improves recruiter search visibility when job preferences are specified.",
     "Profile completeness improves discoverability/search appearances.",
     "Verification is a trust signal.",
-    "Feed/content ranking uses profile, network, activity, and post-context signals.",
+    "Feed/content ranking uses profile, network, activity, and post-context signals. Activity quality is a supporting signal, not a guaranteed ranking lever.",
+    "LinkedIn activity can include posts, comments, articles, newsletters, and profile activity; inactivity can hide activity visibility after long dormancy.",
     "Featured/profile-content pinning can be gated by Premium Business, Sales Navigator, or Recruiter; do not heavily penalize when unavailable.",
   ],
   headline: {
