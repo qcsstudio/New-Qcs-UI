@@ -58,3 +58,14 @@ Optional environment variables:
 ```
 
 Use `percentage`, `fixed` (rupees), or `fixed_paise` for QCS-managed coupons. Use `razorpay_offer` when the discount/cashback rules live in the Razorpay Dashboard; set `forceOffer` only when Checkout must require that single offer.
+
+### Paid AI rewrite layer
+
+The paid `/suggestions` workspace calls `/api/analyze/rewrite` only after payment. `OPENAI_API_KEY` is required for paid AI-enhanced profile rewrites; if it is missing or the OpenAI request fails, the page shows an AI rewrite error instead of exposing a rule-based rewrite as the paid output.
+
+Required for paid rewrite:
+
+- `OPENAI_API_KEY`: server-only OpenAI API key for AI-enhanced profile rewrites.
+- `OPENAI_REWRITE_MODEL`: model used by the rewrite endpoint. Defaults to `gpt-4.1-mini`.
+
+The AI prompt is instructed to use only scraped profile facts and bracketed placeholders for unverified claims, so the rewrite does not invent metrics, employers, clients, certifications, or outcomes. The server enforces LinkedIn section limits before returning the rewrite: headline 220 characters, About 2,600 characters, each experience bullet 600 characters, and each role description 2,000 characters. The paid workspace displays a projected 100% QCS rewrite score.

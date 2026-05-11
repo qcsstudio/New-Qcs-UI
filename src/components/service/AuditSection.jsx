@@ -514,6 +514,7 @@ export default function AuditSection() {
   const handleRewritePayment = useCallback(() => {
     localStorage.setItem("linkedin_audit_score", String(auditSummary.overallScore));
     localStorage.setItem("linkedin_audit_report", JSON.stringify(auditSummary.report));
+    localStorage.setItem("linkedin_audit_profile", JSON.stringify(result));
     localStorage.setItem("linkedin_paid_service", "profile-rewrite-100-score");
     localStorage.setItem("linkedin_paid_amount", "49");
     window.location.href = "/payment";
