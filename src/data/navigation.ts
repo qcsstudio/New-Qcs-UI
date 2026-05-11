@@ -31,11 +31,16 @@ export const navigationData: NavigationItem[] = [
 		sub_menu: [
 			{
 				id: 1,
-				title: "LinkedIn Profile Makeover",
+				title: "LinkedIn Sales Engine",
 				link: "/linkedIn-Profile-Makeover",
 			},
 			{
 				id: 2,
+				title: "LinkedIn Profile Audit",
+				link: "/linkedin-profile-audit",
+			},
+			{
+				id: 3,
 				title: "Network Support Services",
 				link: "/network-support-services",
 			},
