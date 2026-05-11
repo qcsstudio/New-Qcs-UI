@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import React from "react";
+import Link from "next/link";
 
 const boxStyle: React.CSSProperties = {
   width: "100px",
@@ -24,10 +25,15 @@ export default function PipelineSection() {
           The Market Has Changed. Most Founders Haven’t.
         </h2>
 
-        <p className="text-white mb-4" style={{ fontSize: "14px" }}>
-          This is not marketing.{" "}
-          <span className="text-white">This is Growth Engineering.</span>
-        </p>
+        <div className="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4">
+          <p className="text-white mb-0" style={{ fontSize: "14px" }}>
+            This is not marketing.{" "}
+            <span className="text-white">This is Growth Engineering.</span>
+          </p>
+          <Link href="/linkedin-profile-audit" className="cs_btn cs_style_1 cs_color_1">
+            <span>Audit Your LinkedIn Before We Build</span>
+          </Link>
+        </div>
 
         <div className="row g-2">
           {/* Old Model */}
@@ -85,6 +91,13 @@ export default function PipelineSection() {
             </div>
           </div>
 
+        </div>
+
+        <div className="text-center mt-5">
+          <p className="text-white mb-3">Not sure where your profile leaks replies? Run the audit first and bring the score into the strategy call.</p>
+          <Link href="/linkedin-profile-audit" className="cs_btn cs_style_1 cs_color_1">
+            <span>Run LinkedIn Profile Audit →</span>
+          </Link>
         </div>
       </div>
     </section>
