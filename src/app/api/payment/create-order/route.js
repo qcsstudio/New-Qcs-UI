@@ -53,9 +53,15 @@ const getServiceCatalog = () => ({
   ...parseJsonEnv("PAYMENT_SERVICE_CATALOG_JSON", {}),
 });
 
+const normalizeCouponCatalog = (catalog = {}) => {
+  return Object.fromEntries(
+    Object.entries(catalog).map(([code, coupon]) => [normalizeCouponCode(code), coupon])
+  );
+};
+
 const getCouponCatalog = () => ({
+  ...normalizeCouponCatalog(parseJsonEnv("RAZORPAY_COUPONS_JSON", {})),
   ...BUILT_IN_COUPONS,
-  ...parseJsonEnv("RAZORPAY_COUPONS_JSON", {}),
 });
 
 const getDefaultOfferIds = () => {
