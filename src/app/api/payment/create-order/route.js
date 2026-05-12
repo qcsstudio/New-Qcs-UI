@@ -1,5 +1,6 @@
 const RAZORPAY_ORDERS_URL = "https://api.razorpay.com/v1/orders";
 const MIN_ORDER_AMOUNT_PAISE = 100;
+const FREE_CHECKOUT_AMOUNT_PAISE = 0;
 const DEFAULT_CURRENCY = "INR";
 const DEFAULT_SERVICE_KEY = "profile-rewrite-100-score";
 
@@ -7,6 +8,17 @@ const SERVICE_CATALOG = {
   [DEFAULT_SERVICE_KEY]: {
     label: "LinkedIn Profile Rewrite to 100% QCS Score",
     amountInPaise: 4900,
+  },
+};
+
+const BUILT_IN_COUPONS = {
+  QCS100: {
+    active: true,
+    label: "100% testing discount",
+    type: "percentage",
+    value: 100,
+    allowFreeCheckout: true,
+    serviceKeys: [DEFAULT_SERVICE_KEY],
   },
 };
 
@@ -41,7 +53,10 @@ const getServiceCatalog = () => ({
   ...parseJsonEnv("PAYMENT_SERVICE_CATALOG_JSON", {}),
 });
 
-const getCouponCatalog = () => parseJsonEnv("RAZORPAY_COUPONS_JSON", {});
+const getCouponCatalog = () => ({
+  ...BUILT_IN_COUPONS,
+  ...parseJsonEnv("RAZORPAY_COUPONS_JSON", {}),
+});
 
 const getDefaultOfferIds = () => {
   return String(process.env.RAZORPAY_DEFAULT_OFFER_IDS || "")
@@ -161,8 +176,10 @@ const calculatePricing = ({ serviceKey, couponCode }) => {
     discountAmount = getCouponDiscountAmount(coupon, baseAmount);
   }
 
-  discountAmount = Math.max(0, Math.min(discountAmount, baseAmount - MIN_ORDER_AMOUNT_PAISE));
-  const finalAmount = Math.max(MIN_ORDER_AMOUNT_PAISE, baseAmount - discountAmount);
+  const allowFreeCheckout = coupon?.allowFreeCheckout === true;
+  const minimumPayable = allowFreeCheckout ? FREE_CHECKOUT_AMOUNT_PAISE : MIN_ORDER_AMOUNT_PAISE;
+  discountAmount = Math.max(0, Math.min(discountAmount, baseAmount - minimumPayable));
+  const finalAmount = Math.max(minimumPayable, baseAmount - discountAmount);
 
   return {
     service,
@@ -176,6 +193,7 @@ const calculatePricing = ({ serviceKey, couponCode }) => {
           type: coupon.type,
           value: coupon.value,
           razorpayOfferId: coupon.razorpayOfferId || null,
+          allowFreeCheckout,
         }
       : null,
     offerIds: Array.from(offerIds),
@@ -186,12 +204,35 @@ const calculatePricing = ({ serviceKey, couponCode }) => {
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { keyId, keySecret } = getRazorpayCredentials();
     const pricing = calculatePricing({
       serviceKey: body.service,
       couponCode: body.couponCode,
     });
     const receipt = `qcs_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`.slice(0, 40);
+
+    if (pricing.finalAmount === FREE_CHECKOUT_AMOUNT_PAISE) {
+      return Response.json({
+        success: true,
+        freeCheckout: true,
+        order: {
+          id: `free_${receipt}`,
+          amount: 0,
+          currency: DEFAULT_CURRENCY,
+          receipt,
+        },
+        pricing: {
+          service: pricing.service,
+          baseAmount: pricing.baseAmount,
+          discountAmount: pricing.discountAmount,
+          finalAmount: pricing.finalAmount,
+          coupon: pricing.coupon,
+          offerIds: pricing.offerIds,
+          forceOffer: pricing.forceOffer,
+        },
+      });
+    }
+
+    const { keyId, keySecret } = getRazorpayCredentials();
     const orderPayload = {
       amount: pricing.finalAmount,
       currency: DEFAULT_CURRENCY,

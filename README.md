@@ -17,7 +17,7 @@
 
 ## Razorpay payment configuration
 
-The `/payment` page creates server-side Razorpay Orders and supports both QCS-managed coupon discounts and Razorpay Dashboard offers.
+The `/payment` page creates server-side Razorpay Orders and supports both QCS-managed coupon discounts and Razorpay Dashboard offers. For testing, built-in coupon `QCS100` gives a 100% discount for the LinkedIn rewrite service and skips Razorpay checkout.
 
 Required environment variables:
 
@@ -57,7 +57,7 @@ Optional environment variables:
 }
 ```
 
-Use `percentage`, `fixed` (rupees), or `fixed_paise` for QCS-managed coupons. Use `razorpay_offer` when the discount/cashback rules live in the Razorpay Dashboard; set `forceOffer` only when Checkout must require that single offer.
+Use `percentage`, `fixed` (rupees), or `fixed_paise` for QCS-managed coupons. Use `razorpay_offer` when the discount/cashback rules live in the Razorpay Dashboard; set `forceOffer` only when Checkout must require that single offer. Set `allowFreeCheckout: true` only for intentional 100% internal/testing coupons because the app marks the rewrite as paid without opening Razorpay when the payable amount is ₹0.
 
 ### Paid AI rewrite layer
 

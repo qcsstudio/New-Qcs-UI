@@ -49,6 +49,12 @@ export default function PaymentPage() {
 
       const order = data?.order;
 
+      if (data?.freeCheckout || data?.pricing?.finalAmount === 0 || order?.amount === 0) {
+        setPricing(data?.pricing || null);
+        completeFreeCheckout(data?.pricing);
+        return;
+      }
+
       if (!order?.id) {
         throw new Error(data?.message || "Order create failed: Razorpay order was not returned.");
       }
@@ -102,8 +108,18 @@ export default function PaymentPage() {
     });
   }
 
+  function completeFreeCheckout(orderPricing) {
+    const coupon = orderPricing?.coupon?.code || couponCode.trim().toUpperCase();
+    localStorage.setItem("linkedin_rewrite_paid", "true");
+    localStorage.setItem("linkedin_payment_id", `free_checkout_${coupon || "coupon"}_${Date.now()}`);
+    localStorage.setItem("linkedin_payment_coupon", coupon);
+    setStatus("100% coupon applied. Unlocking your AI rewrite workspace...");
+    router.push("/suggestions");
+  }
+
   function getCheckoutStatus(orderPricing) {
     if (orderPricing?.coupon && orderPricing.discountAmount > 0) {
+      if (orderPricing.finalAmount === 0) return `Coupon ${orderPricing.coupon.code} applied. No Razorpay payment is required.`;
       return `Coupon ${orderPricing.coupon.code} applied. Loading Razorpay Checkout...`;
     }
 
@@ -253,7 +269,7 @@ export default function PaymentPage() {
             </p>
           )}
           <div className="d-flex justify-content-between border-top pt-2">
-            <span>Total before any Razorpay bank offer</span>
+            <span>{pricing?.finalAmount === 0 ? "Total after coupon" : "Total before any Razorpay bank offer"}</span>
             <strong>₹{displayTotal}</strong>
           </div>
         </div>
